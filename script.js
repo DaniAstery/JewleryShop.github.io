@@ -1,3 +1,4 @@
+let cart = [];
 let cartCount = 0;
 
 document.querySelectorAll(".add-to-cart").forEach(button => {
@@ -7,9 +8,6 @@ document.querySelectorAll(".add-to-cart").forEach(button => {
   });
 });
 
-
-let cart = [];
-let cartCount = 0;
 
 const cartBtn = document.getElementById("cart-btn");
 const cartModal = document.getElementById("cart-modal");
@@ -42,6 +40,7 @@ document.querySelectorAll(".add-to-cart").forEach((button, index) => {
     updateCartUI();
   });
 });
+
 
 cartBtn.addEventListener("click", () => {
   cartModal.classList.remove("hidden");
