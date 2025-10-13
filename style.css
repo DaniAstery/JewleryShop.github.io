@@ -1,3 +1,6 @@
+/* -------------------------------
+   General Reset
+--------------------------------- */
 * {
   margin: 0;
   padding: 0;
@@ -8,8 +11,12 @@
 body {
   background: #fafafa;
   color: #333;
+  min-height: 100vh;
 }
 
+/* -------------------------------
+   Header & Navigation
+--------------------------------- */
 header {
   background: #fff;
   box-shadow: 0 2px 6px rgba(0,0,0,0.1);
@@ -19,35 +26,21 @@ header {
   align-items: center;
 }
 
+header h1 {
+  font-size: 1.8rem;
+  color: #d4a373;
+}
+
 nav a {
   margin: 0 10px;
   color: #555;
   text-decoration: none;
   font-weight: 500;
+  transition: color 0.3s ease;
 }
 
 nav a:hover {
-  color: #d4a373;
-}
-
-.product-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 20px;
-  padding: 30px;
-}
-
-.product {
-  background: white;
-  border-radius: 12px;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-  text-align: center;
-  padding: 15px;
-}
-
-.product img {
-  width: 100%;
-  border-radius: 12px;
+  color: #b98b58;
 }
 
 button {
@@ -57,25 +50,93 @@ button {
   padding: 10px 15px;
   border-radius: 8px;
   cursor: pointer;
-  margin-top: 10px;
+  margin-left: 10px;
+  transition: background 0.3s ease;
 }
 
 button:hover {
   background: #b98b58;
 }
 
+/* -------------------------------
+   Product Grid
+--------------------------------- */
+main {
+  padding: 30px;
+}
 
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+}
+
+.product {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+  text-align: center;
+  padding: 15px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.product:hover {
+  transform: translateY(-5px) scale(1.03);
+  box-shadow: 0 6px 15px rgba(0,0,0,0.15);
+}
+
+.product img {
+  width: 100%;
+  border-radius: 12px;
+}
+
+.product h3 {
+  margin-top: 10px;
+  font-size: 1.2rem;
+  color: #333;
+}
+
+.product p {
+  margin-top: 5px;
+  font-size: 1rem;
+  color: #555;
+}
+
+/* -------------------------------
+   Footer
+--------------------------------- */
+footer {
+  text-align: center;
+  padding: 20px 0;
+  background: #fff;
+  box-shadow: 0 -2px 6px rgba(0,0,0,0.05);
+  margin-top: 50px;
+  font-size: 0.9rem;
+  color: #777;
+}
+
+/* -------------------------------
+   Hidden Class
+--------------------------------- */
+.hidden {
+  display: none !important;
+}
+
+/* -------------------------------
+   Cart Modal
+--------------------------------- */
 .cart-modal {
   position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background: white;
-  border: 1px solid #ccc;
-  padding: 20px;
-  width: 320px;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
   z-index: 1000;
-
+  /* Hidden by default will be applied via JS class */
 }
 
 .cart-content {
@@ -85,28 +146,70 @@ button:hover {
   width: 90%;
   max-width: 400px;
   text-align: center;
+  position: relative;
+  animation: fadeIn 0.3s ease;
+}
+
+.cart-content h2 {
+  margin-bottom: 15px;
+  color: #d4a373;
 }
 
 .cart-content ul {
   list-style: none;
   margin: 15px 0;
   padding: 0;
+  max-height: 200px;
+  overflow-y: auto;
 }
 
 .cart-content li {
   margin: 10px 0;
   text-align: left;
+  font-size: 1rem;
+  color: #333;
 }
 
-.product {
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+.cart-content p {
+  margin-top: 15px;
+  font-weight: bold;
+  font-size: 1.1rem;
 }
 
-.product:hover {
-  transform: translateY(-5px) scale(1.03);
-  box-shadow: 0 6px 15px rgba(0,0,0,0.15);
+/* -------------------------------
+   Cart Modal Buttons
+--------------------------------- */
+#close-cart {
+  background: #555;
+  margin-top: 15px;
 }
 
-.hidden { display: none; }
+#close-cart:hover {
+  background: #333;
+}
 
+/* -------------------------------
+   Animations
+--------------------------------- */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
 
+/* -------------------------------
+   Responsive
+--------------------------------- */
+@media screen and (max-width: 600px) {
+  header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  nav {
+    margin-top: 10px;
+  }
+
+  .product-grid {
+    grid-template-columns: 1fr;
+  }
+}
