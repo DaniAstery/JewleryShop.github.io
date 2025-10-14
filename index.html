@@ -3,58 +3,52 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Dani’s Shop</title>
+  <title>Asteries Collection | Shop </title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
+
+  <!-- Header -->
   <header>
-    <h1>Dani’s  Collection</h1>
+    <h1>Astery's Collection</h1>
     <nav>
       <a href="#">Home</a>
       <a href="#">Shop</a>
+      <a href="#">About</a>
       <a href="#">Contact</a>
-      <button id="cart-btn">🛍️ Cart (<span id="cart-count">0</span>)</button>
     </nav>
+    <button id="cart-btn">🛍️ Cart (<span id="cart-count">0</span>)</button>
   </header>
 
+  <!-- Main Product Section -->
   <main>
     <section class="product-grid">
-      <!-- Example product -->
-      <div class="product">
-        <img src="images/ring.png" alt="Item One" />
-        <h3>ITEM 1</h3>
-        <p>$120</p>
-        <button class="add-to-cart">Add to Cart</button>
-      </div>
-
-      <div class="product">
-        <img src="images/necklace.png" alt="Item 2" />
-        <h3>Item 2</h3>
-        <p>$350</p>
-        <button class="add-to-cart">Add to Cart</button>
-      </div>
+      <!-- Products will be dynamically inserted here by script.js -->
     </section>
   </main>
-  <footer>
-    <p>© 2025 Dani’s Page| Crafted with ❤️</p>
-  </footer>
 
-
-
-
- 
-<div id="cart-modal" class="cart-modal hidden" display:none>
+  <!-- 🛒 Cart Modal -->
+<div id="cart-modal" class="cart-modal hidden">
   <div class="cart-content">
     <h2>Your Cart</h2>
-    <ul id="cart-items">
-      <!-- Cart items will appear here -->
-    </ul>
-    <p>Total: $<span id="cart-total">0</span></p>
-    <button id="close-cart">Close</button>
+    <ul id="cart-items"></ul>
+    <div class="cart-summary">
+      <p>Total: $<span id="cart-total">0</span></p>
+      <div class="cart-buttons">
+        <button id="close-cart">Close</button>
+        <button id="checkout-btn" disabled>Checkout</button>
+      </div>
+    </div>
   </div>
 </div>
 
-  <script src="script.js"></script>
 
+  <!-- Footer -->
+  <footer>
+    <p>© Astery's Collection. All rights reserved.</p>
+  </footer>
+
+  <!-- JavaScript -->
+  <script src="script.js"></script>
 </body>
 </html>
