@@ -90,7 +90,7 @@ document.addEventListener("DOMContentLoaded", () => {
     { name: "Headphone1", price: 120, img: "images/headphone1.png" },
     { name: "Headphone2", price: 350, img: "images/headphone2.png" },
     { name: "Headphone3", price: 90, img: "images/headphone3.png" },
-    { name: "HeadPhone4", price: 70, img: "images/headphone4.png" }
+    { name: "HeadPhone4", price: 70, img: "images/headphone14.png" }
   ];
 
   const productGrid = document.querySelector(".product-grid");
@@ -98,7 +98,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const div = document.createElement("div");
     div.classList.add("product");
     div.innerHTML = `
-      <img src="${p.img}" alt="${p.name}">
+      <img src="${p.img}" alt="${p.name}" onerror="this.src='https://placehold.co/150x150'">
       <h3>${p.name}</h3>
       <p>$${p.price}</p>
       <button class="add-to-cart">Add to Cart</button>
