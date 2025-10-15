@@ -38,6 +38,9 @@ function updateCartUI() {
 
   cartTotalEl.textContent = total.toFixed(2);
   cartCountEl.textContent = count;
+
+  // 💾 Save cart to localStorage whenever it changes
+  localStorage.setItem("cartData", JSON.stringify(cart));
 }
 
 // 🛍️ Add Product to Cart
@@ -58,7 +61,7 @@ cartItemsList.addEventListener("click", e => {
     const action = e.target.dataset.action;
     if (action === "increase") cart[index].quantity++;
     if (action === "decrease" && cart[index].quantity > 1) cart[index].quantity--;
-    if (action === "decrease" && cart[index].quantity === 1) cart.splice(index, 1);
+    else if (action === "decrease" && cart[index].quantity === 1) cart.splice(index, 1);
     updateCartUI();
   }
 
@@ -75,11 +78,18 @@ closeCart.addEventListener("click", () => cartModal.classList.add("hidden"));
 
 // 🧱 Load Products Dynamically
 document.addEventListener("DOMContentLoaded", () => {
+  // 🧾 Load cart from localStorage
+  const savedCart = localStorage.getItem("cartData");
+  if (savedCart) {
+    cart = JSON.parse(savedCart);
+    updateCartUI();
+  }
+
   const products = [
-    { name: "Gemstone Ring", price: 120, img: "images/placeholder.png" },
-    { name: "Necklace Set", price: 350, img: "images/placeholder.png" },
-    { name: "Earring", price: 90, img: "images/placeholder.png" },
-    { name: "Bracelet", price: 70, img: "images/placeholder.png" }
+    { name: "Headphone1", price: 120, img: "images/headphone1.png" },
+    { name: "Headphone2", price: 350, img: "images/headphone2.png" },
+    { name: "Headphone3", price: 90, img: "images/headphone3.png" },
+    { name: "HeadPhone4", price: 70, img: "images/headphone4.png" }
   ];
 
   const productGrid = document.querySelector(".product-grid");
