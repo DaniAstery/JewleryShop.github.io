@@ -7,6 +7,7 @@ const closeCart = document.getElementById("close-cart");
 const cartItemsList = document.getElementById("cart-items");
 const cartTotalEl = document.getElementById("cart-total");
 const cartCountEl = document.getElementById("cart-count");
+const checkoutBtn = document.getElementById("checkout-btn");
 
 // 🧮 Update Cart UI
 function updateCartUI() {
@@ -107,3 +108,19 @@ document.addEventListener("DOMContentLoaded", () => {
     div.querySelector(".add-to-cart").addEventListener("click", () => addToCart(p));
   });
 });
+
+
+
+checkoutBtn.addEventListener("click", () => {
+  if (cart.length === 0) {
+    alert("Your cart is empty!");
+    return;
+  }
+
+  // For now, just clear cart and show confirmation
+  cart = [];
+  updateCartUI();
+  cartModal.classList.add("hidden");
+  alert("Thank you for your purchase! 🛍️");
+});
+
