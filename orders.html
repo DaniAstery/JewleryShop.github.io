@@ -142,67 +142,82 @@
       </tbody>
     </table>
   </main>
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  const orders = JSON.parse(localStorage.getItem("orders")) || [];
+  const tableBody = document.getElementById("orders-table-body");
+  const completedBody = document.getElementById("completed-orders-body");
 
-  <!-- Modal for Order Details -->
-  <div id="order-details-modal" class="modal hidden">
-    <div class="modal-content">
-      <span id="close-details" class="close-btn">&times;</span>
-      <h3>Order Details</h3>
-      <ul id="order-items-list"></ul>
-    </div>
-  </div>
-
-  <footer>
-    <p>© 2025 Astery’s Collection. All rights reserved.</p>
-  </footer>
-
-  <script>
-    const orders = JSON.parse(localStorage.getItem("ordersData")) || [];
-    const tbody = document.getElementById("orders-table-body");
-
+  function renderOrders() {
+    tableBody.innerHTML = "";
     orders.forEach((order, index) => {
+      const total = order.items.reduce((sum, item) => sum + item.price * item.quantity, 0);
       const row = document.createElement("tr");
-
-      let totalUSD = 0;
-      order.items.forEach(item => {
-        totalUSD += item.price * item.quantity;
-      });
-
       row.innerHTML = `
         <td>${order.id}</td>
         <td>${order.customer.name}</td>
         <td>${order.customer.email}</td>
-        <td>$${totalUSD.toFixed(2)}</td>
+        <td>$${total.toFixed(2)}</td>
         <td>${new Date(order.date).toLocaleString()}</td>
-        <td><button class="view-details-btn" data-index="${index}">View Details</button></td>
+        <td>
+          <button class="details-btn" data-index="${index}">View</button>
+          <button class="complete-btn" data-index="${index}">Mark Completed</button>
+          <button class="delete-btn" data-index="${index}">Delete</button>
+        </td>
       `;
-      tbody.appendChild(row);
+      tableBody.appendChild(row);
     });
+  }
 
-    // Modal setup
-    const detailsModal = document.getElementById("order-details-modal");
-    const closeDetails = document.getElementById("close-details");
-    const orderItemsList = document.getElementById("order-items-list");
+  function renderCompletedOrders() {
+    const completedOrders = JSON.parse(localStorage.getItem("completedOrders")) || [];
+    completedBody.innerHTML = "";
+    completedOrders.forEach(order => {
+      const total = order.items.reduce((sum, item) => sum + item.price * item.quantity, 0);
+      const row = document.createElement("tr");
+      row.innerHTML = `
+        <td>${order.id}</td>
+        <td>${order.customer.name}</td>
+        <td>${order.customer.email}</td>
+        <td>$${total.toFixed(2)}</td>
+        <td>${new Date(order.date).toLocaleString()}</td>
+      `;
+      completedBody.appendChild(row);
+    });
+  }
 
-    document.addEventListener("click", (e) => {
-      if (e.target.classList.contains("view-details-btn")) {
-        const index = e.target.dataset.index;
-        const order = orders[index];
+  tableBody.addEventListener("click", (e) => {
+    const index = e.target.dataset.index;
+    if (e.target.classList.contains("complete-btn")) {
+      const completedOrders = JSON.parse(localStorage.getItem("completedOrders")) || [];
+      completedOrders.push(orders[index]);
+      localStorage.setItem("completedOrders", JSON.stringify(completedOrders));
+      orders.splice(index, 1);
+      localStorage.setItem("orders", JSON.stringify(orders));
+      renderOrders();
+      renderCompletedOrders();
+      alert("✅ Order marked as completed.");
+    }
 
-        orderItemsList.innerHTML = "";
-        order.items.forEach(item => {
-          const li = document.createElement("li");
-          li.textContent = `${item.name} - $${item.price} × ${item.quantity}`;
-          orderItemsList.appendChild(li);
-        });
-
-        detailsModal.classList.remove("hidden");
+    if (e.target.classList.contains("delete-btn")) {
+      if (confirm("Are you sure you want to delete this order?")) {
+        orders.splice(index, 1);
+        localStorage.setItem("orders", JSON.stringify(orders));
+        renderOrders();
       }
-    });
+    }
 
-    closeDetails.addEventListener("click", () => {
-      detailsModal.classList.add("hidden");
-    });
-  </script>
+    if (e.target.classList.contains("details-btn")) {
+      const order = orders[index];
+      const details = order.items.map(i => `${i.name} × ${i.quantity} = $${(i.price * i.quantity).toFixed(2)}`).join("\n");
+      alert(`🧾 Order Details:\n\n${details}\n\nTotal: $${order.total.toFixed(2)}`);
+    }
+  });
+
+  // Initial render
+  renderOrders();
+  renderCompletedOrders();
+});
+</script>
 </body>
 </html>
