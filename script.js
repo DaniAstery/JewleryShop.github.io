@@ -8,6 +8,10 @@ const cartItemsList = document.getElementById("cart-items");
 const cartTotalEl = document.getElementById("cart-total");
 const cartCountEl = document.getElementById("cart-count");
 const checkoutBtn = document.getElementById("checkout-btn");
+const checkoutModal = document.getElementById("checkout-modal");
+const checkoutForm = document.getElementById("checkout-form");
+const cancelCheckout = document.getElementById("cancel-checkout");
+
 
 // 🧮 Update Cart UI
 function updateCartUI() {
@@ -112,15 +116,39 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
 checkoutBtn.addEventListener("click", () => {
-  if (cart.length === 0) {
-    alert("Your cart is empty!");
+  if (cart.length === 0) return;
+  cartModal.classList.add("hidden");      // hide cart
+  checkoutModal.classList.remove("hidden"); // show checkout form
+});
+// 🛑 Cancel checkout
+cancelCheckout.addEventListener("click", () => {
+  checkoutModal.classList.add("hidden");
+});
+
+// ✅ Confirm order submission
+checkoutForm.addEventListener("submit", e => {
+  e.preventDefault();
+
+  const name = document.getElementById("customer-name").value.trim();
+  const email = document.getElementById("customer-email").value.trim();
+  const address = document.getElementById("customer-address").value.trim();
+
+  if (!name || !email || !address) {
+    alert("Please fill in all required fields.");
     return;
   }
 
-  // For now, just clear cart and show confirmation
+  // Simulate order submission
+  alert(`✅ Thank you, ${name}! Your order has been placed.`);
+
+  // 🧹 Clear cart + storage
   cart = [];
   updateCartUI();
-  cartModal.classList.add("hidden");
-  alert("Thank you for your purchase! 🛍️");
+  localStorage.removeItem("cartData");
+
+  // Close modal
+  checkoutModal.classList.add("hidden");
 });
+
+
 

@@ -38,6 +38,27 @@
   </div>
 </div>
 
+<!-- 💳 CHECKOUT MODAL -->
+<div id="checkout-modal" class="checkout-modal hidden">
+  <div class="checkout-content">
+    <h2>Checkout</h2>
+    <form id="checkout-form">
+      <label for="customer-name">Full Name</label>
+      <input type="text" id="customer-name" required>
+
+      <label for="customer-email">Email</label>
+      <input type="email" id="customer-email" required>
+
+      <label for="customer-address">Shipping Address</label>
+      <textarea id="customer-address" rows="3" required></textarea>
+
+      <button type="submit" class="confirm-btn">Confirm Order</button>
+      <button type="button" id="cancel-checkout" class="cancel-btn">Cancel</button>
+    </form>
+  </div>
+</div>
+
+
 
 
   <!-- Footer -->
