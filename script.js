@@ -158,7 +158,7 @@ checkoutForm.addEventListener("submit", e => {
   // Save to localStorage
   let orders = JSON.parse(localStorage.getItem("orders")) || [];
   orders.push(order);
-  localStorage.setItem("orders", JSON.stringify(orders));
+  localStorage.setItem("ordersData", JSON.stringify(orders));
 
   // Confirmation
   alert(`✅ Thank you, ${name}! Your order ${order.id} has been placed.`);
