@@ -151,4 +151,48 @@ checkoutForm.addEventListener("submit", e => {
 });
 
 
+checkoutForm.addEventListener("submit", e => {
+  e.preventDefault();
+
+  const name = document.getElementById("customer-name").value.trim();
+  const email = document.getElementById("customer-email").value.trim();
+  const address = document.getElementById("customer-address").value.trim();
+
+  if (!name || !email || !address) {
+    alert("Please fill in all required fields.");
+    return;
+  }
+
+  // 🧮 Calculate total
+  const total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+
+  // 🧾 Create order object
+  const order = {
+    id: "ORD-" + Date.now(),
+    customer: { name, email, address },
+    items: cart,
+    total,
+    date: new Date().toISOString()
+  };
+
+  // 📦 Load existing orders from localStorage
+  let orders = JSON.parse(localStorage.getItem("orders")) || [];
+
+  // ➕ Add new order
+  orders.push(order);
+
+  // 💾 Save back to localStorage
+  localStorage.setItem("orders", JSON.stringify(orders));
+
+  // ✅ Confirmation message
+  alert(`✅ Thank you, ${name}! Your order ${order.id} has been placed.`);
+
+  // 🧹 Clear cart + close modal
+  cart = [];
+  updateCartUI();
+  localStorage.removeItem("cartData");
+  checkoutModal.classList.add("hidden");
+});
+
+
 
