@@ -125,74 +125,50 @@ cancelCheckout.addEventListener("click", () => {
   checkoutModal.classList.add("hidden");
 });
 
-// ✅ Confirm order submission
 checkoutForm.addEventListener("submit", e => {
   e.preventDefault();
 
+  // Get customer info
   const name = document.getElementById("customer-name").value.trim();
   const email = document.getElementById("customer-email").value.trim();
   const address = document.getElementById("customer-address").value.trim();
 
   if (!name || !email || !address) {
-    alert("Please fill in all required fields.");
+    alert("Please fill in all fields!");
     return;
   }
 
-  // Simulate order submission
-  alert(`✅ Thank you, ${name}! Your order has been placed.`);
+  // Calculate total
+  const total = cart.reduce((sum, item) => sum + Number(item.price) * item.quantity, 0);
 
-  // 🧹 Clear cart + storage
-  cart = [];
-  updateCartUI();
-  localStorage.removeItem("cartData");
-
-  // Close modal
-  checkoutModal.classList.add("hidden");
-});
-
-
-checkoutForm.addEventListener("submit", e => {
-  e.preventDefault();
-
-  const name = document.getElementById("customer-name").value.trim();
-  const email = document.getElementById("customer-email").value.trim();
-  const address = document.getElementById("customer-address").value.trim();
-
-  if (!name || !email || !address) {
-    alert("Please fill in all required fields.");
-    return;
-  }
-
-  // 🧮 Calculate total
-  const total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
-
-  // 🧾 Create order object
+  // Create order object
   const order = {
     id: "ORD-" + Date.now(),
     customer: { name, email, address },
-    items: cart,
-    total,
+    // Ensure we copy name, price (as number), and quantity
+    items: cart.map(item => ({
+      name: item.name,
+      price: Number(item.price), // convert to number to avoid string issues
+      quantity: item.quantity
+    })),
+    total: total,
     date: new Date().toISOString()
   };
 
-  // 📦 Load existing orders from localStorage
+  // Save to localStorage
   let orders = JSON.parse(localStorage.getItem("orders")) || [];
-
-  // ➕ Add new order
   orders.push(order);
-
-  // 💾 Save back to localStorage
   localStorage.setItem("orders", JSON.stringify(orders));
 
-  // ✅ Confirmation message
+  // Confirmation
   alert(`✅ Thank you, ${name}! Your order ${order.id} has been placed.`);
 
-  // 🧹 Clear cart + close modal
+  // Clear cart
   cart = [];
   updateCartUI();
   localStorage.removeItem("cartData");
-  checkoutModal.classList.add("hidden");
+
+  // Close modal & reset form
+  if (checkoutModal) checkoutModal.classList.add("hidden");
+  checkoutForm.reset();
 });
-
-
-

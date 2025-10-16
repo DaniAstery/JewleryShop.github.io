@@ -315,3 +315,32 @@ footer {
   border-radius: 0.5rem;
   cursor: pointer;
 }
+
+
+
+
+.orders-section {
+  padding: 2rem;
+}
+
+#orders-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem;
+}
+
+#orders-table th,
+#orders-table td {
+  border: 1px solid #ddd;
+  padding: 0.75rem;
+  text-align: left;
+}
+
+#orders-table th {
+  background: #2c7a7b;
+  color: #fff;
+}
+
+#orders-table tr:nth-child(even) {
+  background: #f9f9f9;
+}
