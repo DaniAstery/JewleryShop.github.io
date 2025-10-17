@@ -172,7 +172,10 @@ document.addEventListener("DOMContentLoaded", () => {
   const tableBody = document.getElementById("orders-table-body");
   const completedBody = document.getElementById("completed-orders-body");
 
-            function renderOrders() {
+
+
+function renderOrders() {
+
           tableBody.innerHTML = "";
 
           if (orders.length === 0) {
@@ -196,6 +199,8 @@ document.addEventListener("DOMContentLoaded", () => {
               <td>${order.status || "Pending"}</td>
               <td>
                 <button class="view-details" data-index="${index}">View</button>
+                <button class="complete-btn" data-id="${order.id}">Complete</button>
+                <button class="delete-btn" data-id="${order.id}">Delete</button>
               </td>
             `;
 
@@ -210,6 +215,7 @@ document.addEventListener("DOMContentLoaded", () => {
                   const orders = JSON.parse(localStorage.getItem("orders")) || [];
                   const order = orders.find(o => o.id === id);
                   if (!order) return;
+                 console.log(Object.entries(order));
 
                   const body = document.getElementById("view-details");
                   body.innerHTML = `
@@ -232,6 +238,9 @@ document.addEventListener("DOMContentLoaded", () => {
                   document.getElementById("order-details-modal").classList.add("hidden");
                 }
               });
+
+
+
 
            document.addEventListener("click", e => {
               if (e.target.classList.contains("view-details")) {
@@ -261,6 +270,7 @@ document.addEventListener("DOMContentLoaded", () => {
               }
             });
 
+            
 
 
             function renderCompletedOrders() {
@@ -280,6 +290,8 @@ document.addEventListener("DOMContentLoaded", () => {
               });
             }
 
+
+
             tableBody.addEventListener("click", (e) => {
               const index = e.target.dataset.index;
               if (e.target.classList.contains("complete-btn")) {
@@ -292,6 +304,39 @@ document.addEventListener("DOMContentLoaded", () => {
                 renderCompletedOrders();
                 alert("✅ Order marked as completed.");
               }
+
+              document.addEventListener("click", e => {
+                const orders = JSON.parse(localStorage.getItem("orders")) || [];
+
+                // COMPLETE ORDER
+                if (e.target.classList.contains("complete-btn")) {
+                  const id = e.target.dataset.id;
+                  const orderIndex = orders.findIndex(o => o.id === id);
+                  if (orderIndex === -1) return;
+
+                  const completedOrders = JSON.parse(localStorage.getItem("completedOrders")) || [];
+                  completedOrders.push(orders[orderIndex]);
+                  localStorage.setItem("completedOrders", JSON.stringify(completedOrders));
+
+                  orders.splice(orderIndex, 1);
+                  localStorage.setItem("orders", JSON.stringify(orders));
+
+                  alert("✅ Order marked as completed!");
+                  location.reload(); // refresh to reflect change
+                }
+
+                // DELETE ORDER
+                if (e.target.classList.contains("delete-btn")) {
+                  const id = e.target.dataset.id;
+                  if (confirm("Are you sure you want to delete this order?")) {
+                    const updated = orders.filter(o => o.id !== id);
+                    localStorage.setItem("orders", JSON.stringify(updated));
+                    location.reload();
+                  }
+                }
+     });
+
+
 
               if (e.target.classList.contains("delete-btn")) {
                 if (confirm("Are you sure you want to delete this order?")) {
@@ -310,8 +355,60 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Initial render
   renderOrders();
-  
+
 });
+
+        document.addEventListener("click", e => {
+          if (e.target.classList.contains("complete-order")) {
+            const orderId = e.target.dataset.id;
+            let orders = JSON.parse(localStorage.getItem("orders")) || [];
+            let completedOrders = JSON.parse(localStorage.getItem("completedOrders")) || [];
+
+            const orderIndex = orders.findIndex(o => o.id === orderId);
+            if (orderIndex !== -1) {
+              const [completed] = orders.splice(orderIndex, 1);
+              completed.status = "Completed";
+              completedOrders.push(completed);
+
+              localStorage.setItem("orders", JSON.stringify(orders));
+              localStorage.setItem("completedOrders", JSON.stringify(completedOrders));
+
+              alert(`✅ Order ${orderId} marked as completed.`);
+              renderPendingOrders();
+              renderCompletedOrders();
+            }
+          }
+        });
+
+        function renderCompletedOrders() {
+          const tableBody = document.getElementById("completed-orders-body");
+          if (!tableBody) return;
+
+          const completedOrders = JSON.parse(localStorage.getItem("completedOrders")) || [];
+          tableBody.innerHTML = "";
+
+          completedOrders.forEach(order => {
+            const tr = document.createElement("tr");
+            tr.innerHTML = `
+              <td>${order.id}</td>
+              <td>${order.customer.name}</td>
+              <td>${order.customer.email}</td>
+              <td>${order.items.length}</td>
+              <td>${order.total.toFixed(2)} USD</td>
+              <td>${order.status}</td>
+              <td><button class="view-details" data-id="${order.id}">View</button></td>
+            `;
+            tableBody.appendChild(tr);
+          });
+        }
+
+
+        document.addEventListener("DOMContentLoaded", () => {
+             renderPendingOrders();
+             renderCompletedOrders();
+          });
+
+
 </script>
 </body>
 </html>
