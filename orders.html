@@ -119,100 +119,215 @@
   </style>
 </head>
 <body>
+  
 
   <header>
+  
     <h1>🛒 Astery’s Orders</h1>
     <a href="index.html" style="color:#fff; text-decoration:none;">← Back to Shop</a>
   </header>
 
   <main>
+    <section class="product-grid">
     <table>
       <thead>
         <tr>
           <th>Order ID</th>
-          <th>Customer</th>
+          <th>Customer Name</th>
           <th>Email</th>
-          <th>Total (USD)</th>
+          <th>Shipping Method</th>
+          <th>Payment Method</th>
+          <th>Advance (%)</th>
+          <th>Total USD</th>
           <th>Date</th>
+          <th>Status</th>
           <th>Actions</th>
         </tr>
       </thead>
+
       <tbody id="orders-table-body">
         <!-- Orders dynamically added here -->
       </tbody>
     </table>
+    </section>
   </main>
 <script>
 document.addEventListener("DOMContentLoaded", () => {
+  
   const orders = JSON.parse(localStorage.getItem("orders")) || [];
   const tableBody = document.getElementById("orders-table-body");
   const completedBody = document.getElementById("completed-orders-body");
 
-  function renderOrders() {
-    tableBody.innerHTML = "";
-    orders.forEach((order, index) => {
-      const total = order.items.reduce((sum, item) => sum + item.price * item.quantity, 0);
-      const row = document.createElement("tr");
-      row.innerHTML = `
-        <td>${order.id}</td>
-        <td>${order.customer.name}</td>
-        <td>${order.customer.email}</td>
-        <td>$${total.toFixed(2)}</td>
-        <td>${new Date(order.date).toLocaleString()}</td>
-        <td>
-          <button class="details-btn" data-index="${index}">View</button>
-          <button class="complete-btn" data-index="${index}">Mark Completed</button>
-          <button class="delete-btn" data-index="${index}">Delete</button>
-        </td>
-      `;
-      tableBody.appendChild(row);
-    });
+            function renderOrders() {
+            const tableBody = document.getElementById("orders-table-body");
+            const orders = JSON.parse(localStorage.getItem("orders")) || [];
+
+            tableBody.innerHTML = "";
+
+            if (orders.length === 0) {
+              tableBody.innerHTML = `<tr><td colspan="10">No orders yet.</td></tr>`;
+              return;
+            }
+
+            orders.forEach(order => {
+              const totalUSD = order.total ? Number(order.total).toFixed(2) : "0.00";
+
+              const row = document.createElement("tr");
+              row.innerHTML = `
+                <td>${order.id}</td>
+                <td>${order.customer?.name || "-"}</td>
+                <td>${order.customer?.email || "-"}</td>
+                <td>${order.shipping || "-"}</td>
+                <td>${order.payment || "-"}</td>
+                <td>${order.advance || 0}%</td>
+                <td>$${totalUSD}</td>
+                <td>${new Date(order.date).toLocaleDateString()}</td>
+                <td>${order.status || "Pending"}</td>
+                <td>
+                  <button class="view-details" data-id="${order.id}">View</button>
+                </td>
+              `;
+              tableBody.appendChild(row);
+            });
+          }
+          
+          document.addEventListener("click", e => {
+  if (e.target.classList.contains("view-details")) {
+    const id = e.target.dataset.id;
+    const orders = JSON.parse(localStorage.getItem("orders")) || [];
+    const order = orders.find(o => o.id === id);
+    if (!order) return;
+
+    const body = document.getElementById("order-details-body");
+    body.innerHTML = `
+      <p><strong>Order ID:</strong> ${order.id}</p>
+      <p><strong>Name:</strong> ${order.customer.name}</p>
+      <p><strong>Email:</strong> ${order.customer.email}</p>
+      <p><strong>Address:</strong> ${order.customer.address}</p>
+      <p><strong>Shipping:</strong> ${order.shipping}</p>
+      <p><strong>Payment:</strong> ${order.payment}</p>
+      <p><strong>Advance Payment:</strong> ${order.advance}%</p>
+      <p><strong>Total:</strong> $${Number(order.total).toFixed(2)}</p>
+      <h4>Items:</h4>
+      <ul>${order.items.map(i => `<li>${i.name} × ${i.quantity} – $${i.price}</li>`).join("")}</ul>
+    `;
+
+    document.getElementById("order-details-modal").classList.remove("hidden");
   }
 
-  function renderCompletedOrders() {
-    const completedOrders = JSON.parse(localStorage.getItem("completedOrders")) || [];
-    completedBody.innerHTML = "";
-    completedOrders.forEach(order => {
-      const total = order.items.reduce((sum, item) => sum + item.price * item.quantity, 0);
-      const row = document.createElement("tr");
-      row.innerHTML = `
-        <td>${order.id}</td>
-        <td>${order.customer.name}</td>
-        <td>${order.customer.email}</td>
-        <td>$${total.toFixed(2)}</td>
-        <td>${new Date(order.date).toLocaleString()}</td>
-      `;
-      completedBody.appendChild(row);
-    });
+  if (e.target.id === "close-details") {
+    document.getElementById("order-details-modal").classList.add("hidden");
   }
+});
+            function renderOrders() {
+                   alert(1);
+                    const tableBody = document.getElementById("orders-table-body");
+                    const orders = JSON.parse(localStorage.getItem("orders")) || [];
 
-  tableBody.addEventListener("click", (e) => {
-    const index = e.target.dataset.index;
-    if (e.target.classList.contains("complete-btn")) {
-      const completedOrders = JSON.parse(localStorage.getItem("completedOrders")) || [];
-      completedOrders.push(orders[index]);
-      localStorage.setItem("completedOrders", JSON.stringify(completedOrders));
-      orders.splice(index, 1);
-      localStorage.setItem("orders", JSON.stringify(orders));
-      renderOrders();
-      renderCompletedOrders();
-      alert("✅ Order marked as completed.");
-    }
+                    tableBody.innerHTML = "";
 
-    if (e.target.classList.contains("delete-btn")) {
-      if (confirm("Are you sure you want to delete this order?")) {
-        orders.splice(index, 1);
-        localStorage.setItem("orders", JSON.stringify(orders));
-        renderOrders();
-      }
-    }
+                    if (orders.length === 0) {
+                      tableBody.innerHTML = `<tr><td colspan="10">No orders yet.</td></tr>`;
+                      return;
+                    }
 
-    if (e.target.classList.contains("details-btn")) {
-      const order = orders[index];
-      const details = order.items.map(i => `${i.name} × ${i.quantity} = $${(i.price * i.quantity).toFixed(2)}`).join("\n");
-      alert(`🧾 Order Details:\n\n${details}\n\nTotal: $${order.total.toFixed(2)}`);
-    }
-  });
+                    orders.forEach(order => {
+                      const totalUSD = order.total ? Number(order.total).toFixed(2) : "0.00";
+
+                      const row = document.createElement("tr");
+                      row.innerHTML = `
+                        <td>${order.id}</td>
+                        <td>${order.customer?.name || "-"}</td>
+                        <td>${order.customer?.email || "-"}</td>
+                        <td>${order.shipping || "-"}</td>
+                        <td>${order.payment || "-"}</td>
+                        <td>${order.advance || 0}%</td>
+                        <td>$${totalUSD}</td>
+                        <td>${new Date(order.date).toLocaleDateString()}</td>
+                        <td>${order.status || "Pending"}</td>
+                        <td>
+                          <button class="view-details" data-id="${order.id}">View</button>
+                        </td>
+                      `;
+                      tableBody.appendChild(row);
+                    });
+             }
+
+             document.addEventListener("click", e => {
+              if (e.target.classList.contains("view-details")) {
+                const id = e.target.dataset.id;
+                const orders = JSON.parse(localStorage.getItem("orders")) || [];
+                const order = orders.find(o => o.id === id);
+                if (!order) return;
+
+                const body = document.getElementById("order-details-body");
+                body.innerHTML = `
+                  <p><strong>Order ID:</strong> ${order.id}</p>
+                  <p><strong>Name:</strong> ${order.customer.name}</p>
+                  <p><strong>Email:</strong> ${order.customer.email}</p>
+                  <p><strong>Address:</strong> ${order.customer.address}</p>
+                  <p><strong>Shipping:</strong> ${order.shipping}</p>
+                  <p><strong>Payment:</strong> ${order.payment}</p>
+                  <p><strong>Advance Payment:</strong> ${order.advance}%</p>
+                  <p><strong>Total:</strong> $${Number(order.total).toFixed(2)}</p>
+                  <h4>Items:</h4>
+                  <ul>${order.items.map(i => `<li>${i.name} × ${i.quantity} – $${i.price}</li>`).join("")}</ul>
+                `;
+
+                document.getElementById("order-details-modal").classList.remove("hidden");
+              }
+
+              if (e.target.id === "close-details") {
+                document.getElementById("order-details-modal").classList.add("hidden");
+              }
+            });
+
+
+
+            function renderCompletedOrders() {
+              const completedOrders = JSON.parse(localStorage.getItem("completedOrders")) || [];
+              completedBody.innerHTML = "";
+              completedOrders.forEach(order => {
+                const total = order.items.reduce((sum, item) => sum + item.price * item.quantity, 0);
+                const row = document.createElement("tr");
+                row.innerHTML = `
+                  <td>${order.id}</td>
+                  <td>${order.customer.name}</td>
+                  <td>${order.customer.email}</td>
+                  <td>$${total.toFixed(2)}</td>
+                  <td>${new Date(order.date).toLocaleString()}</td>
+                `;
+                completedBody.appendChild(row);
+              });
+            }
+
+            tableBody.addEventListener("click", (e) => {
+              const index = e.target.dataset.index;
+              if (e.target.classList.contains("complete-btn")) {
+                const completedOrders = JSON.parse(localStorage.getItem("completedOrders")) || [];
+                completedOrders.push(orders[index]);
+                localStorage.setItem("completedOrders", JSON.stringify(completedOrders));
+                orders.splice(index, 1);
+                localStorage.setItem("orders", JSON.stringify(orders));
+                renderOrders();
+                renderCompletedOrders();
+                alert("✅ Order marked as completed.");
+              }
+
+              if (e.target.classList.contains("delete-btn")) {
+                if (confirm("Are you sure you want to delete this order?")) {
+                  orders.splice(index, 1);
+                  localStorage.setItem("orders", JSON.stringify(orders));
+                  renderOrders();
+                }
+              }
+
+              if (e.target.classList.contains("details-btn")) {
+                const order = orders[index];
+                const details = order.items.map(i => `${i.name} × ${i.quantity} = $${(i.price * i.quantity).toFixed(2)}`).join("\n");
+                alert(`🧾 Order Details:\n\n${details}\n\nTotal: $${order.total.toFixed(2)}`);
+              }
+            });
 
   // Initial render
   renderOrders();

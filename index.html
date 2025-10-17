@@ -43,6 +43,7 @@
   <div class="checkout-content">
     <h2>Checkout</h2>
     <form id="checkout-form">
+      
       <label for="customer-name">Full Name</label>
       <input type="text" id="customer-name" required>
 
@@ -52,12 +53,30 @@
       <label for="customer-address">Shipping Address</label>
       <textarea id="customer-address" rows="3" required></textarea>
 
+      <label for="shipping-method">Shipping Method</label>
+      <select id="shipping-method" required>
+        <option value="">-- Select Shipping Method --</option>
+        <option value="DHL">DHL Express</option>
+        <option value="EMS">EMS Ethiopia Post</option>
+        <option value="Pickup">Local Pickup</option>
+      </select>
+
+      <label for="payment-method">Payment Method</label>
+      <select id="payment-method" required>
+        <option value="">-- Select Payment Method --</option>
+        <option value="Bank Transfer">Bank Transfer</option>
+        <option value="Telebirr">Telebirr</option>
+        <option value="Paypal">PayPal</option>
+      </select>
+
+      <label for="advance-payment">Advance Payment (%)</label>
+      <input type="number" id="advance-payment" min="0" max="100" value="30" required>
+
       <button type="submit" class="confirm-btn">Confirm Order</button>
       <button type="button" id="cancel-checkout" class="cancel-btn">Cancel</button>
     </form>
   </div>
 </div>
-
 
 
 

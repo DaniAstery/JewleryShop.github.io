@@ -83,92 +83,86 @@ closeCart.addEventListener("click", () => cartModal.classList.add("hidden"));
 
 // 🧱 Load Products Dynamically
 document.addEventListener("DOMContentLoaded", () => {
-  // 🧾 Load cart from localStorage
-  const savedCart = localStorage.getItem("cartData");
-  if (savedCart) {
-    cart = JSON.parse(savedCart);
-    updateCartUI();
-  }
+        // 🧾 Load cart from localStorage
+        const savedCart = localStorage.getItem("cartData");
+        if (savedCart) {
+          cart = JSON.parse(savedCart);
+          updateCartUI();
+        }
 
-  const products = [
-    { name: "Headphone1", price: 120, img: "images/headphone1.png" },
-    { name: "Headphone2", price: 350, img: "images/headphone2.png" },
-    { name: "Headphone3", price: 90, img: "images/headphone3.png" },
-    { name: "HeadPhone4", price: 70, img: "images/headphone14.png" }
-  ];
+        const products = [
+          { name: "Headphone1", price: 120, img: "images/headphone1.png" },
+          { name: "Headphone2", price: 350, img: "images/headphone2.png" },
+          { name: "Headphone3", price: 90, img: "images/headphone3.png" },
+          { name: "HeadPhone4", price: 70, img: "images/headphone4.png" }
+        ];
 
-  const productGrid = document.querySelector(".product-grid");
-  products.forEach(p => {
-    const div = document.createElement("div");
-    div.classList.add("product");
-    div.innerHTML = `
-      <img src="${p.img}" alt="${p.name}" onerror="this.src='https://placehold.co/150x150'">
-      <h3>${p.name}</h3>
-      <p>$${p.price}</p>
-      <button class="add-to-cart">Add to Cart</button>
-    `;
-    productGrid.appendChild(div);
+        const productGrid = document.querySelector(".product-grid");
+        products.forEach(p => {
+          const div = document.createElement("div");
+          div.classList.add("product");
+          div.innerHTML = `
+            <img src="${p.img}" alt="${p.name}" onerror="this.src='https://placehold.co/150x150'">
+            <h3>${p.name}</h3>
+            <p>$${p.price}</p>
+            <button class="add-to-cart">Add to Cart</button>
+          `;
+          productGrid.appendChild(div);
 
-    div.querySelector(".add-to-cart").addEventListener("click", () => addToCart(p));
-  });
+          div.querySelector(".add-to-cart").addEventListener("click", () => addToCart(p));
+        });
 });
 
 
 
 checkoutBtn.addEventListener("click", () => {
-  if (cart.length === 0) return;
-  cartModal.classList.add("hidden");      // hide cart
-  checkoutModal.classList.remove("hidden"); // show checkout form
-});
-// 🛑 Cancel checkout
-cancelCheckout.addEventListener("click", () => {
-  checkoutModal.classList.add("hidden");
-});
+        if (cart.length === 0) return;
+        cartModal.classList.add("hidden");      // hide cart
+        checkoutModal.classList.remove("hidden"); // show checkout form
+      });
+      // 🛑 Cancel checkout
+      cancelCheckout.addEventListener("click", () => {
+        checkoutModal.classList.add("hidden");
+      });
 
-checkoutForm.addEventListener("submit", e => {
-  e.preventDefault();
+      checkoutForm.addEventListener("submit", e => {
+        e.preventDefault();
 
-  // Get customer info
-  const name = document.getElementById("customer-name").value.trim();
-  const email = document.getElementById("customer-email").value.trim();
-  const address = document.getElementById("customer-address").value.trim();
+        const name = document.getElementById("customer-name").value.trim();
+        const email = document.getElementById("customer-email").value.trim();
+        const address = document.getElementById("customer-address").value.trim();
+        const shipping = document.getElementById("shipping-method").value;
+        const payment = document.getElementById("payment-method").value;
+        const advance = document.getElementById("advance-payment").value;
 
-  if (!name || !email || !address) {
-    alert("Please fill in all fields!");
-    return;
-  }
+        if (!name || !email || !address || !shipping || !payment) {
+          alert("Please fill in all fields!");
+          return;
+        }
 
-  // Calculate total
-  const total = cart.reduce((sum, item) => sum + Number(item.price) * item.quantity, 0);
+        const total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
 
-  // Create order object
-  const order = {
-    id: "ORD-" + Date.now(),
-    customer: { name, email, address },
-    // Ensure we copy name, price (as number), and quantity
-    items: cart.map(item => ({
-      name: item.name,
-      price: Number(item.price), // convert to number to avoid string issues
-      quantity: item.quantity
-    })),
-    total: total,
-    date: new Date().toISOString()
-  };
+        const order = {
+          id: "ORD-" + Date.now(),
+          customer: { name, email, address },
+          shipping,
+          payment,
+          advance,
+          items: cart.map(i => ({ name: i.name, price: i.price, quantity: i.quantity })),
+          total,
+          date: new Date().toISOString(),
+          status: "Pending"
+        };
 
-  // Save to localStorage
-  let orders = JSON.parse(localStorage.getItem("orders")) || [];
-  orders.push(order);
-  localStorage.setItem("ordersData", JSON.stringify(orders));
+        const orders = JSON.parse(localStorage.getItem("orders")) || [];
+        orders.push(order);
+        localStorage.setItem("orders", JSON.stringify(orders));
 
-  // Confirmation
-  alert(`✅ Thank you, ${name}! Your order ${order.id} has been placed.`);
+        alert(`✅ Thank you, ${name}! Your order ${order.id} has been placed.`);
 
-  // Clear cart
-  cart = [];
-  updateCartUI();
-  localStorage.removeItem("cartData");
-
-  // Close modal & reset form
-  if (checkoutModal) checkoutModal.classList.add("hidden");
-  checkoutForm.reset();
+        cart = [];
+        updateCartUI();
+        localStorage.removeItem("cartData");
+        checkoutForm.reset();
+        checkoutModal.classList.add("hidden");
 });
