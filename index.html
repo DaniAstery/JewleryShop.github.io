@@ -3,89 +3,262 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Asteries Collection | Shop </title>
+  <title>Orders | Astery’s Collection</title>
   <link rel="stylesheet" href="style.css" />
+  <style>
+    /* Unified Styling for Orders Page */
+    body {
+      font-family: "Poppins", sans-serif;
+      background: #fafafa;
+      margin: 0;
+      padding: 0;
+    }
+    header {
+      background: #222;
+      color: #fff;
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    header h1 {
+      font-size: 1.5rem;
+    }
+    table {
+      width: 90%;
+      margin: 2rem auto;
+      border-collapse: collapse;
+      background: #fff;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    th, td {
+      padding: 1rem;
+      border-bottom: 1px solid #ddd;
+      text-align: left;
+    }
+    th {
+      background: #f5f5f5;
+    }
+    tr:hover {
+      background: #f9f9f9;
+    }
+    button {
+      padding: 0.5rem 1rem;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      margin-right: 5px;
+    }
+    .view-btn {
+      background: #007bff;
+      color: #fff;
+    }
+    .view-btn:hover { background: #0056b3; }
+    .complete-btn {
+      background: #28a745;
+      color: #fff;
+    }
+    .complete-btn:hover { background: #218838; }
+    .delete-btn {
+      background: #dc3545;
+      color: #fff;
+    }
+    .delete-btn:hover { background: #c82333; }
+
+    /* Modal */
+    .modal {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0,0,0,0.5);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .hidden { display: none; }
+    .modal-content {
+      background: #fff;
+      padding: 2rem;
+      border-radius: 10px;
+      max-width: 500px;
+      width: 90%;
+      position: relative;
+    }
+    .close-btn {
+      cursor: pointer;
+      position: absolute;
+      top: 10px; right: 15px;
+      font-size: 1.5rem;
+      font-weight: bold;
+    }
+    ul#order-items-list { list-style: none; padding: 0; }
+    ul#order-items-list li { padding: 0.5rem 0; border-bottom: 1px solid #eee; }
+  </style>
 </head>
 <body>
-
-  <!-- Header -->
   <header>
-    <h1>Astery's Collection</h1>
-    <nav>
-      <a href="#">Home</a>
-      <a href="#">Shop</a>
-      <a href="#">About</a>
-      <a href="#">Contact</a>
-    </nav>
-    <button id="cart-btn">🛍️ Cart (<span id="cart-count">0</span>)</button>
+    <h1>🛒 Astery’s Orders</h1>
+    <a href="index.html" style="color:#fff; text-decoration:none;">← Back to Shop</a>
   </header>
 
-  <!-- Main Product Section -->
   <main>
-    <section class="product-grid">
-      <!-- Products will be dynamically inserted here by script.js -->
-    </section>
+    <h2 style="text-align:center;">Pending Orders</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Order ID</th>
+          <th>Customer</th>
+          <th>Email</th>
+          <th>Shipping</th>
+          <th>Payment</th>
+          <th>Advance</th>
+          <th>Total USD</th>
+          <th>Date</th>
+          <th>Status</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody id="orders-table-body"></tbody>
+    </table>
+
+    <h2 style="text-align:center;">Completed Orders</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Order ID</th>
+          <th>Customer</th>
+          <th>Email</th>
+          <th>Items</th>
+          <th>Total</th>
+          <th>Status</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody id="completed-orders-body"></tbody>
+    </table>
+
+    <div id="order-details-modal" class="modal hidden">
+      <div class="modal-content">
+        <span id="close-details" class="close-btn">&times;</span>
+        <div id="order-details-body"></div>
+      </div>
+    </div>
   </main>
 
-<!-- Cart Modal -->
-<div id="cart-modal" class="cart-modal hidden">
-  <div class="cart-content">
-    <h2>Your Cart</h2>
-    <ul id="cart-items"></ul>
-    <p>Total: $<span id="cart-total">0</span></p>
-    <button id="checkout-btn">Checkout</button>
-    <button id="close-cart">Close</button>
-  </div>
-</div>
+  <script>
+    const ordersTable = document.getElementById("orders-table-body");
+    const completedTable = document.getElementById("completed-orders-body");
 
-<!-- 💳 CHECKOUT MODAL -->
-<div id="checkout-modal" class="checkout-modal hidden">
-  <div class="checkout-content">
-    <h2>Checkout</h2>
-    <form id="checkout-form">
-      
-      <label for="customer-name">Full Name</label>
-      <input type="text" id="customer-name" required>
+    function renderOrders() {
+      const orders = JSON.parse(localStorage.getItem("orders")) || [];
+      ordersTable.innerHTML = "";
+      if (!orders.length) {
+        ordersTable.innerHTML = '<tr><td colspan="10" style="text-align:center;">No pending orders</td></tr>';
+        return;
+      }
+      orders.forEach(order => {
+        const total = order.total ? Number(order.total).toFixed(2) : "0.00";
+        const row = document.createElement("tr");
+        row.innerHTML = `
+          <td>${order.id}</td>
+          <td>${order.customer?.name || "-"}</td>
+          <td>${order.customer?.email || "-"}</td>
+          <td>${order.shipping || "-"}</td>
+          <td>${order.payment || "-"}</td>
+          <td>${order.advance || 0}%</td>
+          <td>$${total}</td>
+          <td>${order.date ? new Date(order.date).toLocaleDateString() : "-"}</td>
+          <td>${order.status || "Pending"}</td>
+          <td>
+            <button class="view-btn" data-id="${order.id}">View</button>
+            <button class="complete-btn" data-id="${order.id}">Complete</button>
+            <button class="delete-btn" data-id="${order.id}">Delete</button>
+          </td>
+        `;
+        ordersTable.appendChild(row);
+      });
+    }
 
-      <label for="customer-email">Email</label>
-      <input type="email" id="customer-email" required>
+    function renderCompletedOrders() {
+      const completed = JSON.parse(localStorage.getItem("completedOrders")) || [];
+      completedTable.innerHTML = "";
+      if (!completed.length) {
+        completedTable.innerHTML = '<tr><td colspan="7" style="text-align:center;">No completed orders</td></tr>';
+        return;
+      }
+      completed.forEach(order => {
+        const total = order.total ? Number(order.total).toFixed(2) : "0.00";
+        const items = Array.isArray(order.items) ? order.items.map(i => `${i.name}(${i.quantity})`).join(", ") : "-";
+        const row = document.createElement("tr");
+        row.innerHTML = `
+          <td>${order.id}</td>
+          <td>${order.customer?.name || "-"}</td>
+          <td>${order.customer?.email || "-"}</td>
+          <td>${items}</td>
+          <td>$${total}</td>
+          <td>${order.status || "Completed"}</td>
+          <td><button class="view-btn" data-id="${order.id}">View</button></td>
+        `;
+        completedTable.appendChild(row);
+      });
+    }
 
-      <label for="customer-address">Shipping Address</label>
-      <textarea id="customer-address" rows="3" required></textarea>
+    function showOrderDetails(orderId) {
+      const orders = JSON.parse(localStorage.getItem("orders")) || [];
+      const completed = JSON.parse(localStorage.getItem("completedOrders")) || [];
+      const order = orders.find(o => o.id === orderId) || completed.find(o => o.id === orderId);
+      if (!order) return;
 
-      <label for="shipping-method">Shipping Method</label>
-      <select id="shipping-method" required>
-        <option value="">-- Select Shipping Method --</option>
-        <option value="DHL">DHL Express</option>
-        <option value="EMS">EMS Ethiopia Post</option>
-        <option value="Pickup">Local Pickup</option>
-      </select>
+      const body = document.getElementById("order-details-body");
+      body.innerHTML = `
+        <p><strong>Order ID:</strong> ${order.id}</p>
+        <p><strong>Name:</strong> ${order.customer.name}</p>
+        <p><strong>Email:</strong> ${order.customer.email}</p>
+        <p><strong>Address:</strong> ${order.customer.address || "-"}</p>
+        <p><strong>Shipping:</strong> ${order.shipping || "-"}</p>
+        <p><strong>Payment:</strong> ${order.payment || "-"}</p>
+        <p><strong>Advance:</strong> ${order.advance || 0}%</p>
+        <p><strong>Total:</strong> $${Number(order.total).toFixed(2)}</p>
+        <h4>Items:</h4>
+        <ul>${order.items.map(i => `<li>${i.name} × ${i.quantity} – $${i.price}</li>`).join("")}</ul>
+      `;
+      document.getElementById("order-details-modal").classList.remove("hidden");
+    }
 
-      <label for="payment-method">Payment Method</label>
-      <select id="payment-method" required>
-        <option value="">-- Select Payment Method --</option>
-        <option value="Bank Transfer">Bank Transfer</option>
-        <option value="Telebirr">Telebirr</option>
-        <option value="Paypal">PayPal</option>
-      </select>
+    document.addEventListener("click", e => {
+      const id = e.target.dataset.id;
+      if (e.target.classList.contains("view-btn")) showOrderDetails(id);
+      if (e.target.classList.contains("complete-btn")) {
+        let orders = JSON.parse(localStorage.getItem("orders")) || [];
+        let completed = JSON.parse(localStorage.getItem("completedOrders")) || [];
+        const index = orders.findIndex(o => o.id === id);
+        if (index === -1) return;
+        const [completedOrder] = orders.splice(index, 1);
+        completedOrder.status = "Completed";
+        completed.push(completedOrder);
+        localStorage.setItem("orders", JSON.stringify(orders));
+        localStorage.setItem("completedOrders", JSON.stringify(completed));
+        renderOrders();
+        renderCompletedOrders();
+        alert("✅ Order marked as completed");
+      }
+      if (e.target.classList.contains("delete-btn")) {
+        let orders = JSON.parse(localStorage.getItem("orders")) || [];
+        if (confirm("Delete this order?")) {
+          orders = orders.filter(o => o.id !== id);
+          localStorage.setItem("orders", JSON.stringify(orders));
+          renderOrders();
+        }
+      }
+      if (e.target.id === "close-details") {
+        document.getElementById("order-details-modal").classList.add("hidden");
+      }
+    });
 
-      <label for="advance-payment">Advance Payment (%)</label>
-      <input type="number" id="advance-payment" min="0" max="100" value="30" required>
-
-      <button type="submit" class="confirm-btn">Confirm Order</button>
-      <button type="button" id="cancel-checkout" class="cancel-btn">Cancel</button>
-    </form>
-  </div>
-</div>
-
-
-
-  <!-- Footer -->
-  <footer>
-    <p>© Astery's Collection. All rights reserved.</p>
-  </footer>
-
-  <!-- JavaScript -->
-  <script src="script.js"></script>
+    document.addEventListener("DOMContentLoaded", () => {
+      renderOrders();
+      renderCompletedOrders();
+    });
+  </script>
 </body>
 </html>
