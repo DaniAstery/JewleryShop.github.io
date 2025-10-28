@@ -1,0 +1,25 @@
+* [33m641ad50[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m)[m pening and completed orders done
+* [33mc128641[m completed orderlist View Details,Completed and Delete
+* [33m0173c64[m After View Details Added completed and Deleted buttons with delete run into errors
+* [33m2004649[m View Details
+* [33ma6077c9[m Check Out Input Details and Orders List Updated
+* [33md66db75[m added view,mark,compeleted,delte
+* [33m949b015[m Added view order details on ORDERS.html
+* [33mda968ae[m LIST OF ORDERS PAGE ADDED
+* [33mc21f401[m ORDER CHECKOUT STORED IN LOCAL STORAGE
+* [33m0be18ed[m Added Checkout Functionality For Ordre and Local Storage Preparation For Admin side for orders
+* [33m75bbd9f[m added image erro place holder oct15:16:46
+* [33m612155f[m Checkout Functionality 1step Done with clearing the gird
+* [33m9fad332[m Oct15 i have made back to workin state with listed items from cart
+* [33m009409c[m Updated Add cart functionlaity + and -
+* [33m5bb4de6[m Styling Updates
+* [33mf4bdcc6[m Styling Updates
+* [33m517c368[m Styling Updates
+* [33mae53b78[m Styling Updates
+* [33mf23002b[m Updated Script For Close functionality for cart
+* [33m10e4bde[m Updated Names For confidentiality 2
+* [33m20a8517[m Updated Names For confidentiality
+* [33m7d9af3d[m Added Cart Functionalit Updated Items Name to item1 and item 2
+* [33m6cccf40[m Added Cart Functionalit for Add Items and Total Cart Count
+* [33m4d154b3[m Added Cart Functionalit for Add Items and Total Cart Count
+* [33m722aece[m Jewlery Shop Initial Commit
