@@ -5,6 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Orders | Astery’s Collection</title>
   <link rel="stylesheet" href="style.css" />
+  
+  
   <style>
     body {
       font-family: "Poppins", sans-serif;
@@ -199,7 +201,7 @@ function renderOrders() {
               <td>${order.status || "Pending"}</td>
               <td>
                 <button class="view-details" data-index="${index}">View</button>
-                <button class="complete-btn" data-id="${order.id}">Complete</button>
+                <button class="complete-order" data-id="${order.id}">Complete</button>
                 <button class="delete-btn" data-id="${order.id}">Delete</button>
               </td>
             `;
@@ -307,8 +309,9 @@ function renderOrders() {
 
               document.addEventListener("click", e => {
                 const orders = JSON.parse(localStorage.getItem("orders")) || [];
-
+                alert("complte orders length");
                 // COMPLETE ORDER
+                alert (orders.length);
                 if (e.target.classList.contains("complete-btn")) {
                   const id = e.target.dataset.id;
                   const orderIndex = orders.findIndex(o => o.id === id);
@@ -360,8 +363,10 @@ function renderOrders() {
 
         document.addEventListener("click", e => {
           if (e.target.classList.contains("complete-order")) {
+            alert("completed0orders");
             const orderId = e.target.dataset.id;
             let orders = JSON.parse(localStorage.getItem("orders")) || [];
+            alert(orders.length);
             let completedOrders = JSON.parse(localStorage.getItem("completedOrders")) || [];
 
             const orderIndex = orders.findIndex(o => o.id === orderId);

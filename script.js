@@ -1,168 +1,195 @@
+const products = [
+  { id: 1, name: "Classic Dress", price: 49.99, image: "images/headphone1.png" },
+  { id: 2, name: "Stylish Heels", price: 59.99, image: "images/headphone2.png" },
+  { id: 3, name: "Casual Handbag", price: 39.99, image: "images/headphone3.png" },
+  { id: 4, name: "Casual Handbag", price: 39.99, image: "images/placeholder.png" }
+];
+
 let cart = [];
 
-// Selectors
-const cartBtn = document.getElementById("cart-btn");
-const cartModal = document.getElementById("cart-modal");
-const closeCart = document.getElementById("close-cart");
-const cartItemsList = document.getElementById("cart-items");
-const cartTotalEl = document.getElementById("cart-total");
-const cartCountEl = document.getElementById("cart-count");
-const checkoutBtn = document.getElementById("checkout-btn");
-const checkoutModal = document.getElementById("checkout-modal");
-const checkoutForm = document.getElementById("checkout-form");
-const cancelCheckout = document.getElementById("cancel-checkout");
+document.addEventListener("DOMContentLoaded", () => {
+  const productGrid = document.querySelector(".product-grid");
+  const cartBtn = document.getElementById("cart-btn");
+  const cartModal = document.getElementById("checkout-modal");
+  const closeCart = document.getElementById("close-cart");
+  const cartItemsContainer = document.getElementById("cart-items");
+  const cartTotal = document.getElementById("cart-total");
+  const cartCount = document.getElementById("cart-count");
 
+  function renderProducts() {
+    productGrid.innerHTML = "";
+    products.forEach(product => {
+      const div = document.createElement("div");
+      div.classList.add("product-card");
+      div.innerHTML = `
+        <img src="${product.image}" alt="${product.name}">
+        <h3>${product.name}</h3>
+        <p>$${product.price.toFixed(2)}</p>
+        <button class="add-to-cart" data-id="${product.id}">Add to Cart</button>
+      `;
+      productGrid.appendChild(div);
+    });
+  }
 
-// 🧮 Update Cart UI
-function updateCartUI() {
-  cartItemsList.innerHTML = "";
-  let total = 0;
-  let count = 0;
+  function updateCart() {
+    cartItemsContainer.innerHTML = "";
+    let total = 0;
+    cart.forEach(item => {
+      total += item.price * item.quantity;
+      const li = document.createElement("li");
+      li.textContent = `${item.name} × ${item.quantity} - $${(item.price * item.quantity).toFixed(2)}`;
+      cartItemsContainer.appendChild(li);
+    });
+    cartTotal.textContent = total.toFixed(2);
+    cartCount.textContent = cart.reduce((sum, i) => sum + i.quantity, 0);
+  }
 
-  cart.forEach((item, index) => {
-    total += item.price * item.quantity;
-    count += item.quantity;
+  cartBtn.addEventListener("click", () => cartModal.classList.remove("hidden"));
+  closeCart.addEventListener("click", () => cartModal.classList.add("hidden"));
 
-    const li = document.createElement("li");
-    li.classList.add("cart-item");
-    li.innerHTML = `
-      <img src="${item.img}" alt="${item.name}">
-      <div class="cart-item-info">
-        <h4>${item.name}</h4>
-        <p>$${item.price}</p>
-      </div>
-      <div class="cart-item-controls">
-        <button class="qty-btn" data-action="decrease" data-index="${index}">−</button>
-        <span>${item.quantity}</span>
-        <button class="qty-btn" data-action="increase" data-index="${index}">+</button>
-        <button class="remove-btn" data-index="${index}">🗑️</button>
-      </div>
-    `;
-    cartItemsList.appendChild(li);
+  productGrid.addEventListener("click", e => {
+    if (!e.target.classList.contains("add-to-cart")) return;
+    const id = Number(e.target.dataset.id);
+    const product = products.find(p => p.id === id);
+    if (!product) return;
+    const existing = cart.find(i => i.id === id);
+    if (existing) existing.quantity++;
+    else cart.push({ ...product, quantity: 1 });
+    updateCart();
   });
 
-  cartTotalEl.textContent = total.toFixed(2);
-  cartCountEl.textContent = count;
+  renderProducts();
+  renderOrders();
+  renderCompletedOrders();
+});
 
-  // 💾 Save cart to localStorage whenever it changes
-  localStorage.setItem("cartData", JSON.stringify(cart));
+// Checkout
+document.getElementById("confirm-checkout").addEventListener("click", () => {
+  if (!cart.length) return alert("Cart is empty!");
+  const name = document.getElementById("cust-name").value.trim();
+  const email = document.getElementById("cust-email").value.trim();
+  const address = document.getElementById("cust-address").value.trim();
+  const shipping = document.getElementById("cust-shipping").value.trim();
+  const payment = document.getElementById("cust-payment").value.trim();
+  const advance = parseFloat(document.getElementById("cust-advance").value || 0);
+
+  if (!name || !email || !address) return alert("Please fill in customer details.");
+
+  const total = cart.reduce((sum, i) => sum + i.price * i.quantity, 0);
+
+  const order = {
+    id: "ORD-" + Date.now(),
+    customer: { name, email, address },
+    shipping, payment, advance,
+    items: cart.map(i => ({ name: i.name, price: i.price, quantity: i.quantity })),
+    total, date: new Date().toISOString(), status: "Pending"
+  };
+
+  const orders = JSON.parse(localStorage.getItem("orders")) || [];
+  orders.push(order);
+  localStorage.setItem("orders", JSON.stringify(orders));
+
+  cart = [];
+  localStorage.removeItem("cart");
+  document.getElementById("checkout-modal").classList.add("hidden");
+  renderOrders();
+  renderCompletedOrders();
+  alert("✅ Order placed successfully!");
+});
+
+// Orders
+function renderOrders() {
+  const orders = JSON.parse(localStorage.getItem("orders")) || [];
+  const ordersTable = document.getElementById("ordersTable");
+  if (!ordersTable) return;
+  const tbody = ordersTable.querySelector("tbody");
+  tbody.innerHTML = "";
+  if (!orders.length) {
+    tbody.innerHTML = '<tr><td colspan="10" style="text-align:center;">No pending orders</td></tr>';
+    return;
+  }
+  orders.forEach(order => {
+    const total = order.total.toFixed(2);
+    const row = document.createElement("tr");
+    row.innerHTML = `
+      <td>${order.id}</td>
+      <td>${order.customer.name}</td>
+      <td>${order.customer.email}</td>
+      <td>${order.shipping || "-"}</td>
+      <td>${order.payment || "-"}</td>
+      <td>${order.advance || 0}%</td>
+      <td>$${total}</td>
+      <td>${new Date(order.date).toLocaleDateString()}</td>
+      <td>${order.status}</td>
+      <td>
+        <button class="complete-btn" data-id="${order.id}">Complete</button>
+        <button class="delete-btn" data-id="${order.id}">Delete</button>
+      </td>
+    `;
+    tbody.appendChild(row);
+  });
 }
 
-// 🛍️ Add Product to Cart
-function addToCart(product) {
-  const existing = cart.find(item => item.name === product.name);
-  if (existing) {
-    existing.quantity++;
-  } else {
-    cart.push({ ...product, quantity: 1 });
+// Completed Orders
+function renderCompletedOrders() {
+  const completed = JSON.parse(localStorage.getItem("completedOrders")) || [];
+  const completedTable = document.getElementById("completedOrdersTable");
+  if (!completedTable) return;
+  const tbody = completedTable.querySelector("tbody");
+  tbody.innerHTML = "";
+  if (!completed.length) {
+    tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;">No completed orders</td></tr>';
+    return;
   }
-  updateCartUI();
+  completed.forEach(order => {
+    const total = order.total.toFixed(2);
+    const items = order.items.map(i => `${i.name}(${i.quantity})`).join(", ");
+    const row = document.createElement("tr");
+    row.innerHTML = `
+      <td>${order.id}</td>
+      <td>${order.customer.name}</td>
+      <td>${order.customer.email}</td>
+      <td>${items}</td>
+      <td>$${total}</td>
+      <td>${order.status}</td>
+      <td>-</td>
+    `;
+    tbody.appendChild(row);
+  });
 }
 
-// 🧩 Event Delegation for Quantity + Remove
-cartItemsList.addEventListener("click", e => {
-  if (e.target.classList.contains("qty-btn")) {
-    const index = e.target.dataset.index;
-    const action = e.target.dataset.action;
-    if (action === "increase") cart[index].quantity++;
-    if (action === "decrease" && cart[index].quantity > 1) cart[index].quantity--;
-    else if (action === "decrease" && cart[index].quantity === 1) cart.splice(index, 1);
-    updateCartUI();
+// Complete/Delete Orders
+document.addEventListener("click", e => {
+  const id = e.target.dataset.id;
+  if (e.target.classList.contains("complete-btn")) {
+    let orders = JSON.parse(localStorage.getItem("orders")) || [];
+    let completed = JSON.parse(localStorage.getItem("completedOrders")) || [];
+    const index = orders.findIndex(o => o.id === id);
+    if (index === -1) return;
+    const [completedOrder] = orders.splice(index, 1);
+    completedOrder.status = "Completed";
+    completed.push(completedOrder);
+    localStorage.setItem("orders", JSON.stringify(orders));
+    localStorage.setItem("completedOrders", JSON.stringify(completed));
+    renderOrders();
+    renderCompletedOrders();
+    alert("✅ Order marked as completed");
   }
 
-  if (e.target.classList.contains("remove-btn")) {
-    const index = e.target.dataset.index;
-    cart.splice(index, 1);
-    updateCartUI();
+  if (e.target.classList.contains("delete-btn")) {
+    let orders = JSON.parse(localStorage.getItem("orders")) || [];
+    if (confirm("Delete this order?")) {
+      orders = orders.filter(o => o.id !== id);
+      localStorage.setItem("orders", JSON.stringify(orders));
+      renderOrders();
+    }
   }
 });
 
-// 🪄 Open/Close Cart
-cartBtn.addEventListener("click", () => cartModal.classList.remove("hidden"));
-closeCart.addEventListener("click", () => cartModal.classList.add("hidden"));
-
-// 🧱 Load Products Dynamically
-document.addEventListener("DOMContentLoaded", () => {
-        // 🧾 Load cart from localStorage
-        const savedCart = localStorage.getItem("cartData");
-        if (savedCart) {
-          cart = JSON.parse(savedCart);
-          updateCartUI();
-        }
-
-        const products = [
-          { name: "Headphone1", price: 120, img: "images/headphone1.png" },
-          { name: "Headphone2", price: 350, img: "images/headphone2.png" },
-          { name: "Headphone3", price: 90, img: "images/headphone3.png" },
-          { name: "HeadPhone4", price: 70, img: "images/headphone4.png" }
-        ];
-
-        const productGrid = document.querySelector(".product-grid");
-        products.forEach(p => {
-          const div = document.createElement("div");
-          div.classList.add("product");
-          div.innerHTML = `
-            <img src="${p.img}" alt="${p.name}" onerror="this.src='https://placehold.co/150x150'">
-            <h3>${p.name}</h3>
-            <p>$${p.price}</p>
-            <button class="add-to-cart">Add to Cart</button>
-          `;
-          productGrid.appendChild(div);
-
-          div.querySelector(".add-to-cart").addEventListener("click", () => addToCart(p));
-        });
+document.getElementById("close-checkout").addEventListener("click", () => {
+  document.getElementById("checkout-modal").classList.add("hidden");
 });
 
-
-
-checkoutBtn.addEventListener("click", () => {
-        if (cart.length === 0) return;
-        cartModal.classList.add("hidden");      // hide cart
-        checkoutModal.classList.remove("hidden"); // show checkout form
-      });
-      // 🛑 Cancel checkout
-      cancelCheckout.addEventListener("click", () => {
-        checkoutModal.classList.add("hidden");
-      });
-
-      checkoutForm.addEventListener("submit", e => {
-        e.preventDefault();
-
-        const name = document.getElementById("customer-name").value.trim();
-        const email = document.getElementById("customer-email").value.trim();
-        const address = document.getElementById("customer-address").value.trim();
-        const shipping = document.getElementById("shipping-method").value;
-        const payment = document.getElementById("payment-method").value;
-        const advance = document.getElementById("advance-payment").value;
-
-        if (!name || !email || !address || !shipping || !payment) {
-          alert("Please fill in all fields!");
-          return;
-        }
-
-        const total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
-
-        const order = {
-          id: "ORD-" + Date.now(),
-          customer: { name, email, address },
-          shipping,
-          payment,
-          advance,
-          items: cart.map(i => ({ name: i.name, price: i.price, quantity: i.quantity })),
-          total,
-          date: new Date().toISOString(),
-          status: "Pending"
-        };
-
-        const orders = JSON.parse(localStorage.getItem("orders")) || [];
-        orders.push(order);
-        localStorage.setItem("orders", JSON.stringify(orders));
-
-        alert(`✅ Thank you, ${name}! Your order ${order.id} has been placed.`);
-
-        cart = [];
-        updateCartUI();
-        localStorage.removeItem("cartData");
-        checkoutForm.reset();
-        checkoutModal.classList.add("hidden");
+document.getElementById("close-cart").addEventListener("click", () => {
+  document.getElementById("checkout-modal").classList.add("hidden");
 });

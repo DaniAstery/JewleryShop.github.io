@@ -3,89 +3,98 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Asteries Collection | Shop </title>
+  <title>Astery’s Collection | Shop</title>
   <link rel="stylesheet" href="style.css" />
+  <link rel="icon" href="favicon.ico" type="image/x-icon"/>
 </head>
 <body>
 
   <!-- Header -->
-  <header>
-    <h1>Astery's Collection</h1>
-    <nav>
+  <header class="header">
+    <h1>Astery’s Collection</h1>
+    <nav class="nav-links">
       <a href="#">Home</a>
       <a href="#">Shop</a>
       <a href="#">About</a>
       <a href="#">Contact</a>
     </nav>
-    <button id="cart-btn">🛍️ Cart (<span id="cart-count">0</span>)</button>
+    <button id="cart-btn" class="btn-primary">🛍️ Cart (<span id="cart-count">0</span>)</button>
   </header>
 
   <!-- Main Product Section -->
   <main>
-    <section class="product-grid">
-      <!-- Products will be dynamically inserted here by script.js -->
+    <section id="store" class="product-grid">
+      <!-- Products inserted dynamically -->
     </section>
   </main>
 
-<!-- Cart Modal -->
-<div id="cart-modal" class="cart-modal hidden">
-  <div class="cart-content">
-    <h2>Your Cart</h2>
-    <ul id="cart-items"></ul>
-    <p>Total: $<span id="cart-total">0</span></p>
-    <button id="checkout-btn">Checkout</button>
-    <button id="close-cart">Close</button>
+  <!-- Checkout Modal -->
+  <div id="checkout-modal" class="checkout-modal hidden">
+    <div class="checkout-content">
+      <span id="close-checkout" class="close">&times;</span>
+      <h2>Checkout</h2>
+
+      <ul id="cart-items"></ul>
+      <p class="cart-summary"><strong>Total:</strong> <span id="cart-total">$0.00</span></p>
+
+      <h3>Customer Details</h3>
+      <input id="cust-name" type="text" placeholder="Full Name" required />
+      <input id="cust-email" type="email" placeholder="Email Address" required />
+      <input id="cust-address" type="text" placeholder="Shipping Address" required />
+      <input id="cust-shipping" type="text" placeholder="Shipping Type (Standard/Express)" />
+      <input id="cust-payment" type="text" placeholder="Payment Method (Cash/Telebirr)" />
+      <input id="cust-advance" type="number" placeholder="Advance Payment (%)" min="0" max="100" />
+
+      <button id="confirm-checkout" class="btn-primary confirm-btn">Place Order</button>
+      <button id="close-cart" class="btn-primary cancel-btn">Close</button>
+    </div>
   </div>
-</div>
 
-<!-- 💳 CHECKOUT MODAL -->
-<div id="checkout-modal" class="checkout-modal hidden">
-  <div class="checkout-content">
-    <h2>Checkout</h2>
-    <form id="checkout-form">
-      
-      <label for="customer-name">Full Name</label>
-      <input type="text" id="customer-name" required>
+  <!-- Orders Table -->
+  <section id="orders-section" class="orders-section">
+    <h2>Recent Orders</h2>
+    <table id="ordersTable">
+      <thead>
+        <tr>
+          <th>Order ID</th>
+          <th>Customer</th>
+          <th>Email</th>
+          <th>Shipping</th>
+          <th>Payment</th>
+          <th>Advance</th>
+          <th>Total</th>
+          <th>Date</th>
+          <th>Status</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </section>
 
-      <label for="customer-email">Email</label>
-      <input type="email" id="customer-email" required>
+  <!-- Completed Orders Table -->
+  <section id="completed-orders-section" class="orders-section">
+    <h2>Completed Orders</h2>
+    <table id="completedOrdersTable">
+      <thead>
+        <tr>
+          <th>Order ID</th>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Items</th>
+          <th>Total</th>
+          <th>Status</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </section>
 
-      <label for="customer-address">Shipping Address</label>
-      <textarea id="customer-address" rows="3" required></textarea>
-
-      <label for="shipping-method">Shipping Method</label>
-      <select id="shipping-method" required>
-        <option value="">-- Select Shipping Method --</option>
-        <option value="DHL">DHL Express</option>
-        <option value="EMS">EMS Ethiopia Post</option>
-        <option value="Pickup">Local Pickup</option>
-      </select>
-
-      <label for="payment-method">Payment Method</label>
-      <select id="payment-method" required>
-        <option value="">-- Select Payment Method --</option>
-        <option value="Bank Transfer">Bank Transfer</option>
-        <option value="Telebirr">Telebirr</option>
-        <option value="Paypal">PayPal</option>
-      </select>
-
-      <label for="advance-payment">Advance Payment (%)</label>
-      <input type="number" id="advance-payment" min="0" max="100" value="30" required>
-
-      <button type="submit" class="confirm-btn">Confirm Order</button>
-      <button type="button" id="cancel-checkout" class="cancel-btn">Cancel</button>
-    </form>
-  </div>
-</div>
-
-
-
-  <!-- Footer -->
   <footer>
-    <p>© Astery's Collection. All rights reserved.</p>
+    <p>© 2025 Astery’s Collection. All rights reserved.</p>
   </footer>
 
-  <!-- JavaScript -->
   <script src="script.js"></script>
 </body>
 </html>
