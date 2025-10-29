@@ -90,12 +90,19 @@ document.getElementById("confirm-checkout").addEventListener("click", () => {
   orders.push(order);
   localStorage.setItem("orders", JSON.stringify(orders));
 
-  cart = [];
-  localStorage.removeItem("cart");
-  document.getElementById("checkout-modal").classList.add("hidden");
-  renderOrders();
-  renderCompletedOrders();
-  alert("✅ Order placed successfully!");
+    cart = [];
+    localStorage.removeItem("cart");
+
+    // Update UI
+    document.getElementById("cart-items").innerHTML = "";
+    document.getElementById("cart-total").textContent = "0.00";
+    document.getElementById("cart-count").textContent = "0";
+
+    // Hide modal after clear
+    document.getElementById("checkout-modal").classList.add("hidden");
+    renderOrders();
+    renderCompletedOrders();
+    alert("✅ Order placed successfully!");
 });
 
 
@@ -170,7 +177,7 @@ function renderCompletedOrders() {
   }
   completed.forEach(order => {
     if (order.status === "Deleted") return; // Skip deleted orders 
-     
+
     const total = order.total.toFixed(2);
     const items = order.items.map(i => `${i.name}(${i.quantity})`).join(", ");
     const row = document.createElement("tr");
@@ -221,10 +228,6 @@ document.addEventListener("click", e => {
     alert("✅ Completed order deleted successfully!");
   }
 });
-
-
-
-
 
 
 // Complete/Delete Orders
