@@ -122,29 +122,6 @@ document.getElementById("confirm-clear").addEventListener("click", () => {
 });
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 // Orders
 function renderOrders() {
   const orders = JSON.parse(localStorage.getItem("orders")) || [];
@@ -182,6 +159,8 @@ function renderOrders() {
 function renderCompletedOrders() {
   const completed = JSON.parse(localStorage.getItem("completedOrders")) || [];
   const completedTable = document.getElementById("completedOrdersTable");
+
+
   if (!completedTable) return;
   const tbody = completedTable.querySelector("tbody");
   tbody.innerHTML = "";
@@ -190,6 +169,8 @@ function renderCompletedOrders() {
     return;
   }
   completed.forEach(order => {
+    if (order.status === "Deleted") return; // Skip deleted orders 
+     
     const total = order.total.toFixed(2);
     const items = order.items.map(i => `${i.name}(${i.quantity})`).join(", ");
     const row = document.createElement("tr");
@@ -200,11 +181,51 @@ function renderCompletedOrders() {
       <td>${items}</td>
       <td>$${total}</td>
       <td>${order.status}</td>
-      <td>-</td>
+      <td><button class="delete-complete" data-id="${order.id}">Delete</button></td>
     `;
     tbody.appendChild(row);
   });
 }
+
+document.addEventListener("click", e => {
+  const id = e.target.dataset.id;
+
+  // 🗑️ DELETE COMPLETED ORDER
+  if (e.target.classList.contains("delete-complete")) {
+    const isConfirmed = confirm("Are you sure you want to delete this completed order?");
+    if (!isConfirmed) return;
+
+    // Load completed orders
+    let completedOrders = JSON.parse(localStorage.getItem("completedOrders")) || [];
+    
+ 
+    // Find the order by ID
+    const index = completedOrders.findIndex(o => o.id === id);
+    if (index === -1) {
+      alert("⚠️ Order not found.");
+      return;
+    }
+
+    // Change status to Deleted (instead of removing permanently)
+    completedOrders[index].status = "Deleted";
+
+    // Optionally remove it completely if you want
+    // completedOrders.splice(index, 1);
+
+    // Save the updated list
+    localStorage.setItem("completedOrders", JSON.stringify(completedOrders));
+
+    // Re-render updated completed orders list
+    renderCompletedOrders();
+
+    alert("✅ Completed order deleted successfully!");
+  }
+});
+
+
+
+
+
 
 // Complete/Delete Orders
 document.addEventListener("click", e => {
