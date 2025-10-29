@@ -308,6 +308,8 @@ footer {
   cursor: pointer;
 }
 
+
+
 .cancel-btn {
   background: #ccc;
   border: none;
@@ -315,9 +317,6 @@ footer {
   border-radius: 0.5rem;
   cursor: pointer;
 }
-
-
-
 
 .orders-section {
   padding: 2rem;
@@ -378,3 +377,4 @@ footer {
   width: 100%;
   margin-top: 10px;
 }
+

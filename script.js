@@ -65,6 +65,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 // Checkout
 document.getElementById("confirm-checkout").addEventListener("click", () => {
+  
   if (!cart.length) return alert("Cart is empty!");
   const name = document.getElementById("cust-name").value.trim();
   const email = document.getElementById("cust-email").value.trim();
@@ -96,6 +97,53 @@ document.getElementById("confirm-checkout").addEventListener("click", () => {
   renderCompletedOrders();
   alert("✅ Order placed successfully!");
 });
+
+
+// Clear Cart Button Logic
+document.getElementById("confirm-clear").addEventListener("click", () => {
+
+  if (!cart.length) return alert("🛒 Your cart is already empty!");
+
+  const confirmClear = confirm("Are you sure you want to clear your cart?");
+  if (!confirmClear) return;
+
+  cart = [];
+  localStorage.removeItem("cart");
+
+  // Update UI
+  document.getElementById("cart-items").innerHTML = "";
+  document.getElementById("cart-total").textContent = "0.00";
+  document.getElementById("cart-count").textContent = "0";
+
+  // Hide modal after clear
+  document.getElementById("checkout-modal").classList.add("hidden");
+
+  alert("✅ Cart cleared successfully!");
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 // Orders
 function renderOrders() {
