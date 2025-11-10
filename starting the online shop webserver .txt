@@ -1,0 +1,3 @@
+//STARTING WEB SERVER FROM ROOT DIReCTORY jewelery shop 
+
+python3 -m http.server 5500

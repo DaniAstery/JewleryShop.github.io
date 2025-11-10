@@ -48,90 +48,94 @@ document.addEventListener("DOMContentLoaded", () => {
   closeCart.addEventListener("click", () => cartModal.classList.add("hidden"));
 
   productGrid.addEventListener("click", e => {
-    if (!e.target.classList.contains("add-to-cart")) return;
-    const id = Number(e.target.dataset.id);
-    const product = products.find(p => p.id === id);
-    if (!product) return;
-    const existing = cart.find(i => i.id === id);
-    if (existing) existing.quantity++;
-    else cart.push({ ...product, quantity: 1 });
-    updateCart();
-  });
-  fetchOrders();
-  renderProducts();
-  renderOrders();
-  renderCompletedOrders();
-});
+            
+              if (!e.target.classList.contains("add-to-cart")) return;
+              const id = Number(e.target.dataset.id);
+              const product = products.find(p => p.id === id);
+              if (!product) return;
+              const existing = cart.find(i => i.id === id);
+              if (existing) existing.quantity++;
+              else cart.push({ ...product, quantity: 1 });
+              updateCart();
+            });
+            fetchOrders();
+            renderProducts();
+            renderOrders();
+            renderCompletedOrders();
+          });
 
-// ✅ Checkout Button Handler
-document.getElementById("confirm-checkout").addEventListener("click", () => {
-  if (!cart.length) return alert("Cart is empty!");
+          // ✅ Checkout Button Handler
+          document.getElementById("confirm-checkout").addEventListener("click", function () {
+            // Assume cart is globally available or stored in localStorage
+           
+            var cart = JSON.parse(localStorage.getItem("cart")) || [];
 
-  const name = document.getElementById("cust-name").value.trim();
-  const email = document.getElementById("cust-email").value.trim();
-  const address = document.getElementById("cust-address").value.trim();
-  const shipping = document.getElementById("cust-shipping").value.trim();
-  const payment = document.getElementById("cust-payment").value.trim();
-  const advance = parseFloat(document.getElementById("cust-advance").value || 0);
 
-  if (!name || !email || !address) {
-    return alert("Please fill in customer details.");
-  }
+            var name = document.getElementById("cust-name").value.trim();
+            var email = document.getElementById("cust-email").value.trim();
+            var address = document.getElementById("cust-address").value.trim();
+            var shipping = document.getElementById("cust-shipping").value.trim();
+            var payment = document.getElementById("cust-payment").value.trim();
+            var advance = parseFloat(document.getElementById("cust-advance").value || 0);
+            
+             if (!name || !email || !address && cart.length === 0) {
+               alert("⚠️ Please fill in all required fields and ensure your cart is not empty.");
+              return;
+               }
+               
+              var total = cart.reduce(function (sum, item) {
+                return sum + item.price * item.quantity;
+              }, 0);
+                
+              var order = {
+              id: "ORD-" + Date.now(),
+              customer: { name: name, email: email, address: address },
+              shipping: shipping,
+              payment: payment,
+              advance: advance,
+              items: cart.map(function (i) {
+                return { name: i.name, price: i.price, quantity: i.quantity };
+              }),
+              total: total,
+              date: new Date().toISOString(),
+              status: "Pending"
+            };
 
-  const total = cart.reduce((sum, i) => sum + i.price * i.quantity, 0);
+            // ✅ Send to backend
+            fetch("http://localhost:5001/api/orders", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify(order)
+            })
+              .then(function (res) {
+                if (!res.ok) throw new Error("Failed to save order");
+                return res.json();
+              })
+              .then(function (data) {
+                alert("✅ Order placed successfully!");
+                console.log("✅ Order response:", data);
 
-  const order = {
-    id: "ORD-" + Date.now(),
-    customer: { name, email, address },
-    shipping,
-    payment,
-    advance,
-    items: cart.map(i => ({
-      name: i.name,
-      price: i.price,
-      quantity: i.quantity
-    })),
-    total,
-    date: new Date().toISOString(),
-    status: "Pending"
-  };
+                // Clear cart and update UI
+                localStorage.removeItem("cart");
+                document.getElementById("cart-items").innerHTML = "";
+                document.getElementById("cart-total").textContent = "0.00";
+                document.getElementById("cart-count").textContent = "0";
+                document.getElementById("checkout-modal").classList.add("hidden");
 
-  // ✅ Send order to backend
-  fetch("http://localhost:5000/api/orders", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(order),
-  })
-    .then(res => {
-      if (!res.ok) throw new Error("Server error: " + res.status);
-      return res.json();
-    })
-    .then(data => {
-      console.log("✅ Order saved:", data);
-      alert("✅ Order saved to backend!");
-
-      // ✅ Clear cart after successful save
-      cart = [];
-      localStorage.removeItem("cart");
-
-      // ✅ Update UI
-      document.getElementById("cart-items").innerHTML = "";
-      document.getElementById("cart-total").textContent = "0.00";
-      document.getElementById("cart-count").textContent = "0";
-      document.getElementById("checkout-modal").classList.add("hidden");
-
-      renderOrders();
-      renderCompletedOrders();
-    })
-    .catch(err => {
-      console.error("❌ Failed to save order:", err);
-      alert("❌ Failed to save order. Check your backend connection.");
-    });
-});
+                // Refresh order display
+                fetchOrders(); // refetch all from backend
+              })
+              .catch(function (err) {
+                console.error("❌ Error creating order:", err);
+                alert("❌ Failed to save order. Check backend connection.");
+              });
+          });
 
 
 // Clear Cart Button Logic
 document.getElementById("confirm-clear").addEventListener("click", () => {
+
+
 
   if (!cart.length) return alert("🛒 Your cart is already empty!");
 
