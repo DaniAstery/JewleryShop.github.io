@@ -198,7 +198,7 @@ function renderOrders(orders) {
         <td>${order.status}</td>
         <td>
           <button class="view-btn" data-id="${order.customer.id}">View</button>
-          <button class="delete-btn" delete-id="${order.customer.id}">Delete</button>
+          <button class="complete-btn" data-id="${order.customer.id}">Complete</button>
         </td>
       `;
       tbody.appendChild(tr);
@@ -208,6 +208,9 @@ function renderOrders(orders) {
 
 // Render completed orders from backend by fetchOrders
 function renderCompletedOrders(orders) {
+
+alert("Rendering Completed Orders");
+
   var tbody = document.querySelector("#completedOrdersTable tbody");
   if (!tbody) return;
 
@@ -224,6 +227,7 @@ function renderCompletedOrders(orders) {
         <td>${order.status}</td>
          <td>
           <button class="view-btn" data-id="${order.customer.id}">View</button>
+          <button class="complete-btn" data-id="${order.customer.id}">Complete</button>
           <button class="delete-btn" data-id="${order.customer.id}">Delete</button>
         </td>
       `;
@@ -297,70 +301,34 @@ document.getElementById("close-view-btn").addEventListener("click", () => {
 });
 
 
+// ✅ Complete And Delete Order Handler
 
 document.addEventListener("click", e => {
   const id = e.target.dataset.id;
+  if (!id) return;
 
-  // 🗑️ DELETE COMPLETED ORDER
-  if (e.target.classList.contains("delete-complete")) {
-    const isConfirmed = confirm("Are you sure you want to delete this completed order?");
-    if (!isConfirmed) return;
-
-    // Load completed orders
-    let completedOrders = JSON.parse(localStorage.getItem("completedOrders")) || [];
-    
- 
-    // Find the order by ID
-    const index = completedOrders.findIndex(o => o.id === id);
-    if (index === -1) {
-      alert("⚠️ Order not found.");
-      return;
-    }
-
-    // Change status to Deleted (instead of removing permanently)
-    completedOrders[index].status = "Deleted";
-
-    // Optionally remove it completely if you want
-    // completedOrders.splice(index, 1);
-
-    // Save the updated list
-    localStorage.setItem("completedOrders", JSON.stringify(completedOrders));
-
-    // Re-render updated completed orders list
-    renderCompletedOrders();
-
-    alert("✅ Completed order deleted successfully!");
+  if (
+    e.target.classList.contains("complete-btn") ||
+    e.target.classList.contains("delete-btn")
+  ) {
+    fetch(`http://localhost:5001/api/orders/${id}`, { method: "PUT" })
+      .then(res => res.json())
+      .then(data => {
+        if(e.target.classList.contains("complete-btn")==true){
+          alert("✅ Order completed!");     
+        } 
+        else {
+          window.prompt("Are you sure you want to delete this order?") && alert("✅ Order deleted!");
+        }
+        fetchOrders(); // Refresh orders
+      })
+      .catch(err => console.error("❌ Error updating order:", err));
   }
 });
 
 
-// Complete/Delete Orders
-document.addEventListener("click", e => {
-  const id = e.target.dataset.id;
-  if (e.target.classList.contains("complete-btn")) {
-    let orders = JSON.parse(localStorage.getItem("orders")) || [];
-    let completed = JSON.parse(localStorage.getItem("completedOrders")) || [];
-    const index = orders.findIndex(o => o.id === id);
-    if (index === -1) return;
-    const [completedOrder] = orders.splice(index, 1);
-    completedOrder.status = "Completed";
-    completed.push(completedOrder);
-    localStorage.setItem("orders", JSON.stringify(orders));
-    localStorage.setItem("completedOrders", JSON.stringify(completed));
-    renderOrders();
-    renderCompletedOrders();
-    alert("✅ Order marked as completed");
-  }
 
-  if (e.target.classList.contains("delete-btn")) {
-    let orders = JSON.parse(localStorage.getItem("orders")) || [];
-    if (confirm("Delete this order?")) {
-      orders = orders.filter(o => o.id !== id);
-      localStorage.setItem("orders", JSON.stringify(orders));
-      renderOrders();
-    }
-  }
-});
+
 
 document.getElementById("close-checkout").addEventListener("click", () => {
   document.getElementById("checkout-modal").classList.add("hidden");
