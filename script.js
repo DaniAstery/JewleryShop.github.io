@@ -57,6 +57,7 @@ document.addEventListener("DOMContentLoaded", () => {
               if (existing) existing.quantity++;
               else cart.push({ ...product, quantity: 1 });
               updateCart();
+              localStorage.setItem("cart", JSON.stringify(cart));
             });
             fetchOrders();
             renderProducts();
@@ -82,13 +83,15 @@ document.addEventListener("DOMContentLoaded", () => {
                alert("⚠️ Please fill in all required fields and ensure your cart is not empty.");
               return;
                }
+
+             alert(cart);
                
               var total = cart.reduce(function (sum, item) {
                 return sum + item.price * item.quantity;
               }, 0);
                 
               var order = {
-              id: "ORD-" + Date.now(),
+              id: "",
               customer: { name: name, email: email, address: address },
               shipping: shipping,
               payment: payment,
