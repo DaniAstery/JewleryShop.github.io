@@ -33,7 +33,7 @@
     <div class="checkout-content">
       <span id="close-checkout" class="close">&times;</span>
       <h2>Checkout</h2>
-
+cart-items
       <ul id="cart-items"></ul>
       <p class="cart-summary"><strong>Total:</strong> <span id="cart-total">$0.00</span></p>
 
@@ -95,6 +95,72 @@
   <footer>
     <p>© 2025 Astery’s Collection. All rights reserved.</p>
   </footer>
+<!-- 🔍 View Order Modal -->
+<div id="view-modal" class="modal hidden">
+  <div class="modal-content">
+    <span id="close-view" class="close">&times;</span>
+    <h2>Order Details</h2>
+
+    <div class="order-details">
+      <p><strong>Order ID:</strong> <span id="view-id"></span></p>
+      <p><strong>Customer Name:</strong> <span id="view-name"></span></p>
+      <p><strong>Email:</strong> <span id="view-email"></span></p>
+      <p><strong>Address:</strong> <span id="view-address"></span></p>
+      <p><strong>Shipping:</strong> <span id="view-shipping"></span></p>
+      <p><strong>Payment:</strong> <span id="view-payment"></span></p>
+      <p><strong>Advance Payment:</strong> <span id="view-advance"></span></p>
+      <p><strong>Status:</strong> <span id="view-status"></span></p>
+
+      <h3>Items</h3>
+      <ul id="view-items"></ul>
+
+      <p><strong>Total:</strong> $<span id="view-total"></span></p>
+    </div>
+
+    <button id="close-view-btn" class="btn-primary">Close</button>
+  </div>
+</div>
+
+<style>
+/* Simple modal styling */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0,0,0,0.5);
+}
+
+.modal-content {
+  background-color: #fff;
+  margin: 5% auto;
+  padding: 20px;
+  border-radius: 8px;
+  width: 80%;
+  max-width: 600px;
+  position: relative;
+}
+
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.close:hover {
+  color: #000;
+}
+
+.hidden {
+  display: none !important;
+}
+</style>
 
   <script src="script.js"></script>
 </body>

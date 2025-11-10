@@ -175,15 +175,17 @@ function fetchOrders() {
     });
 }
 
-// Render pending orders
+// Render pending orders fetched from backend by fetchOrders
 function renderOrders(orders) {
+  alert("Rendering Orders");
+  alert(orders.length);
   var tbody = document.querySelector("#ordersTable tbody");
   if (!tbody) return;
-
   tbody.innerHTML = "";
   orders.forEach(function(order) {
     if (order.status === "Pending") {
       var tr = document.createElement("tr");
+      alert(order.customer.id);
       tr.innerHTML = `
         <td>${order.customer.id}</td>
         <td>${order.customer.name}</td>
@@ -195,8 +197,8 @@ function renderOrders(orders) {
         <td>${new Date(order.date).toLocaleString()}</td>
         <td>${order.status}</td>
         <td>
-          <button class="view-btn" data-id="${order.id}">View</button>
-          <button class="delete-btn" data-id="${order.id}">Delete</button>
+          <button class="view-btn" data-id="${order.customer.id}">View</button>
+          <button class="delete-btn" delete-id="${order.customer.id}">Delete</button>
         </td>
       `;
       tbody.appendChild(tr);
@@ -204,7 +206,7 @@ function renderOrders(orders) {
   });
 }
 
-// Render completed orders
+// Render completed orders from backend by fetchOrders
 function renderCompletedOrders(orders) {
   var tbody = document.querySelector("#completedOrdersTable tbody");
   if (!tbody) return;
@@ -221,8 +223,8 @@ function renderCompletedOrders(orders) {
         <td>$${order.total.toFixed(2)}</td>
         <td>${order.status}</td>
          <td>
-          <button class="view-btn" data-id="${order.id}">View</button>
-          <button class="delete-btn" data-id="${order.id}">Delete</button>
+          <button class="view-btn" data-id="${order.customer.id}">View</button>
+          <button class="delete-btn" data-id="${order.customer.id}">Delete</button>
         </td>
       `;
       tbody.appendChild(tr);
@@ -232,42 +234,55 @@ function renderCompletedOrders(orders) {
 
 
 
-// View Order
-document.addEventListener("click", e => {
+// ✅ View Order Handler
+document.addEventListener("click", function (e) {
   if (e.target.classList.contains("view-btn")) {
-    const id = e.target.dataset.id;
-    const orders = JSON.parse(localStorage.getItem("orders")) || [];
-    const completed = JSON.parse(localStorage.getItem("completedOrders")) || [];
-    const allOrders = [...orders, ...completed];
+    const id = e.target.dataset.id; // The custom order id (like ORD-... )
+ 
+    if (!id) return alert("No order ID found!");
 
-    const order = allOrders.find(o => o.id === id);
-    if (!order) return alert("Order not found!");
+    // Fetch the order by ID from the backend
+    fetch(`http://localhost:5001/api/orders/id/${id}`)
+      .then(function (res) {
+        return res.json();
+      })
+      .then(function (order) {
+        if (!order || order.message === "Order not found") {
+          return alert("Order not found!");
+        }
 
-    // Populate modal fields
-    document.getElementById("view-id").textContent = order.id;
-    document.getElementById("view-name").textContent = order.customer?.name || "-";
-    document.getElementById("view-email").textContent = order.customer?.email || "-";
-    document.getElementById("view-address").textContent = order.customer?.address || "-";
-    document.getElementById("view-shipping").textContent = order.shipping || "-";
-    document.getElementById("view-payment").textContent = order.payment || "-";
-    document.getElementById("view-advance").textContent = order.advance || "0";
-    document.getElementById("view-status").textContent = order.status || "Pending";
-    document.getElementById("view-total").textContent = order.total ? Number(order.total).toFixed(2) : "0.00";
+        // ✅ Populate modal fields
+        document.getElementById("view-id").textContent = order.customer?.id || "-";
+        document.getElementById("view-name").textContent = order.customer?.name || "-";
+        document.getElementById("view-email").textContent = order.customer?.email || "-";
+        document.getElementById("view-address").textContent = order.customer?.address || "-";
+        document.getElementById("view-shipping").textContent = order.shipping || "-";
+        document.getElementById("view-payment").textContent = order.payment || "-";
+        document.getElementById("view-advance").textContent = order.advance || "0";
+        document.getElementById("view-status").textContent = order.status || "Pending";
+        document.getElementById("view-total").textContent =
+          order.total ? Number(order.total).toFixed(2) : "0.00";
 
-    const itemsList = document.getElementById("view-items");
-    itemsList.innerHTML = "";
-    if (order.items && order.items.length) {
-      order.items.forEach(i => {
-        const li = document.createElement("li");
-        li.textContent = `${i.name} - ${i.quantity} x $${i.price}`;
-        itemsList.appendChild(li);
+        // ✅ Render items
+        const itemsList = document.getElementById("view-items");
+        itemsList.innerHTML = "";
+        if (order.items && order.items.length) {
+          order.items.forEach(function (i) {
+            const li = document.createElement("li");
+            li.textContent = `${i.name} - ${i.quantity} × $${i.price}`;
+            itemsList.appendChild(li);
+          });
+        } else {
+          itemsList.innerHTML = "<li>No items</li>";
+        }
+
+        // ✅ Show modal
+        document.getElementById("view-modal").classList.remove("hidden");
+      })
+      .catch(function (err) {
+        console.error("❌ Error fetching order:", err);
+        alert("Failed to load order details.");
       });
-    } else {
-      itemsList.innerHTML = "<li>No items</li>";
-    }
-
-    // Show modal
-    document.getElementById("view-modal").classList.remove("hidden");
   }
 });
 
