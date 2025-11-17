@@ -42,7 +42,31 @@ cart-items
       <input id="cust-email" type="email" placeholder="Email Address" required />
       <input id="cust-address" type="text" placeholder="Shipping Address" required />
       <input id="cust-shipping" type="text" placeholder="Shipping Type (Standard/Express)" />
-      <input id="cust-payment" type="text" placeholder="Payment Method (Cash/Telebirr)" />
+      <label for="cust-payment"><strong>Payment Method</strong></label>
+        <select id="cust-payment" required>
+          <option value="Swift" selected>💸 SWIFT Transfer (USD)</option>
+          <option value="PayPal" disabled>💳 PayPal (Coming Soon)</option>
+          <option value="Telebirr" disabled>📱 Telebirr (Coming Soon)</option>
+          <option value="CBE" disabled>🏦 Commercial Bank of Ethiopia (Coming Soon)</option>
+        </select>
+
+          <select id="cust-payment">
+          <option value="selected" id="option1"><p><strong>Bank Transfer Details (SWIFT):</strong></p>
+          <p>Bank Name: <b>Commercial Bank of Ethiopia</b></p>
+          <p>Account Name: <b>Your Company Name</b></p>
+          <p>Account Number: <b>1000XXXXXXX</b></p>
+          <p>SWIFT Code: <b>CBETETAA</b></p>
+          <p>Currency: <b>USD</b></p>
+          <p>Reference: <b id="order-ref">#</b></p></option>
+          <option value="selected" id="option2"><p><strong>Option2</strong></p></option>
+  
+          </select>
+          
+
+          <label for="payment-proof"><strong>Upload Payment Proof (PDF/JPG/PNG):</strong></label>
+          <input id="payment-proof" type="file" accept=".jpg,.jpeg,.png,.pdf" required />
+
+
       <input id="cust-advance" type="number" placeholder="Advance Payment (%)" min="0" max="100" />
 
       <button id="confirm-checkout" class="btn-primary confirm-btn">Place Order</button>
@@ -160,6 +184,11 @@ cart-items
 .hidden {
   display: none !important;
 }
+.scroll-dropdown {
+  max-height: 150px;
+  overflow-y: auto;
+}
+
 </style>
 
   <script src="script.js"></script>
