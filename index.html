@@ -50,24 +50,19 @@
           <option value="CBE" disabled>🏦 Commercial Bank of Ethiopia (Coming Soon)</option>
         </select>
 
-          <select id="cust-payment">
-          <option value="selected" id="option1"><p><strong>Bank Transfer Details (SWIFT):</strong></p>
-          <p>Bank Name: <b>Commercial Bank of Ethiopia
-          <p>Account Name: <b>Your Company Name</b></p>
-          <p>Account Number: <b>1000XXXXXXX</b></p>
-          <p>SWIFT Code: <b>CBETETAA</b></p>
-          <p>Currency: <b>USD</b></p>
-          <p>Reference: <b id="order-ref">#</b></p></option>
-          <option value="selected" id="option2"><p><strong>Option2</strong></p></option>
-          </select>
-          <div id="view-modal"> <p>Bank Name: <b>Commercial Bank of Ethiopia</b></p>
-          <p>Account Name: <b>Your Company Name</b></p>
-          <p>Account Number: <b>1000XXXXXXX</b></p>
-          <p>SWIFT Code: <b>CBETETAA</b></p>
-          <p>Currency: <b>USD</b></p>
-          <p>Reference: <b id="order-ref">#</b></p></option></div>
-          
 
+        <select id="cust-currency" required>
+        <option id="USD" value="USD" selected>US Dollar (USD) 🇺🇸</option>
+        <option id="EUR" value="EUR">Euro (EUR) 🇪🇺</option>
+        <option id="GBP" value="GBP">Pound Sterling (GBP) 🇬🇧</option>
+        </select>
+
+        <div id="payment-detail"> </div>
+
+     
+
+
+         
           <label for="payment-proof"><strong>Upload Payment Proof (PDF/JPG/PNG):</strong></label>
           <input id="payment-proof" type="file" accept=".jpg,.jpeg,.png,.pdf" required />
 

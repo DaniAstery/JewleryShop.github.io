@@ -327,7 +327,51 @@ document.addEventListener("click", e => {
 });
 
 
+document.getElementById("cust-currency").addEventListener("click", function () {
+    
+    // Get selected currency
+    let currency = document.getElementById("cust-currency").value;
 
+    // Target DIV
+    let paymentDetailDiv = document.getElementById("payment-detail");
+
+    // Routing table (replace with your real bank details)
+    let routes = {
+        USD: {
+            intermediary: "Intermediary Bank for USD",
+            swift: "USDINTERSWIFTXXX"
+        },
+        EUR: {
+            intermediary: "Intermediary Bank for EUR",
+            swift: "EURINTERSWIFTXXX"
+        },
+        GBP: {
+            intermediary: "Intermediary Bank for GBP",
+            swift: "GBPINTRSWIFTXXX"
+        }
+    };
+
+    // Select the route for the chosen currency
+    let selectedRoute = routes[currency];
+
+    // Update the DIV
+    if (paymentDetailDiv) {
+
+        let newContent = `
+            <h3>🏦 Bank Transfer Route (${currency})</h3>
+
+            <p><strong>Intermediary Bank:</strong> ${selectedRoute.intermediary}</p>
+            <p><strong>SWIFT Code:</strong> ${selectedRoute.swift}</p>
+
+            <p style="color: green;">Routing details generated successfully!</p>
+        `;
+
+        paymentDetailDiv.innerHTML = newContent;
+
+    } else {
+        console.error("The element with ID 'payment-detail' was not found in the DOM.");
+    }
+});
 
 
 document.getElementById("close-checkout").addEventListener("click", () => {
