@@ -74,6 +74,7 @@ document.addEventListener("DOMContentLoaded", () => {
                   var address = document.getElementById("cust-address").value.trim();
                   var shipping = document.getElementById("cust-shipping").value.trim();
                   var payment = document.getElementById("cust-payment").value.trim();
+                  var currency = document.getElementById("cust-currency").value.trim();
                   var advance = parseFloat(document.getElementById("cust-advance").value || 0);
                   var paymentProof = document.getElementById("payment-proof").files[0];
 
@@ -94,6 +95,7 @@ document.addEventListener("DOMContentLoaded", () => {
                       },
                       shipping: shipping,
                       payment: payment,
+                      currency:currency,
                       advance: advance,
                       items: cart.map(function (i) {
                           return {
@@ -184,8 +186,8 @@ function fetchOrders() {
 
 // Render pending orders fetched from backend by fetchOrders
 function renderOrders(orders) {
-  alert("Rendering Orders");
-  alert(orders.length);
+
+
   var tbody = document.querySelector("#ordersTable tbody");
   if (!tbody) return;
   tbody.innerHTML = "";
@@ -194,7 +196,7 @@ function renderOrders(orders) {
       var tr = document.createElement("tr");
  
       tr.innerHTML = `
-        <td>${order.id}</td>
+        <td>${order.customer.id}</td>
         <td>${order.customer.name}</td>
         <td>${order.customer.email}</td>
         <td>${order.shipping || ""}</td>
