@@ -66,73 +66,80 @@ document.addEventListener("DOMContentLoaded", () => {
           });
 
           // ✅ Checkout Button Handler
-          document.getElementById("confirm-checkout").addEventListener("click", function () {
-            // Assume cart is globally available or stored in localStorage
-           
-            var cart = JSON.parse(localStorage.getItem("cart")) || [];
+         document.getElementById("confirm-checkout").addEventListener("click", function () {
+                  var cart = JSON.parse(localStorage.getItem("cart")) || [];
 
+                  var name = document.getElementById("cust-name").value.trim();
+                  var email = document.getElementById("cust-email").value.trim();
+                  var address = document.getElementById("cust-address").value.trim();
+                  var shipping = document.getElementById("cust-shipping").value.trim();
+                  var payment = document.getElementById("cust-payment").value.trim();
+                  var advance = parseFloat(document.getElementById("cust-advance").value || 0);
+                  var paymentProof = document.getElementById("payment-proof").files[0];
 
-            var name = document.getElementById("cust-name").value.trim();
-            var email = document.getElementById("cust-email").value.trim();
-            var address = document.getElementById("cust-address").value.trim();
-            var shipping = document.getElementById("cust-shipping").value.trim();
-            var payment = document.getElementById("cust-payment").value.trim();
-            var advance = parseFloat(document.getElementById("cust-advance").value || 0);
-            
-             if (!name || !email || !address && cart.length === 0) {
-               alert("⚠️ Please fill in all required fields and ensure your cart is not empty.");
-              return;
-               }
+                  if (!name || !email || !address || cart.length === 0) {
+                      alert("⚠️ Please fill in all required fields and ensure your cart is not empty.");
+                      return;
+                  }
 
-             alert(cart);
-               
-              var total = cart.reduce(function (sum, item) {
-                return sum + item.price * item.quantity;
-              }, 0);
-                
-              var order = {
-              id: "",
-              customer: { name: name, email: email, address: address },
-              shipping: shipping,
-              payment: payment,
-              advance: advance,
-              items: cart.map(function (i) {
-                return { name: i.name, price: i.price, quantity: i.quantity };
-              }),
-              total: total,
-              date: new Date().toISOString(),
-              status: "Pending Payment Invoice"
-            };
+                  var total = cart.reduce(function (sum, item) {
+                      return sum + item.price * item.quantity;
+                  }, 0);
 
-            // ✅ Send to backend
-            fetch("http://localhost:5001/api/orders", {
-              method: "POST",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify(order)
-            })
-              .then(function (res) {
-                if (!res.ok) throw new Error("Failed to save order");
-                return res.json();
-              })
-              .then(function (data) {
-                alert("✅ Order placed successfully!");
-                console.log("✅ Order response:", data);
+                  var order = {
+                      customer: { 
+                          name: name, 
+                          email: email,
+                          address: address 
+                      },
+                      shipping: shipping,
+                      payment: payment,
+                      advance: advance,
+                      items: cart.map(function (i) {
+                          return {
+                              name: i.name,
+                              price: i.price,
+                              quantity: i.quantity
+                          };
+                      }),
+                      total: total,
+                      date: new Date().toISOString(),
+                      status: "Pending Payment Invoice"
+                  };
 
-                // Clear cart and update UI
-                localStorage.removeItem("cart");
-                document.getElementById("cart-items").innerHTML = "";
-                document.getElementById("cart-total").textContent = "0.00";
-                document.getElementById("cart-count").textContent = "0";
-                document.getElementById("checkout-modal").classList.add("hidden");
+                  // ❗ Create FormData for file + JSON
+                  let formData = new FormData();
+                  formData.append("order", JSON.stringify(order));    
+                  formData.append("paymentProof", paymentProof); 
+                  
+                  
+                  // ❗ Do NOT set Content-Type manually => browser sets boundary automatically
+                  fetch("http://localhost:5001/api/confirm-checkout", {
+                      method: "POST",
+                      body: formData
+                  })
+                  .then(function (res) {
+                      if (!res.ok) throw new Error("Failed to save order");
+                      return res.json();
+                  })
+                  .then(function (data) {
+                      alert("✅ Order placed successfully!");
+                      console.log("Order response:", data);
 
-                // Refresh order display
-                fetchOrders(); // refetch all from backend
-              })
-              .catch(function (err) {
-                console.error("❌ Error creating order:", err);
-                alert("❌ Failed to save order. Check backend connection.");
-              });
-          });
+                      localStorage.removeItem("cart");
+                      document.getElementById("cart-items").innerHTML = "";
+                      document.getElementById("cart-total").textContent = "0.00";
+                      document.getElementById("cart-count").textContent = "0";
+                      document.getElementById("checkout-modal").classList.add("hidden");
+
+                      fetchOrders(); // refresh orders
+                  })
+                  .catch(function (err) {
+                      console.error("❌ Error creating order:", err);
+                      alert("❌ Failed to save order. Check backend connection.");
+                  });
+});
+
 
 
 // Clear Cart Button Logic
@@ -185,9 +192,9 @@ function renderOrders(orders) {
   orders.forEach(function(order) {
     if (order.status === "Pending Payment Invoice") {
       var tr = document.createElement("tr");
-      alert(order.customer.id);
+ 
       tr.innerHTML = `
-        <td>${order.customer.id}</td>
+        <td>${order.id}</td>
         <td>${order.customer.name}</td>
         <td>${order.customer.email}</td>
         <td>${order.shipping || ""}</td>
