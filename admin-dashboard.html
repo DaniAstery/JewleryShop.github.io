@@ -88,7 +88,75 @@
     </div>
   </div>
 
- 
+  <!-- Orders Table -->
+  <section id="orders-section" class="orders-section">
+    <h2>Recent Orders</h2>
+    <table id="ordersTable">
+      <thead>
+        <tr>
+          <th>Order ID</th>
+          <th>Customer</th>
+          <th>Email</th>
+          <th>Shipping</th>
+          <th>Payment</th>
+          <th>Advance</th>
+          <th>Total</th>
+          <th>Date</th>
+          <th>Status</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </section>
+
+  <!-- Completed Orders Table -->
+  <section id="completed-orders-section" class="orders-section">
+    <h2>Completed Orders</h2>
+    <table id="completedOrdersTable">
+      <thead>
+        <tr>
+          <th>Order ID</th>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Items</th>
+          <th>Total</th>
+          <th>Status</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </section>
+
+  <footer>
+    <p>© 2025 Astery’s Collection. All rights reserved.</p>
+  </footer>
+<!-- 🔍 View Order Modal -->
+<div id="view-modal" class="modal hidden">
+  <div class="modal-content">
+    <span id="close-view" class="close">&times;</span>
+    <h2>Order Details</h2>
+
+    <div class="order-details">
+      <p><strong>Order ID:</strong> <span id="view-id"></span></p>
+      <p><strong>Customer Name:</strong> <span id="view-name"></span></p>
+      <p><strong>Email:</strong> <span id="view-email"></span></p>
+      <p><strong>Address:</strong> <span id="view-address"></span></p>
+      <p><strong>Shipping:</strong> <span id="view-shipping"></span></p>
+      <p><strong>Payment:</strong> <span id="view-payment"></span></p>
+      <p><strong>Advance Payment:</strong> <span id="view-advance"></span></p>
+      <p><strong>Status:</strong> <span id="view-status"></span></p>
+
+      <h3>Items</h3>
+      <ul id="view-items"></ul>
+
+      <p><strong>Total:</strong> $<span id="view-total"></span></p>
+    </div>
+
+    <button id="close-view-btn" class="btn-primary">Close</button>
+  </div>
+</div>
 
 <style>
 /* Simple modal styling */
