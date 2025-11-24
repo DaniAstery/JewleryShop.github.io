@@ -1,5 +1,5 @@
 const products = [
-  { id: 1, name: "Classic Dress", price: 49.99, image: "images/headphone1.png" },
+  { id: 1, name: "Classic Dress", price: 49.99, image: "images/placeholder2.png" },
   { id: 2, name: "Stylish Heels", price: 59.99, image: "images/headphone2.png" },
   { id: 3, name: "Casual Handbag", price: 39.99, image: "images/headphone3.png" },
   { id: 4, name: "Casual Handbag", price: 39.99, image: "images/placeholder.png" }
@@ -218,8 +218,6 @@ function renderOrders(orders) {
 // Render completed orders from backend by fetchOrders
 function renderCompletedOrders(orders) {
 
-alert("Rendering Completed Orders");
-
   var tbody = document.querySelector("#completedOrdersTable tbody");
   if (!tbody) return;
 
@@ -236,7 +234,6 @@ alert("Rendering Completed Orders");
         <td>${order.status}</td>
          <td>
           <button class="view-btn" data-id="${order.customer.id}">View</button>
-          <button class="complete-btn" data-id="${order.customer.id}">Complete</button>
           <button class="delete-btn" data-id="${order.customer.id}">Delete</button>
         </td>
       `;
