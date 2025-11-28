@@ -6,6 +6,12 @@
   <title>Astery’s Collection | Shop</title>
   <link rel="stylesheet" href="style.css" />
   <link rel="icon" href="favicon.ico" type="image/x-icon"/>
+  <script>
+    const token = localStorage.getItem("adminToken");
+      if (!token) {
+        window.location.href = "admin-login.html";
+      }
+  </script>
 </head>
 <body>
 

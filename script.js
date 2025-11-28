@@ -59,6 +59,7 @@ document.addEventListener("DOMContentLoaded", () => {
               updateCart();
               localStorage.setItem("cart", JSON.stringify(cart));
             });
+          
             fetchOrders();
             renderProducts();
             renderOrders();
@@ -169,20 +170,33 @@ document.getElementById("confirm-clear").addEventListener("click", () => {
 });
 
 
-// Fetch all orders from backend
 function fetchOrders() {
-  fetch("http://localhost:5001/api/orders")
-    .then(function(res) {
-      return res.json();
-    })
-    .then(function(data) {
+  const token = localStorage.getItem("adminToken");
+
+  fetch("http://localhost:5001/api/orders", {
+    headers: {
+      "Authorization": `Bearer ${token}`
+    }
+  })
+  .then(res => {
+    if (res.status === 401 || res.status === 403) {
+      localStorage.removeItem("adminToken");
+      window.location.href = "index.html"; // redirect to customer page
+      return;
+    }
+    return res.json();
+  })
+  .then(data => {
+    if (data) {
       renderOrders(data);
       renderCompletedOrders(data);
-    })
-    .catch(function(err) {
-      console.error("❌ Error fetching orders:", err);
-    });
+    }
+  })
+  .catch(err => {
+    console.error("Error:", err);
+  });
 }
+
 
 // Render pending orders fetched from backend by fetchOrders
 function renderOrders(orders) {

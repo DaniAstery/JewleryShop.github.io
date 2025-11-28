@@ -32,33 +32,27 @@
   </div>
 
   <script>
-    document.getElementById("admin-login-btn").addEventListener("click", async () => {
-      const username = document.getElementById("admin-username").value.trim();
-      const password = document.getElementById("admin-password").value.trim();
+   document.getElementById("admin-login-btn").addEventListener("click", async () => {
+  const username = document.getElementById("admin-username").value;
+  const password = document.getElementById("admin-password").value;
 
-      if (!username || !password) {
-        document.getElementById("login-msg").innerText = "Please enter both fields.";
-        return;
-      }
+  const res = await fetch("http://localhost:5001/admin/login", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ username, password })
+  });
 
-      const res = await fetch("http://localhost:5001/admin/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ username, password })
-      });
+  const data = await res.json();
 
-      const data = await res.json();
+  if (data.success) {
+    localStorage.setItem("adminToken", data.token);
+    window.location.href = "admin-dashboard.html";
+  } else {
+    document.getElementById("login-msg").innerText = "Invalid credentials.";
+  }
+});
 
-      if (data.success) {
-        alert('111');
-        localStorage.setItem("isAdmin", "true");
-        localStorage.setItem("adminToken", data.token);
-        window.location.href = "admin-dashboard.html";
-        
-      } else {
-        document.getElementById("login-msg").innerText = "Invalid credentials.";
-      }
-    });
+
   </script>
 </body>
 </html>
