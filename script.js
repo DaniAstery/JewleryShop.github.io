@@ -62,8 +62,7 @@ document.addEventListener("DOMContentLoaded", () => {
           
             fetchOrders();
             renderProducts();
-            renderOrders();
-            renderCompletedOrders();
+            
           });
 
           // ✅ Checkout Button Handler
@@ -380,11 +379,6 @@ document.addEventListener("click", async e => {
     }
   }
 });
-
-
-
-
-
 
 
 document.getElementById("close-checkout").addEventListener("click", () => {
