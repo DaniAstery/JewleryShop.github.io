@@ -323,28 +323,64 @@ document.getElementById("close-view-btn").addEventListener("click", () => {
 
 // ✅ Complete And Delete Order Handler
 
-document.addEventListener("click", e => {
+document.addEventListener("click", async e => {
   const id = e.target.dataset.id;
   if (!id) return;
+
+  const token = localStorage.getItem("adminToken");
+
+  if (!token) {
+    alert("Admin not authenticated.");
+    window.location.href = "admin.html";
+    return;
+  }
 
   if (
     e.target.classList.contains("complete-btn") ||
     e.target.classList.contains("delete-btn")
   ) {
-    fetch(`http://localhost:5001/api/orders/${id}`, { method: "PUT" })
-      .then(res => res.json())
-      .then(data => {
-        if(e.target.classList.contains("complete-btn")==true){
-          alert("✅ Order completed!");     
-        } 
-        else {
-          window.prompt("Are you sure you want to delete this order?") && alert("✅ Order deleted!");
+
+    const confirmDelete = 
+      e.target.classList.contains("delete-btn") &&
+      !confirm("Are you sure you want to delete this order?");
+
+    if (confirmDelete) return;
+
+    try {
+      const res = await fetch(`http://localhost:5001/api/orders/${id}`, {
+        method: "PUT",
+        headers: {
+          "Authorization": `Bearer ${token}`,
+          "Content-Type": "application/json",
         }
-        fetchOrders(); // Refresh orders
-      })
-      .catch(err => console.error("❌ Error updating order:", err));
+      });
+
+      // Handle unauthorized access
+      if (res.status === 401 || res.status === 403) {
+        localStorage.removeItem("adminToken");
+        localStorage.removeItem("isAdmin");
+        alert("Your admin session expired. Please login again.");
+        window.location.href = "admin.html";
+        return;
+      }
+
+      const data = await res.json();
+
+      if (e.target.classList.contains("complete-btn")) {
+        alert("✅ Order completed!");
+      } else {
+        alert("✅ Order deleted!");
+      }
+
+      fetchOrders(); // Refresh orders
+
+    } catch (err) {
+      console.error("❌ Error updating order:", err);
+      alert("Error updating order");
+    }
   }
 });
+
 
 
 
