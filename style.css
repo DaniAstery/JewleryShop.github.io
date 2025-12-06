@@ -378,3 +378,242 @@ footer {
   margin-top: 10px;
 }
 
+.media-wrapper {
+  width: 100%;
+  height: 250px;
+  position: relative;
+  overflow: hidden;
+  border-radius: 10px;
+}
+
+.product-img,
+.product-video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  position: absolute;
+  top: 0;
+  left: 0;
+  transition: opacity 0.3s ease;
+}
+
+.product-video {
+  opacity: 0;   /* start hidden */
+}
+.product-card:hover .product-video {
+  opacity: 1;   /* fade in the video */
+}
+.product-card:hover .product-img {
+  opacity: 0;   /* fade out the image */
+}
+
+
+/* -------------------------------
+   Global Styles
+--------------------------------- */
+body {
+  margin: 0;
+  font-family: "Arial", sans-serif;
+  background-color: #0a0a0a; /* Dark background */
+  color: #f5f5f5; /* Light text for contrast */
+}
+
+a {
+  color: #f5f5f5;
+  text-decoration: none;
+}
+
+a:hover {
+  color: #d4a373;
+}
+
+/* -------------------------------
+   Header & Navigation
+--------------------------------- */
+header {
+  background: #111;
+  box-shadow: 0 2px 6px rgba(255, 255, 255, 0.1);
+  padding: 15px 30px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+header h1 {
+  font-size: 1.8rem;
+  color: #d4a373;
+}
+
+nav a {
+  margin: 0 10px;
+  color: #f5f5f5;
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+
+nav a:hover {
+  color: #d4a373;
+}
+
+/* -------------------------------
+   Buttons
+--------------------------------- */
+button {
+  background: #d4a373;
+  border: none;
+  color: #111;
+  padding: 10px 15px;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-left: 10px;
+  transition: background 0.3s ease, color 0.3s ease;
+}
+
+button:hover {
+  background: #b98b58;
+  color: #fff;
+}
+
+/* -------------------------------
+   Product Grid
+--------------------------------- */
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 25px;
+  padding: 30px;
+}
+
+/* -------------------------------
+   Product Card
+--------------------------------- */
+.product-card {
+  background: #1a1a1a;
+  border-radius: 12px;
+  overflow: hidden;
+  padding: 10px;
+  text-align: center;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+  transition: transform 0.2s, box-shadow 0.3s;
+}
+
+.product-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.7);
+}
+
+/* Media wrapper for hover video */
+.media-wrapper {
+  position: relative;
+  width: 100%;
+  padding-top: 100%; /* Square ratio */
+  overflow: hidden;
+  border-radius: 10px;
+  margin-bottom: 10px;
+}
+
+.product-img,
+.product-video {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain; /* preserve image/video ratio */
+  transition: opacity 0.3s ease;
+}
+
+.product-video {
+  opacity: 0; /* hidden by default */
+  z-index: 2;
+}
+
+.product-card:hover .product-video {
+  opacity: 1;
+}
+
+.product-card:hover .product-img {
+  opacity: 0;
+}
+
+/* -------------------------------
+   Product Info
+--------------------------------- */
+.product-card h3 {
+  margin: 10px 0 5px;
+  font-size: 1.1rem;
+  color: #f5f5f5;
+}
+
+.product-card p {
+  margin: 0 0 10px;
+  font-weight: bold;
+  color: #d4a373;
+}
+
+/* -------------------------------
+   Cart Modal
+--------------------------------- */
+#checkout-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(10, 10, 10, 0.95);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  padding: 20px;
+}
+
+#checkout-modal.hidden {
+  display: none;
+}
+
+.cart-content {
+  background: #1a1a1a;
+  padding: 20px;
+  border-radius: 12px;
+  width: 90%;
+  max-width: 500px;
+  color: #f5f5f5;
+}
+
+/* -------------------------------
+   Table for Orders (Admin)
+--------------------------------- */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 20px 0;
+  color: #f5f5f5;
+}
+
+th, td {
+  padding: 10px;
+  border-bottom: 1px solid #333;
+  text-align: left;
+}
+
+th {
+  background: #222;
+}
+
+tr:hover {
+  background: #2a2a2a;
+}
+
+/* Buttons inside tables */
+table button {
+  background: #d4a373;
+  color: #111;
+  padding: 5px 8px;
+  font-size: 0.9rem;
+}
+
+table button:hover {
+  background: #b98b58;
+  color: #fff;
+}
