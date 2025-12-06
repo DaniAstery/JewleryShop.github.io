@@ -617,3 +617,155 @@ table button:hover {
   background: #b98b58;
   color: #fff;
 }
+
+/* ---------------- Checkout Modal Form Elements ---------------- */
+
+/* Cart summary list */
+#cart-items {
+  list-style-type: none;
+  padding: 0;
+  margin: 0 0 1rem 0;
+  border-bottom: 1px solid #ddd;
+}
+
+#cart-items li {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid #f0f0f0;
+  font-size: 0.95rem;
+}
+
+.cart-summary {
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
+/* Form Inputs & Selects */
+.checkout-content input,
+.checkout-content select {
+  width: 100%;
+  padding: 0.55rem 0.75rem;
+  margin: 0.5rem 0 1rem 0;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 1rem;
+  box-sizing: border-box;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.checkout-content input:focus,
+.checkout-content select:focus {
+  border-color: #007BFF;
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.3);
+  outline: none;
+}
+
+/* Labels */
+.checkout-content label {
+  font-weight: 600;
+  display: block;
+  margin-top: 0.5rem;
+  margin-bottom: 0.25rem;
+  font-size: 0.95rem;
+  color: #333;
+}
+
+/* Payment info box */
+.payment-info-box {
+  background: #f8f9fa;
+  padding: 1rem;
+  border-radius: 8px;
+  margin: 1rem 0 1.5rem 0;
+  font-size: 0.9rem;
+  line-height: 1.4;
+  color: #555;
+  border: 1px solid #e0e0e0;
+}
+
+/* File input */
+#payment-proof {
+  font-size: 0.9rem;
+  padding: 0.3rem 0.5rem;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  cursor: pointer;
+  margin-bottom: 1rem;
+}
+
+/* Selects */
+.checkout-content select {
+  appearance: none; /* remove default arrow */
+  background-color: #fff;
+  background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg width='14' height='8' viewBox='0 0 14 8' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1L7 7L13 1' stroke='%23333' stroke-width='2'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.75rem center;
+  background-size: 14px 8px;
+  padding-right: 2rem;
+}
+
+/* Buttons spacing in form */
+.checkout-content .confirm-btn,
+.checkout-content .cancel-btn {
+  margin-top: 0.5rem;
+  margin-right: 0.5rem;
+  min-width: 120px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 480px) {
+  .checkout-content input,
+  .checkout-content select {
+    font-size: 0.95rem;
+    padding: 0.5rem 0.6rem;
+  }
+  .payment-info-box {
+    font-size: 0.85rem;
+  }
+}
+
+/* Cart summary styling */
+.cart-summary {
+  font-size: 1.1rem;            /* slightly larger for emphasis */
+  font-weight: 600;              /* bold text */
+  color: #333;                   /* dark gray for readability */
+  margin: 0.75rem 0 1.25rem 0;   /* spacing above and below */
+  display: flex;                 /* align text and total neatly */
+  justify-content: space-between; /* push label and amount to sides */
+  align-items: center;
+  padding: 0.5rem 0;             /* vertical padding */
+  border-top: 1px solid #ddd;    /* subtle top border to separate from items */
+  border-bottom: 1px solid #ddd; /* subtle bottom border */
+  background-color: #f9f9f9;     /* light background for emphasis */
+  border-radius: 6px;            /* rounded corners */
+}
+
+.cart-summary strong {
+  font-weight: 700;              /* ensure "Total:" is bold */
+}
+
+#cart-total {
+  font-size: 1.2rem;             /* make total amount slightly bigger */
+  color: #007BFF;                /* highlight total in blue */
+}
+
+/* Checkout modal heading */
+.checkout-content h2 {
+  font-size: 1.8rem;           /* large, prominent heading */
+  font-weight: 700;            /* bold */
+  color: #333;                 /* dark gray */
+  margin-bottom: 1rem;         /* spacing below heading */
+  text-align: center;          /* center heading in modal */
+  letter-spacing: 0.5px;       /* subtle spacing for elegance */
+}
+
+.checkout-content h3 {
+  font-size: 1.3rem;           /* slightly smaller for subsections */
+  font-weight: 600;
+  color: #444;
+  margin-top: 1.5rem;
+  margin-bottom: 0.75rem;
+}
+
+
