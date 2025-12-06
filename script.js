@@ -268,24 +268,6 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 
-
-// Close proof modal
-document.getElementById("closeProof").onclick = () =>
-  document.getElementById("proofModal").classList.add("hidden");
-
-document.getElementById("proofModal").onclick = (e) => {
-  if (e.target.id === "proofModal") {
-    document.getElementById("proofModal").classList.add("hidden");
-  }
-};
-
-
-
-
-  
-
- 
-
   // ==========================
   // Initialize
   // ==========================
