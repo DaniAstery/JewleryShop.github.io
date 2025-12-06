@@ -192,7 +192,7 @@ document.addEventListener("DOMContentLoaded", () => {
           <td>${new Date(order.date).toLocaleString()}</td>
           <td>${order.status}</td>
           <td>
-            <button class="view-btn" data-id="${order.customer.id}">View</button>
+            <button class="view-proof-btn" data-id="${order._id}">View Proof</button>
             <button class="complete-btn" data-id="${order.customer.id}">Complete</button>
           </td>
         `;
@@ -216,7 +216,8 @@ document.addEventListener("DOMContentLoaded", () => {
           <td>$${order.total.toFixed(2)}</td>
           <td>${order.status}</td>
           <td>
-            <button class="view-btn" data-id="${order.customer.id}">View</button>
+           <button class="view-proof-btn" data-id="${order.customer.id}">View Proof</button>
+
             <button class="delete-btn" data-id="${order.customer.id}">Delete</button>
           </td>
         `;
@@ -244,6 +245,46 @@ document.addEventListener("DOMContentLoaded", () => {
       })
       .catch(err => console.error("❌ Error updating order:", err));
   });
+
+
+  // --------------------------
+  // View Payment Proof
+  // --------------------------
+
+ document.addEventListener("click", async e => {
+  if (!e.target.classList.contains("view-proof-btn")) return;
+
+  const id = e.target.dataset.id;
+
+  const modalImg = document.querySelector("#proofModal img");
+  if (!modalImg) {
+    console.error("❌ Modal image element is missing.");
+    return;
+  }
+
+  modalImg.src = `http://localhost:5001/api/orders/${id}/proof`;
+
+  document.getElementById("proofModal").classList.remove("hidden");
+});
+
+
+
+// Close proof modal
+document.getElementById("closeProof").onclick = () =>
+  document.getElementById("proofModal").classList.add("hidden");
+
+document.getElementById("proofModal").onclick = (e) => {
+  if (e.target.id === "proofModal") {
+    document.getElementById("proofModal").classList.add("hidden");
+  }
+};
+
+
+
+
+  
+
+ 
 
   // ==========================
   // Initialize
