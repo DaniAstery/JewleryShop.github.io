@@ -3,21 +3,55 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Astery’s Collection | Shop</title>
+  <title>ASTERYA</title>
+  <link rel="preload" href="./images/mylogo.png" as="image" />
+
+  <style>
+  /* Provide final header/logo layout early to avoid JS-induced flicker */
+  .header{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:1rem;
+    padding:0.5rem 1rem;
+    background:#fff;
+    box-sizing:border-box;
+    min-height:64px;
+  }
+  .site-logo{
+    width:56px;
+    height:56px;
+    object-fit:contain;
+    display:block;
+    flex-shrink:0;
+    vertical-align:middle;
+  }
+  /* Keep nav visible and stable until any JS changes it */
+  .nav-links{
+    display:flex;
+    gap:1rem;
+    align-items:center;
+  }
+  /* Keep buttons from causing reflow */
+  .btn-primary{white-space:nowrap;}
+  /* Ensure hidden class stays consistent */
+  .hidden{display:none !important;}
+  /* Responsive adjustments */
+  @media (max-width:600px){
+    .site-logo{width:44px;height:44px;}
+    .nav-links{display:none;}
+  }
+  </style>
   <link rel="stylesheet" href="style.css" />
-  <link rel="icon" href="favicon.ico" type="image/x-icon"/>
-  <script>
-    const token = localStorage.getItem("adminToken");
-      if (!token) {
-        window.location.href = "admin-login.html";
-      }
-  </script>
+  <link rel="icon" href="./images/mylogo.png" type="image/png" />
+  <link rel="shortcut icon" href="./images/mylogo.png" />
+
 </head>
 <body>
-
   <!-- Header -->
   <header class="header">
-    <h1>Astery’s Collection</h1>
+    <img src="./images/mylogo.png" alt="Asterya logo" class="site-logo" />
+    <h1>Asterya</h1>
     <nav class="nav-links">
       <a href="#">Home</a>
       <a href="#">Shop</a>
@@ -25,6 +59,7 @@
       <a href="#">Contact</a>
     </nav>
     <button id="cart-btn" class="btn-primary">🛍️ Cart (<span id="cart-count">0</span>)</button>
+  </header>
   </header>
 
   <!-- Main Product Section -->
