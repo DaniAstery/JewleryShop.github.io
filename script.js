@@ -202,6 +202,8 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function renderCompletedOrders(orders) {
+    alert('Rendering completed orders');
+    alert(orders._id);
     const tbody = document.querySelector("#completedOrdersTable tbody");
     if (!tbody) return;
     tbody.innerHTML = "";
@@ -216,9 +218,8 @@ document.addEventListener("DOMContentLoaded", () => {
           <td>$${order.total.toFixed(2)}</td>
           <td>${order.status}</td>
           <td>
-           <button class="view-proof-btn" data-id="${order.customer.id}">View Proof</button>
-
-            <button class="delete-btn" data-id="${order.customer.id}">Delete</button>
+          <button class="view-proof-btn" data-id="${order._id}">View Proof</button>
+          <button class="delete-btn" data-id="${order.customer.id}">Delete</button>
           </td>
         `;
         tbody.appendChild(tr);
