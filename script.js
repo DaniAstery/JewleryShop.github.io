@@ -113,7 +113,6 @@ document.addEventListener("DOMContentLoaded", () => {
     const shipping = document.getElementById("cust-shipping").value.trim();
     const payment = document.getElementById("cust-payment").value.trim();
     const currency = document.getElementById("cust-currency").value.trim();
-    const advance = parseFloat(document.getElementById("cust-advance").value || 0);
     const paymentProof = document.getElementById("payment-proof").files[0];
 
     if (!name || !email || !address || cart.length === 0) {
@@ -168,7 +167,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const order = {
       customer: { name, email, address },
-      shipping, payment, currency, advance,
+      shipping, payment, currency,
       items: cart.map(i => ({ name: i.name, price: i.price, quantity: i.quantity })),
       total, date: new Date().toISOString(), status: "Pending Payment Invoice"
     };
