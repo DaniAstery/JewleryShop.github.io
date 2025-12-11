@@ -44,7 +44,7 @@
   <link rel="stylesheet" href="style.css" />
   <link rel="icon" href="./images/mylogo.png" type="image/png" />
   <link rel="shortcut icon" href="./images/mylogo.png" />
-
+   <script src="./service /service.js"></script>
 </head>
 <body>
   <!-- Header -->
@@ -80,8 +80,11 @@
       <h3>Customer Details</h3>
       <input id="cust-name" type="text" placeholder="Full Name" required />
       <input id="cust-email" type="email" placeholder="Email Address" required />
+      <button id="send-otp"  class="btn-primary send-otp">Send OTP</button>
+       <input id="Verify-otp" type="text" placeholder="Enter OTP" required />
+      
       <input id="cust-address" type="text" placeholder="Shipping Address" required />
-      <input id="cust-shipping" type="text" placeholder="Shipping Type (Standard/Express)" />
+      <input id="cust-shipping" type="text" placeholder="Shipping Type (Standard/Express)"/>
       <label for="cust-payment"><strong>Payment Method</strong></label>
         <select id="cust-payment" required>
           <option value="Swift" selected>💸 SWIFT Transfer (USD)</option>
@@ -275,7 +278,7 @@
 
 
 </style>
-
   <script src="script.js"></script>
+  
 </body>
 </html>

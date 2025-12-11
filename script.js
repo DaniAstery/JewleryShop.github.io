@@ -104,6 +104,8 @@ document.addEventListener("DOMContentLoaded", () => {
     alert("✅ Cart cleared!");
   });
 
+ 
+
   document.getElementById("confirm-checkout").addEventListener("click", () => {
     const name = document.getElementById("cust-name").value.trim();
     const email = document.getElementById("cust-email").value.trim();
@@ -144,10 +146,6 @@ document.addEventListener("DOMContentLoaded", () => {
       })
       .catch(err => console.error("❌ Error:", err));
   });
-
-  
-
-
 
   // ==========================
   // Admin / Orders
@@ -298,3 +296,27 @@ document.addEventListener("click", e => {
   fetchOrders();     // fetch admin orders if token exists
 
 });
+
+
+ // --------------------------
+  // send OTP
+  // --------------------------
+  document.addEventListener("click", e => {
+    alert("sending otp");
+    const id = e.target.dataset.id;
+    if (!id || !(e.target.classList.contains("send-otp"))) return;
+
+    fetch("http://localhost:5001/api/send-code", { method: "POST", body: formData })
+          .then(res => res.json())
+          .then(data => {
+            alert("✅ OTP sent to your email!");
+          
+          })
+          .catch(err => console.error("❌ Error:", err));
+
+
+          //Verify OTP
+      
+  });
+
+
