@@ -99,35 +99,32 @@
 
         <div><button id="send-otp"  class="btn-primary send-otp">Send OTP</button></div>
         <div><input id="Verify-otp" type="text" placeholder="Enter OTP" required/></div>
-       <div><button id="Check-otp"  class="btn-primary verify-otp">Verify OTP</button></div>
+        <div><button id="Check-otp"  class="btn-primary verify-otp">Verify OTP</button></div>
      
 
-        <div class="payment-info-box">
+        <div class="payment-info-box" hidden>
         <h4>Payment Will Be Processed Manually</h4>
         <p>
           After placing your order, you will receive a payment invoice via WhatsApp or Email.
           Please follow the instructions sent to you to complete your SWIFT payment.
         </p>
-
         <p><strong>Verification Time:</strong> 12–24 hours after sending proof of payment.</p>
 
-        <p><strong>Support:</strong><br>
-        WhatsApp: +251 900 000 000<br>
-        Email: support@example.com</p>
       </div>
+      <div class="payment-proof-section" hidden>
           <label for="payment-proof"><strong>Upload Payment Proof (PDF/JPG/PNG):</strong></label>
           <input id="payment-proof" type="file" accept=".jpg,.jpeg,.png,.pdf" required />
-
+     </div>
       
+    <div id="checkout-section" class="hidden">
+        <input id="cust-advance" type="number" placeholder="Advance Payment (%)" value="100%" />
+        <button id="confirm-checkout" class="btn-primary confirm-btn">Place Order</button>
+        <button id="confirm-clear" class="btn-primary confirm-btn">Clear Order</button>
+        <button id="close-cart" class="btn-primary cancel-btn">Close</button>
+   </div>
 
-       <input id="cust-advance" type="number" placeholder="Advance Payment (%)" min="0" max="100" />
-
-      <button id="confirm-checkout" class="btn-primary confirm-btn">Place Order</button>
-      <button id="confirm-clear" class="btn-primary confirm-btn">Clear Order</button>
-      <button id="close-cart" class="btn-primary cancel-btn">Close</button>
-    </div>
   </div>
-  </div>
+ 
 <style>
 /* Simple modal styling */
 .modal {

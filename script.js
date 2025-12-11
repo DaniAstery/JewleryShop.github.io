@@ -146,8 +146,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
           if (response.ok) {
             alert("✅ Email verified successfully!");
-            // You can now show the rest of the checkout form or enable the Place Order button
-            document.getElementById("checkout-section").classList.remove("hidden");
+            document.querySelector(".payment-proof-section").classList.remove("hidden");
+            document.querySelector(".payment-info-box").classList.remove("hidden");
+            document.querySelector("checkout-section").classList.remove("hidden");  
+          
           } else {
             alert("❌ Verification failed: " + data.error);
           }
@@ -302,6 +304,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
   document.getElementById("proofModal").classList.remove("hidden");
 });
+
+
 
 
   // ==========================

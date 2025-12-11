@@ -103,15 +103,12 @@ document.addEventListener("click", e => {
         if (data.success) {
             alert("✅ OTP verified successfully!");
             // You can now show the rest of the checkout form or enable the Place Order button
-            document.getElementById("checkout-section").classList.remove("hidden");
+           
         } else {
             alert("❌ Verification failed: " + data.error);
         }
     })
-    .catch(err => {
-        console.error("❌ Error verifying OTP:", err);
-        alert("❌ Failed to verify OTP. See console for details.");
-    });
+    
+ });
 
     
-});
