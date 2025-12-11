@@ -123,6 +123,41 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const total = cart.reduce((sum, i) => sum + i.price * i.quantity, 0);
 
+    //verifying OTP before placing order could be added here
+    document.getElementById("Check-otp").addEventListener("click", async () => {
+    const email = document.getElementById("cust-email").value.trim();
+    const otp = document.getElementById("cust-otp").value.trim();
+
+        if (!email || !otp) {
+          alert("⚠️ Please enter both email and OTP.");
+          return;
+        }
+
+        try {
+          const response = await fetch("http://localhost:5001/api/verify-code", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ email, code: otp })
+          });
+
+          const data = await response.json();
+
+          if (response.ok) {
+            alert("✅ Email verified successfully!");
+            // You can now show the rest of the checkout form or enable the Place Order button
+            document.getElementById("checkout-section").classList.remove("hidden");
+          } else {
+            alert("❌ Verification failed: " + data.error);
+          }
+        } catch (err) {
+          console.error("Error verifying OTP:", err);
+          alert("❌ Server error. Try again later.");
+        }
+      });
+
+
     const order = {
       customer: { name, email, address },
       shipping, payment, currency, advance,
@@ -267,11 +302,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
   document.getElementById("proofModal").classList.remove("hidden");
 });
-
-
-
-
-
 
 
   // ==========================
