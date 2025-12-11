@@ -111,10 +111,11 @@
         <p><strong>Verification Time:</strong> 12–24 hours after sending proof of payment.</p>
       </div>
 
-    <div class="payment-proof-section hidden">
-      <label for="payment-proof"><strong>Upload Payment Proof (PDF/JPG/PNG):</strong></label>
-      <input id="payment-proof" type="file" accept=".jpg,.jpeg,.png,.pdf" required />
-    </div>
+   
+    <label for="payment-proof"><strong>Upload Payment Proof (PDF/JPG/PNG):</strong></label>
+    <input id="payment-proof" type="file" accept=".jpg,.jpeg,.png,.pdf" required disabled />
+    
+
 
     <button id="confirm-checkout" class="btn-primary confirm-btn" disabled>Place Order</button>
     <button id="confirm-clear" class="btn-primary confirm-btn" disabled>Clear Order</button>
@@ -153,6 +154,11 @@
   font-size: 28px;
   font-weight: bold;
   cursor: pointer;
+}
+
+button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
 }
 
 
@@ -242,6 +248,12 @@
   cursor: pointer;
   margin-bottom: 1rem;
 }
+
+.payment-proof-section input:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
 .checkout-content select {
   appearance: none; /* remove default arrow */
   background-color: #fff;

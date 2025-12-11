@@ -147,6 +147,8 @@ document.addEventListener("DOMContentLoaded", () => {
           if (response.ok) {
             alert("✅ Email verified successfully!");
             // SHOW ALL SECTIONS AFTER OTP VERIFIED
+            
+            document.getElementById("payment-proof").disabled = false;
             document.querySelector(".payment-info-box").classList.remove("hidden");
             document.querySelector(".payment-proof-section").classList.remove("hidden");
             document.getElementById("confirm-checkout").classList.remove("hidden");
