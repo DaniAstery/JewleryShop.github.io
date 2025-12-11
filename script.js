@@ -146,9 +146,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
           if (response.ok) {
             alert("✅ Email verified successfully!");
-            document.querySelector(".payment-proof-section").classList.remove("hidden");
+            // SHOW ALL SECTIONS AFTER OTP VERIFIED
             document.querySelector(".payment-info-box").classList.remove("hidden");
-            document.querySelector("#checkout-section").classList.remove("hidden");
+            document.querySelector(".payment-proof-section").classList.remove("hidden");
+            document.getElementById("confirm-checkout").classList.remove("hidden");
+            document.getElementById("confirm-clear").classList.remove("hidden");
+            document.getElementById("close-cart").classList.remove("hidden");
+
              
           } else {
             alert("❌ Verification failed: " + data.error);

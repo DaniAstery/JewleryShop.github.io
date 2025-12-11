@@ -102,6 +102,9 @@ document.addEventListener("click", e => {
         console.log("Response data:", data);
         if (data.success) {
             alert("✅ OTP verified successfully!");
+             document.getElementById("confirm-checkout").disabled = false;
+             document.getElementById("confirm-clear").disabled = false;
+             document.getElementById("close-cart").disabled = false;
             // You can now show the rest of the checkout form or enable the Place Order button
            
         } else {
