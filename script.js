@@ -148,8 +148,8 @@ document.addEventListener("DOMContentLoaded", () => {
             alert("✅ Email verified successfully!");
             document.querySelector(".payment-proof-section").classList.remove("hidden");
             document.querySelector(".payment-info-box").classList.remove("hidden");
-            document.querySelector("checkout-section").classList.remove("hidden");  
-          
+            document.querySelector("#checkout-section").classList.remove("hidden");
+             
           } else {
             alert("❌ Verification failed: " + data.error);
           }

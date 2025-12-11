@@ -102,7 +102,7 @@
         <div><button id="Check-otp"  class="btn-primary verify-otp">Verify OTP</button></div>
      
 
-        <div class="payment-info-box" hidden>
+        <div class="payment-info-box hidden">
         <h4>Payment Will Be Processed Manually</h4>
         <p>
           After placing your order, you will receive a payment invoice via WhatsApp or Email.
@@ -111,13 +111,12 @@
         <p><strong>Verification Time:</strong> 12–24 hours after sending proof of payment.</p>
 
       </div>
-      <div class="payment-proof-section" hidden>
+      <div class="payment-proof-section hidden">
           <label for="payment-proof"><strong>Upload Payment Proof (PDF/JPG/PNG):</strong></label>
           <input id="payment-proof" type="file" accept=".jpg,.jpeg,.png,.pdf" required />
      </div>
       
     <div id="checkout-section" class="hidden">
-        <input id="cust-advance" type="number" placeholder="Advance Payment (%)" value="100%" />
         <button id="confirm-checkout" class="btn-primary confirm-btn">Place Order</button>
         <button id="confirm-clear" class="btn-primary confirm-btn">Clear Order</button>
         <button id="close-cart" class="btn-primary cancel-btn">Close</button>
@@ -164,8 +163,9 @@
 }
 
 .hidden {
-  display: none !important;
+    display: none;
 }
+
 .scroll-dropdown {
   max-height: 150px;
   overflow-y: auto;
