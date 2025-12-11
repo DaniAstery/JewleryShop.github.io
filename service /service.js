@@ -46,7 +46,7 @@ document.addEventListener("click", e => {
         // You might want to check the data object for a success indicator
         console.log("Response data:", data);
         alert("✅ OTP sent to your email!");
-        alert(data.message);
+      
     })
     .catch(err => {
         console.error("❌ Error sending OTP:", err);
@@ -59,36 +59,59 @@ document.addEventListener("click", e => {
 
 // --------------------------// verify OTP
 // --------------------------                       
-document.getElementById("Check-otp").addEventListener("click", async () => {
-  const email = document.getElementById("cust-email").value.trim();
-  const otp = document.getElementById("cust-otp").value.trim();
+document.addEventListener("click", e => {
+    // 1. Check if the clicked element has the "verify-otp" class
+    if (!e.target.classList.contains("verify-otp")) {
+        return;
+    }
 
-  if (!email || !otp) {
-    alert("⚠️ Please enter both email and OTP.");
-    return;
-  }
+    // Prevents the default action (like form submission/page reload)
+    e.preventDefault(); 
+    
+    // Get the email and OTP values
+    const email = document.getElementById("cust-email").value;
+    const otp = document.getElementById("Verify-otp").value;
+    
+    // Basic validation
+    if (!email || !otp) {
+        alert("Please enter both email and OTP.");
+        return;
+    }
 
-  try {
-    const response = await fetch("http://localhost:5001/api/verify-code", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({ email, code: otp })
+    // Prepare the data payload
+    const payload = {
+        email: email,
+        code: otp
+    };
+
+    // Make the POST request
+    fetch("http://localhost:5001/api/verify-code", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(payload)
+    })
+    .then(res => {
+        if (!res.ok) {
+            throw new Error(`HTTP error! status: ${res.status}`);
+        }
+        return res.json();
+    })
+    .then(data => {
+        console.log("Response data:", data);
+        if (data.success) {
+            alert("✅ OTP verified successfully!");
+            // You can now show the rest of the checkout form or enable the Place Order button
+            document.getElementById("checkout-section").classList.remove("hidden");
+        } else {
+            alert("❌ Verification failed: " + data.error);
+        }
+    })
+    .catch(err => {
+        console.error("❌ Error verifying OTP:", err);
+        alert("❌ Failed to verify OTP. See console for details.");
     });
 
-    const data = await response.json();
-
-    if (response.ok) {
-      alert("✅ Email verified successfully!");
-      // You can now show the rest of the checkout form or enable the Place Order button
-      document.getElementById("checkout-section").classList.remove("hidden");
-    } else {
-      alert("❌ Verification failed: " + data.error);
-    }
-  } catch (err) {
-    console.error("Error verifying OTP:", err);
-    alert("❌ Server error. Try again later.");
-  }
+    
 });
-
