@@ -112,11 +112,6 @@
         Email: support@example.com</p>
       </div>
 
-
-     
-
-
-         
           <label for="payment-proof"><strong>Upload Payment Proof (PDF/JPG/PNG):</strong></label>
           <input id="payment-proof" type="file" accept=".jpg,.jpeg,.png,.pdf" required />
 
@@ -173,6 +168,7 @@
   <footer>
     <p>© 2025 Astery’s Collection. All rights reserved.</p>
   </footer>
+
 <!-- 🔍 View Order Modal -->
 <div id="view-modal" class="modal hidden">
   <div class="modal-content">
@@ -194,21 +190,18 @@
 
       <p><strong>Total:</strong> $<span id="view-total"></span></p>
     </div>
+
     <button id="close-view-btn" class="btn-primary">Close</button>
   </div>
-
-  </div>
-
 </div>
 
 <!-- Payment Proof Modal -->
-<div id="proofModal" class="proof-modal hidden">
+<div id="proofModal" class="hidden">
   <div class="proof-modal-content">
     <span class="proof-close">&times;</span>
     <img src="" alt="Payment Proof" id="proofImage">
   </div>
 </div>
-
 
 <style>
 /* Simple modal styling */
@@ -346,6 +339,19 @@
 .proof-close:hover {
   color: red;
 }
+#proofModal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
 
 
 

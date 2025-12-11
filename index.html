@@ -68,7 +68,7 @@
     </section>
   </main>
 
-  <!-- Checkout Modal -->
+ <!-- Checkout Modal -->
   <div id="checkout-modal" class="checkout-modal hidden">
     <div class="checkout-content">
       <span id="close-checkout" class="close">&times;</span>
@@ -83,16 +83,14 @@
       <input id="cust-address" type="text" placeholder="Shipping Address" required />
       <input id="cust-shipping" type="text" placeholder="Shipping Type (Standard/Express)" />
       <label for="cust-payment"><strong>Payment Method</strong></label>
-        
-      <br>
-      <select id="cust-payment" required>
+        <select id="cust-payment" required>
           <option value="Swift" selected>💸 SWIFT Transfer (USD)</option>
           <option value="PayPal" disabled>💳 PayPal (Coming Soon)</option>
           <option value="Telebirr" disabled>📱 Telebirr (Coming Soon)</option>
           <option value="CBE" disabled>🏦 Commercial Bank of Ethiopia (Coming Soon)</option>
         </select>
 
-        <br>
+
         <select id="cust-currency" required>
         <option id="USD" value="USD" selected>US Dollar (USD) 🇺🇸</option>
         <option id="EUR" value="EUR">Euro (EUR) 🇪🇺</option>
@@ -111,24 +109,19 @@
         <p><strong>Support:</strong><br>
         WhatsApp: +251 900 000 000<br>
         Email: support@example.com</p>
-      
       </div>
-      <br>
+
           <label for="payment-proof"><strong>Upload Payment Proof (PDF/JPG/PNG):</strong></label>
           <input id="payment-proof" type="file" accept=".jpg,.jpeg,.png,.pdf" required />
 
-          <label for="cust-advance"><strong>Advance Payment (%):</strong></label>
-          <select id="cust-advance">
-          <option value="50" disabled>50%</option>
-          <option value="75" disabled>75%</option>
-          <option value="100" selected>100%</option>
-          </select>
+
+      <input id="cust-advance" type="number" placeholder="Advance Payment (%)" min="0" max="100" />
 
       <button id="confirm-checkout" class="btn-primary confirm-btn">Place Order</button>
       <button id="confirm-clear" class="btn-primary confirm-btn">Clear Order</button>
       <button id="close-cart" class="btn-primary cancel-btn">Close</button>
-     </div>
-
+    </div>
+  </div>
   </div>
 <style>
 /* Simple modal styling */

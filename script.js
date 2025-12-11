@@ -60,7 +60,6 @@ document.addEventListener("DOMContentLoaded", () => {
       });
     });
   }
-
   // --------------------------
   // Cart functions
   // --------------------------
@@ -146,6 +145,10 @@ document.addEventListener("DOMContentLoaded", () => {
       .catch(err => console.error("❌ Error:", err));
   });
 
+  
+
+
+
   // ==========================
   // Admin / Orders
   // ==========================
@@ -202,8 +205,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function renderCompletedOrders(orders) {
-    alert('Rendering completed orders');
-    alert(orders._id);
+   
     const tbody = document.querySelector("#completedOrdersTable tbody");
     if (!tbody) return;
     tbody.innerHTML = "";
@@ -267,6 +269,25 @@ document.addEventListener("DOMContentLoaded", () => {
 
   document.getElementById("proofModal").classList.remove("hidden");
 });
+
+
+// Close when clicking the × button
+document.addEventListener("click", e => {
+  if (e.target.classList.contains("proof-close")) {
+    document.getElementById("proofModal").classList.remove("show");
+  }
+});
+
+// Close when clicking outside the proof modal content
+document.addEventListener("click", e => {
+  const modal = document.getElementById("proofModal");
+  const content = document.querySelector(".proof-modal-content");
+
+  if (modal.classList.contains("show") && !content.contains(e.target)) {
+    modal.classList.remove("show");
+  }
+});
+
 
 
   // ==========================
