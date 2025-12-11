@@ -46,6 +46,7 @@ document.addEventListener("click", e => {
         // You might want to check the data object for a success indicator
         console.log("Response data:", data);
         alert("✅ OTP sent to your email!");
+        alert(data.message);
     })
     .catch(err => {
         console.error("❌ Error sending OTP:", err);

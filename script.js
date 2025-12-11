@@ -269,22 +269,8 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 
-// Close when clicking the × button
-document.addEventListener("click", e => {
-  if (e.target.classList.contains("proof-close")) {
-    document.getElementById("proofModal").classList.remove("show");
-  }
-});
 
-// Close when clicking outside the proof modal content
-document.addEventListener("click", e => {
-  const modal = document.getElementById("proofModal");
-  const content = document.querySelector(".proof-modal-content");
 
-  if (modal.classList.contains("show") && !content.contains(e.target)) {
-    modal.classList.remove("show");
-  }
-});
 
 
 
@@ -296,27 +282,5 @@ document.addEventListener("click", e => {
   fetchOrders();     // fetch admin orders if token exists
 
 });
-
-
- // --------------------------
-  // send OTP
-  // --------------------------
-  document.addEventListener("click", e => {
-    alert("sending otp");
-    const id = e.target.dataset.id;
-    if (!id || !(e.target.classList.contains("send-otp"))) return;
-
-    fetch("http://localhost:5001/api/send-code", { method: "POST", body: formData })
-          .then(res => res.json())
-          .then(data => {
-            alert("✅ OTP sent to your email!");
-          
-          })
-          .catch(err => console.error("❌ Error:", err));
-
-
-          //Verify OTP
-      
-  });
 
 
