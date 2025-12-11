@@ -20,8 +20,6 @@ document.addEventListener("click", e => {
         return;
     }
 
-    alert("Sending OTP to: " + email);
-
     // Prepare the data payload
     const payload = {
         email: email
