@@ -13,6 +13,7 @@ document.addEventListener("click", e => {
     
     // Get the email value
     const email = document.getElementById("cust-email").value;
+    const selectedCurrency = document.getElementById("cust-currency").value;
     
     // Basic validation
     if (!email) {
@@ -22,7 +23,8 @@ document.addEventListener("click", e => {
 
     // Prepare the data payload
     const payload = {
-        email: email
+        email: email,
+        currency:selectedCurrency
     };
 
     // Make the POST request
