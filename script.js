@@ -1,4 +1,4 @@
-
+let selectedItems =cart;
 document.addEventListener("DOMContentLoaded", () => {
 
   // ==========================
