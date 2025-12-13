@@ -1,3 +1,4 @@
+let cart={}; // Global cart variable
 document.addEventListener("DOMContentLoaded", () => {
 
   // ==========================
@@ -10,6 +11,8 @@ document.addEventListener("DOMContentLoaded", () => {
   const cartItemsContainer = document.getElementById("cart-items");
   const cartTotal = document.getElementById("cart-total");
   const cartCount = document.getElementById("cart-count");
+  
+  cart = JSON.parse(localStorage.getItem("cart")) || [];
 
   const products = [
     { id: 1, name: "Classic Dress", price: 49.99, image: "images/placeholder2.png", video: "videos/SampleRing.mp4" },
@@ -18,7 +21,7 @@ document.addEventListener("DOMContentLoaded", () => {
     { id: 4, name: "Casual Handbag", price: 39.99, image: "images/placeholder.png", video: "videos/SampleRing.mp4" }
   ];
 
-  let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
 
   // --------------------------
   // Render Products
