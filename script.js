@@ -1,4 +1,5 @@
-let cart={}; // Global cart variable
+var selectedItems=[]; // Global variable to hold selected items for OTP sending
+
 document.addEventListener("DOMContentLoaded", () => {
 
   // ==========================
@@ -76,6 +77,8 @@ document.addEventListener("DOMContentLoaded", () => {
       li.textContent = `${item.name} × ${item.quantity} - $${(item.price * item.quantity).toFixed(2)}`;
       cartItemsContainer.appendChild(li);
     });
+
+    selectedItems=cart; // Update selectedItems for OTP sending
 
     cartTotal.textContent = total.toFixed(2);
     cartCount.textContent = cart.reduce((sum, i) => sum + i.quantity, 0);

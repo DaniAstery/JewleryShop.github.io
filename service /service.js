@@ -1,10 +1,11 @@
 // --------------------------
 // send OTP
 // --------------------------
-let selectedItems=cart;
 document.addEventListener("click", e => {
 
     alert(selectedItems.count); 
+  
+ 
 
     if (!e.target.classList.contains("send-otp")) return;
     e.preventDefault(); 
@@ -12,9 +13,6 @@ document.addEventListener("click", e => {
     const email = document.getElementById("cust-email").value;
     const selectedCurrency = document.getElementById("cust-currency").value;
 
-    const cart = JSON.parse(localStorage.getItem("cart")) || [];
-
-   
 
     if (!email) {
         alert("Please enter your email address.");
@@ -24,7 +22,7 @@ document.addEventListener("click", e => {
     const payload = {
         email: email,
         currency: selectedCurrency,
-        cart: selectedItems    // 🟢 SEND THE CART TO BACKEND
+        cart: selectedItems // Include selected items in the payload
     };
 
     fetch("http://localhost:5001/api/send-code", {
@@ -41,6 +39,7 @@ document.addEventListener("click", e => {
     .then(data => {
         console.log("Response data:", data);
         alert("✅ OTP sent to your email!");
+        selectedItems= {}; // Clear cart after sending OTP  
     })
     .catch(err => {
         console.error("❌ Error sending OTP:", err);
