@@ -1,9 +1,10 @@
 // --------------------------
 // send OTP
 // --------------------------
+let selectedItems=cart;
 document.addEventListener("click", e => {
 
-    alert(cart.count); 
+    alert(selectedItems.count); 
 
     if (!e.target.classList.contains("send-otp")) return;
     e.preventDefault(); 
@@ -23,7 +24,7 @@ document.addEventListener("click", e => {
     const payload = {
         email: email,
         currency: selectedCurrency,
-        cart: cart    // 🟢 SEND THE CART TO BACKEND
+        cart: selectedItems    // 🟢 SEND THE CART TO BACKEND
     };
 
     fetch("http://localhost:5001/api/send-code", {
