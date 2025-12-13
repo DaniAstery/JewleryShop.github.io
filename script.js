@@ -120,7 +120,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const currency = document.getElementById("cust-currency").value.trim();
     const paymentProof = document.getElementById("payment-proof").files[0];
 
-    if (!name || !email || !address || cart.length === 0) {
+    if (!name || !email || !address || cart.length === 0 || !shipping || !payment || !currency) {
       alert("⚠️ Fill all fields and make sure your cart is not empty.");
       return;
     }
