@@ -181,6 +181,11 @@ document.addEventListener("DOMContentLoaded", () => {
     formData.append("order", JSON.stringify(order));
     if (paymentProof) formData.append("paymentProof", paymentProof);
 
+     // Validate payment proof
+      if(!paymentProof){
+        alert("⚠️ Please upload payment proof.");
+        return;
+      } 
     fetch("http://localhost:5001/api/confirm-checkout", { method: "POST", body: formData })
       .then(res => res.json())
       .then(data => {

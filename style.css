@@ -228,25 +228,22 @@ footer {
   display: block;
 }
 
-.cart-item {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin: 8px 0;
+#cart-items {
+  list-style: none; /* remove default bullets */
+  padding: 0;
+  margin-bottom: 1rem;
 }
 
-.cart-item img {
-  width: 50px;
-  height: 50px;
-  border-radius: 8px;
-  object-fit: cover;
-}
-
-.cart-item-controls {
-  margin-left: auto;
+#cart-items li {
   display: flex;
-  align-items: center;
-  gap: 8px;
+  justify-content: space-between;
+  padding: 0.6rem 0.4rem;
+  border-bottom: 1px solid #e5e5e5;
+
+  /* 🔥 VISIBILITY FIX */
+  color: #1a1a1a;              /* dark readable text */
+  background-color: #f9f9f9;   /* light contrast */
+  font-size: 0.95rem;
 }
 
 .qty-btn, .remove-btn {
@@ -261,11 +258,6 @@ footer {
   background: #bbb;
 }
 
-.cart-summary {
-  border-top: 1px solid #ccc;
-  padding-top: 10px;
-  margin-top: 10px;
-}
 .checkout-modal {
   position: fixed;
   top: 0; left: 0; width: 100%; height: 100%;
@@ -620,21 +612,7 @@ table button:hover {
 
 /* ---------------- Checkout Modal Form Elements ---------------- */
 
-/* Cart summary list */
-#cart-items {
-  list-style-type: none;
-  padding: 0;
-  margin: 0 0 1rem 0;
-  border-bottom: 1px solid #ddd;
-}
 
-#cart-items li {
-  display: flex;
-  justify-content: space-between;
-  padding: 0.5rem 0;
-  border-bottom: 1px solid #f0f0f0;
-  font-size: 0.95rem;
-}
 
 .cart-summary {
   font-size: 1rem;
