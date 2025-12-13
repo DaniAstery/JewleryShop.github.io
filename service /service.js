@@ -26,7 +26,6 @@ document.addEventListener("click", e => {
         .then(res => res.json())
         .then(() => {
             alert("✅ OTP sent to your email!");
-            selectedItems = [];
             localStorage.removeItem("cart");
         })
         .catch(err => {
@@ -50,7 +49,7 @@ document.addEventListener("click", e => {
     
     // Get the email and OTP values
     const email = document.getElementById("cust-email").value;
-    const otp = document.getElementById("Verify-otp").value;
+    const otp = document.getElementById("cust-otp").value;
     
     // Basic validation
     if (!email || !otp) {

@@ -1,4 +1,4 @@
-let selectedItems =cart;
+let selectedItems = [] ;
 document.addEventListener("DOMContentLoaded", () => {
 
   // ==========================
@@ -94,6 +94,8 @@ document.addEventListener("DOMContentLoaded", () => {
     else cart.push({ ...product, quantity: 1 });
     updateCart();
     localStorage.setItem("cart", JSON.stringify(cart));
+    alert("✅ Item added to cart!");
+    selectedItems=localStorage.getItem("cart"); // Update selectedItems whenever cart is updated
   });
 
   document.getElementById("confirm-clear").addEventListener("click", () => {
@@ -139,7 +141,7 @@ document.addEventListener("DOMContentLoaded", () => {
           const response = await fetch("http://localhost:5001/api/verify-code", {
             method: "POST",
             headers: {
-              "Content-Type": "application/json"
+              "Content-Type": "application/json",
             },
             body: JSON.stringify({ email, code: otp })
           });
