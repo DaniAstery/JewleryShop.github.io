@@ -15,25 +15,21 @@ document.addEventListener("click", e => {
     return;
   }
 
-  fetch("http://localhost:5001/api/send-code", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      email,
-      currency,
-      cart: selectedItems
-    })
-  })
-  .then(res => res.json())
-  .then(() => {
-    alert("✅ OTP sent to your email!");
-    selectedItems = [];
-    localStorage.removeItem("cart");
-  })
-  .catch(err => {
-    console.error(err);
-    alert("❌ Failed to send OTP");
-  });
+            router.post("api/send-code", async (req, res) => {
+            try {
+                const { email, currency, cart } = req.body;
+
+                console.log("send-code request body:", req.body);
+
+                await sendVerificationCode(email, currency, cart); // ✅ pass cart
+
+                res.json({ success: true });
+            } catch (err) {
+                console.error(err);
+                res.status(500).json({ success: false });
+            }
+            });
+
 });
 
 
