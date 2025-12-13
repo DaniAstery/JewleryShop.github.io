@@ -1,4 +1,3 @@
-var selectedItems=[]; // Global variable to hold selected items for OTP sending
 
 document.addEventListener("DOMContentLoaded", () => {
 
