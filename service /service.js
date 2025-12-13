@@ -1,50 +1,39 @@
 // --------------------------
 // send OTP
 // --------------------------
+let selectedItems = JSON.parse(localStorage.getItem("cart")) || [];
+
 document.addEventListener("click", e => {
+  if (!e.target.classList.contains("send-otp")) return;
+  e.preventDefault();
 
-    alert(selectedItems.count); 
-  
- 
+  const email = document.getElementById("cust-email").value;
+  const currency = document.getElementById("cust-currency").value;
 
-    if (!e.target.classList.contains("send-otp")) return;
-    e.preventDefault(); 
-    
-    const email = document.getElementById("cust-email").value;
-    const selectedCurrency = document.getElementById("cust-currency").value;
+  if (!email) {
+    alert("Please enter your email address.");
+    return;
+  }
 
-
-    if (!email) {
-        alert("Please enter your email address.");
-        return;
-    }
-
-    const payload = {
-        email: email,
-        currency: selectedCurrency,
-        cart: selectedItems // Include selected items in the payload
-    };
-
-    fetch("http://localhost:5001/api/send-code", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify(payload)
+  fetch("http://localhost:5001/api/send-code", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      email,
+      currency,
+      cart: selectedItems
     })
-    .then(res => {
-        if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
-        return res.json();
-    })
-    .then(data => {
-        console.log("Response data:", data);
-        alert("✅ OTP sent to your email!");
-        selectedItems= {}; // Clear cart after sending OTP  
-    })
-    .catch(err => {
-        console.error("❌ Error sending OTP:", err);
-        alert("❌ Failed to send OTP. See console for details.");
-    });
+  })
+  .then(res => res.json())
+  .then(() => {
+    alert("✅ OTP sent to your email!");
+    selectedItems = [];
+    localStorage.removeItem("cart");
+  })
+  .catch(err => {
+    console.error(err);
+    alert("❌ Failed to send OTP");
+  });
 });
 
 

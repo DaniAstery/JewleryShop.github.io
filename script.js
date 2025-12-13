@@ -79,7 +79,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
     cartTotal.textContent = total.toFixed(2);
     cartCount.textContent = cart.reduce((sum, i) => sum + i.quantity, 0);
-    selectedItems=cart; // Update selectedItems for OTP sending
+    selectedItems=localStorage.getItem("cart"); // Update selectedItems whenever cart is updated
   }
 
   cartBtn.addEventListener("click", () => cartModal.classList.remove("hidden"));
