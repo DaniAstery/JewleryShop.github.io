@@ -15,10 +15,10 @@ document.addEventListener("DOMContentLoaded", () => {
   cart = JSON.parse(localStorage.getItem("cart")) || [];
 
   const products = [
-    { id: 1, name: "Classic Dress", price: 49.99, image: "images/placeholder2.png", video: "videos/SampleRing.mp4" },
-    { id: 2, name: "Stylish Heels", price: 59.99, image: "images/headphone2.png", video: "videos/1ETB.mp4" },
-    { id: 3, name: "Casual Handbag", price: 39.99, image: "images/headphone3.png", video: "videos/SampleRing.mp4" },
-    { id: 4, name: "Casual Handbag", price: 39.99, image: "images/placeholder.png", video: "videos/1ETB.mp4" }
+    { id: 1, name: "Classic Dress", price: 49.99, image: "images/placeholder2.png", video: "http://localhost:5001/videos/1ETB.mp4" },
+    { id: 2, name: "Stylish Heels", price: 59.99, image: "images/headphone2.png", video: "http://localhost:5001/videos/SampleRing.mp4" },
+    { id: 3, name: "Casual Handbag", price: 39.99, image: "images/headphone3.png", video: "http://localhost:5001/videos/1ETB.mp4" },
+    { id: 4, name: "Casual Handbag", price: 39.99, image: "images/placeholder.png", video: "http://localhost:5001/videos/SampleRing.mp4" }
   ];
 
 
