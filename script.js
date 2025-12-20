@@ -21,48 +21,79 @@ document.addEventListener("DOMContentLoaded", () => {
     { id: 4, name: "Casual Handbag", price: 39.99, image: "images/placeholder.png", video: "https://arlette-unpawed-jermaine.ngrok-free.dev/videos/SampleRing.mp4" }
   ];
 
+// RENDER PRODUCTS 
 
+function renderProducts() {
+  productGrid.innerHTML = "";
 
-  // --------------------------
-  // Render Products
-  // --------------------------
-  function renderProducts() {
-    productGrid.innerHTML = "";
+  products.forEach(product => {
+    const div = document.createElement("div");
+    div.classList.add("product-card");
 
-    products.forEach(product => {
-      const div = document.createElement("div");
-      div.classList.add("product-card");
+    div.innerHTML = `
+      <div class="media-wrapper" style="position:relative; overflow:hidden;">
+        <img class="product-img" src="${product.image}" alt="${product.name}" style="width:100%; display:block;">
+        <video class="product-video" src="${product.video}" loop muted playsinline preload="metadata" style="position:absolute; top:0; left:0; width:100%; height:100%; opacity:0; transition: opacity 0.3s;"></video>
+      </div>
+      <h3>${product.name}</h3>
+      <p>$${product.price.toFixed(2)}</p>
+      <button class="add-to-cart" data-id="${product.id}">Add to Cart</button>
+    `;
 
-      div.innerHTML = `
-        <div class="media-wrapper" style="position:relative; overflow:hidden;">
-          <img class="product-img" src="${product.image}" alt="${product.name}" style="width:100%; display:block;">
-          <video class="product-video" src="${product.video}" loop muted playsinline style="position:absolute; top:0; left:0; width:100%; height:100%; opacity:0; transition: opacity 0.3s;"></video>
-        </div>
-        <h3>${product.name}</h3>
-        <p>$${product.price.toFixed(2)}</p>
-        <button class="add-to-cart" data-id="${product.id}">Add to Cart</button>
-      `;
+    productGrid.appendChild(div);
 
-      productGrid.appendChild(div);
+    const video = div.querySelector(".product-video");
+    const img = div.querySelector(".product-img");
 
-      // Hover video
-      const video = div.querySelector("video");
-      const img = div.querySelector(".product-img");
-
-      div.addEventListener("mouseover", () => {
-        video.play();
-        video.style.opacity = 1;
-        img.style.opacity = 0;
-      });
-
-      div.addEventListener("mouseout", () => {
-        video.pause();
-        video.currentTime = 0;
-        video.style.opacity = 0;
-        img.style.opacity = 1;
-      });
+    // ----------------------
+    // Desktop Hover
+    // ----------------------
+    div.addEventListener("mouseover", () => {
+      video.play();
+      video.style.opacity = 1;
+      if (img) img.style.opacity = 0;
     });
-  }
+
+    div.addEventListener("mouseout", () => {
+      video.pause();
+      video.currentTime = 0;
+      video.style.opacity = 0;
+      if (img) img.style.opacity = 1;
+    });
+  });
+
+  // ----------------------
+  // Intersection Observer (scroll into view)
+  // ----------------------
+  const videos = document.querySelectorAll(".product-video");
+  const observer = new IntersectionObserver(
+    entries => {
+      entries.forEach(entry => {
+        const video = entry.target;
+        const img = video.previousElementSibling;
+
+        // Only auto-play if not hovered (desktop hover takes priority)
+        if (!video.matches(":hover")) {
+          if (entry.isIntersecting) {
+            video.play();
+            video.style.opacity = 1;
+            if (img) img.style.opacity = 0;
+          } else {
+            video.pause();
+            video.currentTime = 0;
+            video.style.opacity = 0;
+            if (img) img.style.opacity = 1;
+          }
+        }
+      });
+    },
+    { threshold: 0.5 }
+  );
+
+  videos.forEach(video => observer.observe(video));
+}
+
+
   // --------------------------
   // Cart functions
   // --------------------------
