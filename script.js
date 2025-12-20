@@ -14,11 +14,13 @@ document.addEventListener("DOMContentLoaded", () => {
   
   cart = JSON.parse(localStorage.getItem("cart")) || [];
 
+  const BACKEND_URL = "https://asterya-production.up.railway.app";
+
   const products = [
-    { id: 1, name: "Classic Dress", price: 49.99, image: "images/placeholder2.png", video: "https://asterya-production.up.railway.app/videos/1ETB.mp4" },
-    { id: 2, name: "Stylish Heels", price: 59.99, image: "images/headphone2.png", video: "https://asterya-production.up.railway.app/videos/SampleRing.mp4" },
-    { id: 3, name: "Casual Handbag", price: 39.99, image: "images/headphone3.png", video: "https://asterya-production.up.railway.app/videos/1ETB.mp4" },
-    { id: 4, name: "Casual Handbag", price: 39.99, image: "images/placeholder.png", video: "https://asterya-production.up.railway.app/videos/SampleRing.mp4" }
+    { id: 1, name: "Classic Dress", price: 49.99, image: "images/placeholder2.png", video: "${BACKEND_URL}/videos/1ETB.mp4" },
+    { id: 2, name: "Stylish Heels", price: 59.99, image: "images/headphone2.png", video: "${BACKEND_URL}/videos/SampleRing.mp4" },
+    { id: 3, name: "Casual Handbag", price: 39.99, image: "images/headphone3.png", video: "${BACKEND_URL}/videos/1ETB.mp4" },
+    { id: 4, name: "Casual Handbag", price: 39.99, image: "images/placeholder.png", video: "${BACKEND_URL}/videos/SampleRing.mp4" }
   ];
 
 // RENDER PRODUCTS 
