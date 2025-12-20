@@ -1,3 +1,7 @@
 //STARTING WEB SERVER FROM ROOT DIReCTORY jewelery shop 
 
 python3 -m http.server 5500
+
+
+Backend public access with 5001
+ https://arlette-unpawed-jermaine.ngrok-free.dev 
