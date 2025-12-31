@@ -236,87 +236,97 @@ videos.forEach(video => observer.observe(video));
   // ==========================
  
 
-  async function fetchOrders() {
-    const token = localStorage.getItem("adminToken");
-    alert("Fetching orders...");
-    if (!token) return; // skip if not admin
-    alert("Admin token found, fetching orders...");
-    console.log("Admin token:", token);
+ async function fetchOrders() {
+  const token = localStorage.getItem("adminToken");
+  if (!token) return; // skip if not admin
+  console.log("Admin token:", token);
 
-    try {
-      const res = await fetch("https://backend-production-b183.up.railway.app/api/orders", {
-        headers: { Authorization: `Bearer ${token}` }
-      });
+  try {
+    const res = await fetch("https://backend-production-b183.up.railway.app/api/orders", {
+      headers: { Authorization: `Bearer ${token}` }
+    });
 
-      if (res.status === 401 || res.status === 403) {
-        localStorage.removeItem("adminToken");
-        window.location.href = "admin.html";
-        return;
-      }
-
-      const data = await res.json();
-      window.alert("Orders fetched:", data);
-      renderOrders(data);
-      renderCompletedOrders(data);
-
-    } catch (err) {
-      console.error("❌ Error fetching orders:", err);
+    if (res.status === 401 || res.status === 403) {
+      localStorage.removeItem("adminToken");
+      window.location.href = "admin.html";
+      return;
     }
-  }
 
-  function renderOrders(orders) {
-   
-    const tbody = document.querySelector("#ordersTable tbody");
-    alert("Orders Table Body:", tbody);
-    if (!tbody) return;
-    tbody.innerHTML = "";
-    orders.forEach(order => {
+    const data = await res.json();
+    console.log("Orders fetched:", data);
+
+    renderOrders(data);
+    renderCompletedOrders(data);
+
+  } catch (err) {
+    console.error("❌ Error fetching orders:", err);
+  }
+}
+
+function renderOrders(orders) {
+  const tbody = document.querySelector("#ordersTable tbody");
+  console.log("Orders Table Body:", tbody);
+  if (!tbody) return;
+  tbody.innerHTML = "";
+
+  orders.forEach(order => {
+    try {
       if (order.status === "Pending Payment Invoice") {
+        const customer = order.customer || {};
         const tr = document.createElement("tr");
         tr.innerHTML = `
-          <td>${order.customer.id}</td>
-          <td>${order.customer.name}</td>
-          <td>${order.customer.email}</td>
+          <td>${customer.id || "-"}</td>
+          <td>${customer.name || "-"}</td>
+          <td>${customer.email || "-"}</td>
           <td>${order.shipping || ""}</td>
           <td>${order.payment || ""}</td>
           <td>${order.advance || 0}</td>
-          <td>$${order.total.toFixed(2)}</td>
-          <td>${new Date(order.date).toLocaleString()}</td>
+          <td>$${order.total?.toFixed(2) || "0.00"}</td>
+          <td>${order.date ? new Date(order.date).toLocaleString() : "-"}</td>
           <td>${order.status}</td>
           <td>
             <button class="view-proof-btn" data-id="${order._id}">View Proof</button>
-            <button class="complete-btn" data-id="${order.customer.id}">Complete</button>
+            <button class="complete-btn" data-id="${customer.id || ""}">Complete</button>
           </td>
         `;
         tbody.appendChild(tr);
       }
-    });
-  }
+    } catch (err) {
+      console.warn("Skipping order due to error:", err, order);
+    }
+  });
+}
 
-  function renderCompletedOrders(orders) {
-   
-    const tbody = document.querySelector("#completedOrdersTable tbody");
-    if (!tbody) return;
-    tbody.innerHTML = "";
-    orders.forEach(order => {
+function renderCompletedOrders(orders) {
+  const tbody = document.querySelector("#completedOrdersTable tbody");
+  if (!tbody) return;
+  tbody.innerHTML = "";
+
+  orders.forEach(order => {
+    try {
       if (order.status === "Completed") {
+        const customer = order.customer || {};
+        const items = Array.isArray(order.items) ? order.items.map(i => `${i.name} x${i.quantity}`).join(", ") : "";
         const tr = document.createElement("tr");
         tr.innerHTML = `
-          <td>${order.customer.id}</td>
-          <td>${order.customer.name}</td>
-          <td>${order.customer.email}</td>
-          <td>${order.items.map(i => i.name + " x" + i.quantity).join(", ")}</td>
-          <td>$${order.total.toFixed(2)}</td>
+          <td>${customer.id || "-"}</td>
+          <td>${customer.name || "-"}</td>
+          <td>${customer.email || "-"}</td>
+          <td>${items}</td>
+          <td>$${order.total?.toFixed(2) || "0.00"}</td>
           <td>${order.status}</td>
           <td>
-          <button class="view-proof-btn" data-id="${order._id}">View Proof</button>
-          <button class="delete-btn" data-id="${order.customer.id}">Delete</button>
+            <button class="view-proof-btn" data-id="${order._id}">View Proof</button>
+            <button class="delete-btn" data-id="${customer.id || ""}">Delete</button>
           </td>
         `;
         tbody.appendChild(tr);
       }
-    });
-  }
+    } catch (err) {
+      console.warn("Skipping completed order due to error:", err, order);
+    }
+  });
+}
 
   // --------------------------
   // Complete / Delete Order
