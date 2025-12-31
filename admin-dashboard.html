@@ -3,102 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>ASTERYA</title>
-
-  <link rel="preload" href="./images/mylogo.png" as="image" />
-  <link rel="icon" href="./images/mylogo.png" type="image/png" />
-
-  <style>
-    .header{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:1rem;
-      padding:0.5rem 1rem;
-      background:#fff;
-      min-height:64px;
-    }
-
-    .site-logo{
-      width:56px;
-      height:56px;
-      object-fit:contain;
-      flex-shrink:0;
-    }
-
-    .nav-links{
-      display:flex;
-      gap:1rem;
-      align-items:center;
-    }
-
-    .btn-primary{white-space:nowrap;}
-
-    @media (max-width:600px){
-      .site-logo{width:44px;height:44px;}
-      .nav-links{display:none;}
-    }
-
-    /* Modal base */
-    .modal{
-      display:none;
-      position:fixed;
-      inset:0;
-      background:rgba(0,0,0,.5);
-      z-index:1000;
-    }
-
-    .modal-content{
-      background:#fff;
-      margin:5% auto;
-      padding:20px;
-      border-radius:8px;
-      max-width:600px;
-      width:80%;
-      position:relative;
-    }
-
-    .close{
-      position:absolute;
-      top:10px;
-      right:15px;
-      font-size:28px;
-      cursor:pointer;
-    }
-
-    /* Proof Modal */
-    #proofModal{
-      display:none;
-      position:fixed;
-      inset:0;
-      background:rgba(0,0,0,.7);
-      z-index:2000;
-      justify-content:center;
-      align-items:center;
-    }
-
-    .proof-modal-content{
-      background:#111;
-      padding:15px;
-      border-radius:10px;
-      max-width:90%;
-    }
-
-    .proof-modal-content img{
-      max-width:100%;
-      max-height:75vh;
-      object-fit:contain;
-    }
-
-    .proof-close{
-      position:absolute;
-      top:10px;
-      right:15px;
-      font-size:28px;
-      color:#fff;
-      cursor:pointer;
-    }
-  </style>
+  <title>ASTERYA – Orders</title>
 
   <link rel="stylesheet" href="style.css" />
 </head>
@@ -106,66 +11,56 @@
 <body>
 
 <header class="header">
-  <img src="./images/mylogo.png" alt="Asterya logo" class="site-logo" />
-  <h1>Asterya</h1>
-
-  <nav class="nav-links">
-    <a href="#">Home</a>
-    <a href="#">Shop</a>
-    <a href="#">About</a>
-    <a href="#">Contact</a>
-  </nav>
-
-  <button id="cart-btn" class="btn-primary">
-    🛍️ Cart (<span id="cart-count">0</span>)
-  </button>
+  <h1>Asterya Orders</h1>
 </header>
 
-<main>
-  <section id="store" class="product-grid"></section>
-</main>
+<!-- Pending Orders -->
+<section id="orders-section">
+  <h2>Pending Orders</h2>
+  <table id="ordersTable">
+    <thead>
+      <tr>
+        <th>Order ID</th>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Shipping</th>
+        <th>Payment</th>
+        <th>Advance</th>
+        <th>Total</th>
+        <th>Date</th>
+        <th>Status</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+</section>
 
-<!-- Checkout Modal -->
-<div id="checkout-modal" class="modal">
-  <div class="modal-content">
-    <span id="close-checkout" class="close">&times;</span>
-    <h2>Checkout</h2>
+<!-- Completed Orders -->
+<section id="completed-orders-section">
+  <h2>Completed Orders</h2>
+  <table id="completedOrdersTable">
+    <thead>
+      <tr>
+        <th>Order ID</th>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Items</th>
+        <th>Total</th>
+        <th>Status</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+</section>
 
-    <ul id="cart-items"></ul>
-    <p><strong>Total:</strong> <span id="cart-total">$0.00</span></p>
-
-    <input id="cust-name" placeholder="Full Name" />
-    <input id="cust-email" type="email" placeholder="Email" />
-    <input id="cust-address" placeholder="Shipping Address" />
-
-    <select id="cust-currency">
-      <option value="USD">USD</option>
-      <option value="EUR">EUR</option>
-      <option value="GBP">GBP</option>
-    </select>
-
-    <input id="payment-proof" type="file" />
-
-    <button id="confirm-checkout" class="btn-primary">Place Order</button>
-    <button id="confirm-clear" class="btn-primary">Clear</button>
-    <button id="close-cart" class="btn-primary">Close</button>
-  </div>
+<!-- Proof Modal (REQUIRED for view-proof-btn) -->
+<div id="proofModal" style="display:none;">
+  <span class="proof-close">&times;</span>
+  <img id="proofImage" />
 </div>
 
-<!-- Proof Modal -->
-<div id="proofModal">
-  <div class="proof-modal-content">
-    <span class="proof-close">&times;</span>
-    <img id="proofImage" />
-  </div>
-</div>
-
-<footer>
-  <p>© 2025 Asterya Collection</p>
-</footer>
-
-<!-- IMPORTANT -->
 <script src="script.js" defer></script>
-
 </body>
 </html>
