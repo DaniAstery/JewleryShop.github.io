@@ -251,11 +251,12 @@ function renderProducts() {
 
       if (res.status === 401 || res.status === 403) {
         localStorage.removeItem("adminToken");
-        window.location.href = "index.html";
+        window.location.href = "admin.html";
         return;
       }
 
       const data = await res.json();
+      window.alert("Orders fetched:", data);
       renderOrders(data);
       renderCompletedOrders(data);
 
@@ -265,7 +266,7 @@ function renderProducts() {
   }
 
   function renderOrders(orders) {
-    alert(orders.customer.name);
+   
     const tbody = document.querySelector("#ordersTable tbody");
     alert("Orders Table Body:", tbody);
     if (!tbody) return;
