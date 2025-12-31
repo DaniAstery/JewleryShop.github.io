@@ -92,6 +92,8 @@ const observer = new IntersectionObserver(
 );
 
 videos.forEach(video => observer.observe(video));
+  });
+}// RENDER PRODUCTS END 
 
   // --------------------------
   // Cart functions
@@ -365,10 +367,7 @@ videos.forEach(video => observer.observe(video));
   // ==========================
   renderProducts();  // display products
   updateCart();      // restore cart from localStorage
-
- document.addEventListener("DOMContentLoaded", () => {
-  fetchOrders();
-});
+  fetchOrders();    // load orders if admin
  
 });
 
