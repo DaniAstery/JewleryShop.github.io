@@ -364,8 +364,7 @@ function renderProducts() {
   // ==========================
   renderProducts();  // display products
   updateCart();      // restore cart from localStorage
-  fetchOrders();     // fetch admin orders if token exists
-
+ 
 });
 
 
