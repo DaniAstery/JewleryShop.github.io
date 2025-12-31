@@ -4,361 +4,168 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>ASTERYA</title>
+
   <link rel="preload" href="./images/mylogo.png" as="image" />
+  <link rel="icon" href="./images/mylogo.png" type="image/png" />
 
   <style>
-  /* Provide final header/logo layout early to avoid JS-induced flicker */
-  .header{
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    gap:1rem;
-    padding:0.5rem 1rem;
-    background:#fff;
-    box-sizing:border-box;
-    min-height:64px;
-  }
-  .site-logo{
-    width:56px;
-    height:56px;
-    object-fit:contain;
-    display:block;
-    flex-shrink:0;
-    vertical-align:middle;
-  }
-  /* Keep nav visible and stable until any JS changes it */
-  .nav-links{
-    display:flex;
-    gap:1rem;
-    align-items:center;
-  }
-  /* Keep buttons from causing reflow */
-  .btn-primary{white-space:nowrap;}
-  /* Ensure hidden class stays consistent */
-  .hidden{display:none !important;}
-  /* Responsive adjustments */
-  @media (max-width:600px){
-    .site-logo{width:44px;height:44px;}
-    .nav-links{display:none;}
-  }
+    .header{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:1rem;
+      padding:0.5rem 1rem;
+      background:#fff;
+      min-height:64px;
+    }
+
+    .site-logo{
+      width:56px;
+      height:56px;
+      object-fit:contain;
+      flex-shrink:0;
+    }
+
+    .nav-links{
+      display:flex;
+      gap:1rem;
+      align-items:center;
+    }
+
+    .btn-primary{white-space:nowrap;}
+
+    @media (max-width:600px){
+      .site-logo{width:44px;height:44px;}
+      .nav-links{display:none;}
+    }
+
+    /* Modal base */
+    .modal{
+      display:none;
+      position:fixed;
+      inset:0;
+      background:rgba(0,0,0,.5);
+      z-index:1000;
+    }
+
+    .modal-content{
+      background:#fff;
+      margin:5% auto;
+      padding:20px;
+      border-radius:8px;
+      max-width:600px;
+      width:80%;
+      position:relative;
+    }
+
+    .close{
+      position:absolute;
+      top:10px;
+      right:15px;
+      font-size:28px;
+      cursor:pointer;
+    }
+
+    /* Proof Modal */
+    #proofModal{
+      display:none;
+      position:fixed;
+      inset:0;
+      background:rgba(0,0,0,.7);
+      z-index:2000;
+      justify-content:center;
+      align-items:center;
+    }
+
+    .proof-modal-content{
+      background:#111;
+      padding:15px;
+      border-radius:10px;
+      max-width:90%;
+    }
+
+    .proof-modal-content img{
+      max-width:100%;
+      max-height:75vh;
+      object-fit:contain;
+    }
+
+    .proof-close{
+      position:absolute;
+      top:10px;
+      right:15px;
+      font-size:28px;
+      color:#fff;
+      cursor:pointer;
+    }
   </style>
+
   <link rel="stylesheet" href="style.css" />
-  <link rel="icon" href="./images/mylogo.png" type="image/png" />
-  <link rel="shortcut icon" href="./images/mylogo.png" />
-
 </head>
+
 <body>
-  <!-- Header -->
-  <header class="header">
-    <img src="./images/mylogo.png" alt="Asterya logo" class="site-logo" />
-    <h1>Asterya</h1>
-    <nav class="nav-links">
-      <a href="#">Home</a>
-      <a href="#">Shop</a>
-      <a href="#">About</a>
-      <a href="#">Contact</a>
-    </nav>
-    <button id="cart-btn" class="btn-primary">🛍️ Cart (<span id="cart-count">0</span>)</button>
-  </header>
-  </header>
 
-  <!-- Main Product Section -->
-  <main>
-    <section id="store" class="product-grid">
-      <!-- Products inserted dynamically -->
-    </section>
-  </main>
+<header class="header">
+  <img src="./images/mylogo.png" alt="Asterya logo" class="site-logo" />
+  <h1>Asterya</h1>
 
-  <!-- Checkout Modal -->
-  <div id="checkout-modal" class="checkout-modal ">
-    <div class="checkout-content">
-      <span id="close-checkout" class="close">&times;</span>
-      <h2>Checkout</h2>
+  <nav class="nav-links">
+    <a href="#">Home</a>
+    <a href="#">Shop</a>
+    <a href="#">About</a>
+    <a href="#">Contact</a>
+  </nav>
 
-      <ul id="cart-items"></ul>
-      <p class="cart-summary"><strong>Total:</strong> <span id="cart-total">$0.00</span></p>
+  <button id="cart-btn" class="btn-primary">
+    🛍️ Cart (<span id="cart-count">0</span>)
+  </button>
+</header>
 
-      <h3>Customer Details</h3>
-      <input id="cust-name" type="text" placeholder="Full Name" required />
-      <input id="cust-email" type="email" placeholder="Email Address" required />
-      <input id="cust-address" type="text" placeholder="Shipping Address" required />
-      <input id="cust-shipping" type="text" placeholder="Shipping Type (Standard/Express)" />
-      <label for="cust-payment"><strong>Payment Method</strong></label>
-        <select id="cust-payment" required>
-          <option value="Swift" selected>💸 SWIFT Transfer (USD)</option>
-          <option value="PayPal" disabled>💳 PayPal (Coming Soon)</option>
-          <option value="Telebirr" disabled>📱 Telebirr (Coming Soon)</option>
-          <option value="CBE" disabled>🏦 Commercial Bank of Ethiopia (Coming Soon)</option>
-        </select>
+<main>
+  <section id="store" class="product-grid"></section>
+</main>
 
-
-        <select id="cust-currency" required>
-        <option id="USD" value="USD" selected>US Dollar (USD) 🇺🇸</option>
-        <option id="EUR" value="EUR">Euro (EUR) 🇪🇺</option>
-        <option id="GBP" value="GBP">Pound Sterling (GBP) 🇬🇧</option>
-        </select>
-
-        <div class="payment-info-box">
-        <h4>Payment Will Be Processed Manually</h4>
-        <p>
-          After placing your order, you will receive a payment invoice via WhatsApp or Email.
-          Please follow the instructions sent to you to complete your SWIFT payment.
-        </p>
-
-        <p><strong>Verification Time:</strong> 12–24 hours after sending proof of payment.</p>
-
-        <p><strong>Support:</strong><br>
-        WhatsApp: +251 900 000 000<br>
-        Email: support@example.com</p>
-      </div>
-
-          <label for="payment-proof"><strong>Upload Payment Proof (PDF/JPG/PNG):</strong></label>
-          <input id="payment-proof" type="file" accept=".jpg,.jpeg,.png,.pdf" required />
-
-
-      <input id="cust-advance" type="number" placeholder="Advance Payment (%)" min="0" max="100" />
-
-      <button id="confirm-checkout" class="btn-primary confirm-btn">Place Order</button>
-      <button id="confirm-clear" class="btn-primary confirm-btn">Clear Order</button>
-      <button id="close-cart" class="btn-primary cancel-btn">Close</button>
-    </div>
-  </div>
-
-  <!-- Orders Table -->
-  <section id="orders-section" class="orders-section">
-    <h2>Recent Orders</h2>
-    <table id="ordersTable">
-      <thead>
-        <tr>
-          <th>Order ID</th>
-          <th>Customer</th>
-          <th>Email</th>
-          <th>Shipping</th>
-          <th>Payment</th>
-          <th>Advance</th>
-          <th>Total</th>
-          <th>Date</th>
-          <th>Status</th>
-          <th>Actions</th>
-        </tr>
-      </thead>
-      <tbody></tbody>
-    </table>
-  </section>
-
-  <!-- Completed Orders Table -->
-  <section id="completed-orders-section" class="orders-section">
-    <h2>Completed Orders</h2>
-    <table id="completedOrdersTable">
-      <thead>
-        <tr>
-          <th>Order ID</th>
-          <th>Name</th>
-          <th>Email</th>
-          <th>Items</th>
-          <th>Total</th>
-          <th>Status</th>
-          <th>Actions</th>
-        </tr>
-      </thead>
-      <tbody></tbody>
-    </table>
-  </section>
-
-  <footer>
-    <p>© 2025 Astery’s Collection. All rights reserved.</p>
-  </footer>
-
-<!-- 🔍 View Order Modal -->
-<div id="view-modal" class="modal">
+<!-- Checkout Modal -->
+<div id="checkout-modal" class="modal">
   <div class="modal-content">
-    <span id="close-view" class="close">&times;</span>
-    <h2>Order Details</h2>
+    <span id="close-checkout" class="close">&times;</span>
+    <h2>Checkout</h2>
 
-    <div class="order-details">
-      <p><strong>Order ID:</strong> <span id="view-id"></span></p>
-      <p><strong>Customer Name:</strong> <span id="view-name"></span></p>
-      <p><strong>Email:</strong> <span id="view-email"></span></p>
-      <p><strong>Address:</strong> <span id="view-address"></span></p>
-      <p><strong>Shipping:</strong> <span id="view-shipping"></span></p>
-      <p><strong>Payment:</strong> <span id="view-payment"></span></p>
-      <p><strong>Advance Payment:</strong> <span id="view-advance"></span></p>
-      <p><strong>Status:</strong> <span id="view-status"></span></p>
+    <ul id="cart-items"></ul>
+    <p><strong>Total:</strong> <span id="cart-total">$0.00</span></p>
 
-      <h3>Items</h3>
-      <ul id="view-items"></ul>
+    <input id="cust-name" placeholder="Full Name" />
+    <input id="cust-email" type="email" placeholder="Email" />
+    <input id="cust-address" placeholder="Shipping Address" />
 
-      <p><strong>Total:</strong> $<span id="view-total"></span></p>
-    </div>
+    <select id="cust-currency">
+      <option value="USD">USD</option>
+      <option value="EUR">EUR</option>
+      <option value="GBP">GBP</option>
+    </select>
 
-    <button id="close-view-btn" class="btn-primary">Close</button>
+    <input id="payment-proof" type="file" />
+
+    <button id="confirm-checkout" class="btn-primary">Place Order</button>
+    <button id="confirm-clear" class="btn-primary">Clear</button>
+    <button id="close-cart" class="btn-primary">Close</button>
   </div>
 </div>
 
-<!-- Payment Proof Modal -->
+<!-- Proof Modal -->
 <div id="proofModal">
   <div class="proof-modal-content">
     <span class="proof-close">&times;</span>
-    <img src="" alt="Payment Proof" id="proofImage">
+    <img id="proofImage" />
   </div>
 </div>
 
-<style>
-/* Simple modal styling */
-.modal {
-  display: none;
-  position: fixed;
-  z-index: 1000;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  overflow: auto;
-  background-color: rgba(0,0,0,0.5);
-}
+<footer>
+  <p>© 2025 Asterya Collection</p>
+</footer>
 
-.modal-content {
-  background-color: #fff;
-  margin: 5% auto;
-  padding: 20px;
-  border-radius: 8px;
-  width: 80%;
-  max-width: 600px;
-  position: relative;
-}
+<!-- IMPORTANT -->
+<script src="script.js" defer></script>
 
-.close {
-  color: #aaa;
-  float: right;
-  font-size: 28px;
-  font-weight: bold;
-  cursor: pointer;
-}
-
-.close:hover {
-  color: #000;
-}
-
-.hidden {
-  display: none !important;
-}
-.scroll-dropdown {
-  max-height: 150px;
-  overflow-y: auto;
-}
-/* ---------------- Proof Modal Form Elements ---------------- */
-.proof-modal {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0,0,0,0.8);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 9999;
-}
-
-.proof-modal.hidden {
-  display: none;
-}
-
-.proof-content {
-  background: #111;
-  padding: 10px;
-  border-radius: 10px;
-  max-width: 90%;
-  max-height: 90%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.proof-content img {
-  max-width: 100%;
-  max-height: 80vh;
-  border-radius: 8px;
-}
-
-#closeProof {
-  color: white;
-  font-size: 28px;
-  cursor: pointer;
-  align-self: flex-end;
-  margin-bottom: 10px;
-}
-
-/* Proof Modal */
-.proof-modal {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0,0,0,0.7);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 5000;
-  backdrop-filter: blur(3px);
-}
-
-.proof-modal.hidden {
-  display: none;
-}
-
-.proof-modal-content {
-  background: #111;
-  padding: 15px;
-  border-radius: 10px;
-  position: relative;
-  max-width: 90%;
-  max-height: 80%;
-  display: flex;
-  justify-content: center;
-}
-
-.proof-modal-content img {
-  max-width: 100%;
-  max-height: 75vh;
-  border-radius: 8px;
-  object-fit: contain;
-  background: #000;
-}
-
-.proof-close {
-  position: absolute;
-  top: 10px;
-  right: 15px;
-  font-size: 28px;
-  color: white;
-  cursor: pointer;
-  font-weight: bold;
-}
-.proof-close:hover {
-  color: red;
-}
-#proofModal {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0,0,0,0.7);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 1000;
-}
-
-
-
-
-</style>
-
-  <script src="script.js"></script>
 </body>
-
-
 </html>
