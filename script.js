@@ -270,19 +270,18 @@ function renderOrders(orders) {
 
   orders.forEach(order => {
     // Pending orders are those not shipped or not completed
-    if (order.paymentStatus === "Pending") {
-      const customer = orders.customer || {};
+    if (orders.status === "Pending") {
       const tr = document.createElement("tr");
       tr.innerHTML = `
-        <td>${order.customer.id || "-"}</td>
-        <td>${order.customer.name || "-"}</td>
-        <td>${order.customer.email || "-"}</td>
-        <td>${order.shipping || "-"}</td>
-        <td>${order.paymentStatus || "-"}</td>
+        <td>${orders.customer.id || "-"}</td>
+        <td>${orders.customer.name || "-"}</td>
+        <td>${orders.customer.email || "-"}</td>
+        <td>${orders.shipping || "-"}</td>
+        <td>${orders.paymentStatus || "-"}</td>
         <td>${order.advance || 0}</td>
-        <td>$${order.total?.toFixed(2) || "0.00"}</td>
-        <td>${order.date ? new Date(order.date).toLocaleString() : "-"}</td>
-        <td>${order.status || "-"}</td>
+        <td>$${orders.total?.toFixed(2) || "0.00"}</td>
+        <td>${orders.date ? new Date(order.date).toLocaleString() : "-"}</td>
+        <td>${orders.status || "-"}</td>
         <td>
           <button class="view-proof-btn" data-id="${order._id}">View Proof</button>
           <button class="complete-btn" data-id="${customer.id || ""}">Complete</button>
@@ -301,21 +300,17 @@ function renderCompletedOrders(orders) {
   orders.forEach(order => {
     // Completed orders
     if (order.status === "Completed") {
-      const items = Array.isArray(order.items) && order.items.length > 0
-        ? order.items.map(i => `${i.name} x${i.quantity}`).join(", ")
-        : "No items";
-
       const tr = document.createElement("tr");
       tr.innerHTML = `
-        <td>${order.customer.id || "-"}</td>
-        <td>${order.customer.name || "-"}</td>
-        <td>${order.customer.email || "-"}</td>
-        <td>${order.items}</td>
-        <td>$${order.total?.toFixed(2) || "0.00"}</td>
-        <td>${order.status || "-"}</td>
+        <td>${orders.customer.id || "-"}</td>
+        <td>${orders.customer.name || "-"}</td>
+        <td>${orders.customer.email || "-"}</td>
+        <td>${orders.items}</td>
+        <td>$${orders.total?.toFixed(2) || "0.00"}</td>
+        <td>${orders.status || "-"}</td>
         <td>
-          <button class="view-proof-btn" data-id="${order._id}">View Proof</button>
-          <button class="delete-btn" data-id="${order.customer.id || ""}">Delete</button>
+          <button class="view-proof-btn" data-id="${orders._id}">View Proof</button>
+          <button class="delete-btn" data-id="${orders.customer.id || ""}">Delete</button>
         </td>
       `;
       tbody.appendChild(tr);
