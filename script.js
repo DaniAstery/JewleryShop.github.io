@@ -265,34 +265,29 @@ videos.forEach(video => observer.observe(video));
 
 function renderOrders(orders) {
   const tbody = document.querySelector("#ordersTable tbody");
-  console.log("Orders Table Body:", tbody);
   if (!tbody) return;
   tbody.innerHTML = "";
 
   orders.forEach(order => {
-    try {
-      if (order.status === "Pending Payment Invoice") {
-        const customer = order.customer || {};
-        const tr = document.createElement("tr");
-        tr.innerHTML = `
-          <td>${customer.id || "-"}</td>
-          <td>${customer.name || "-"}</td>
-          <td>${customer.email || "-"}</td>
-          <td>${order.shipping || ""}</td>
-          <td>${order.payment || ""}</td>
-          <td>${order.advance || 0}</td>
-          <td>$${order.total?.toFixed(2) || "0.00"}</td>
-          <td>${order.date ? new Date(order.date).toLocaleString() : "-"}</td>
-          <td>${order.status}</td>
-          <td>
-            <button class="view-proof-btn" data-id="${order._id}">View Proof</button>
-            <button class="complete-btn" data-id="${customer.id || ""}">Complete</button>
-          </td>
-        `;
-        tbody.appendChild(tr);
-      }
-    } catch (err) {
-      console.warn("Skipping order due to error:", err, order);
+    if (order.status === "Pending Payment Invoice") {
+      const customer = order.customer || {};
+      const tr = document.createElement("tr");
+      tr.innerHTML = `
+        <td>${customer.id || "-"}</td>
+        <td>${customer.name || "-"}</td>
+        <td>${customer.email || "-"}</td>
+        <td>${order.shipping || ""}</td>
+        <td>${order.payment || ""}</td>
+        <td>${order.advance || 0}</td>
+        <td>$${order.total?.toFixed(2) || "0.00"}</td>
+        <td>${order.date ? new Date(order.date).toLocaleString() : "-"}</td>
+        <td>${order.status}</td>
+        <td>
+          <button class="view-proof-btn" data-id="${order._id}">View Proof</button>
+          <button class="complete-btn" data-id="${customer.id || ""}">Complete</button>
+        </td>
+      `;
+      tbody.appendChild(tr);
     }
   });
 }
@@ -303,30 +298,27 @@ function renderCompletedOrders(orders) {
   tbody.innerHTML = "";
 
   orders.forEach(order => {
-    try {
-      if (order.status === "Completed") {
-        const customer = order.customer || {};
-        const items = Array.isArray(order.items) ? order.items.map(i => `${i.name} x${i.quantity}`).join(", ") : "";
-        const tr = document.createElement("tr");
-        tr.innerHTML = `
-          <td>${customer.id || "-"}</td>
-          <td>${customer.name || "-"}</td>
-          <td>${customer.email || "-"}</td>
-          <td>${items}</td>
-          <td>$${order.total?.toFixed(2) || "0.00"}</td>
-          <td>${order.status}</td>
-          <td>
-            <button class="view-proof-btn" data-id="${order._id}">View Proof</button>
-            <button class="delete-btn" data-id="${customer.id || ""}">Delete</button>
-          </td>
-        `;
-        tbody.appendChild(tr);
-      }
-    } catch (err) {
-      console.warn("Skipping completed order due to error:", err, order);
+    if (order.status === "Completed") {
+      const customer = order.customer || {};
+      const items = Array.isArray(order.items) ? order.items.map(i => `${i.name} x${i.quantity}`).join(", ") : "";
+      const tr = document.createElement("tr");
+      tr.innerHTML = `
+        <td>${customer.id || "-"}</td>
+        <td>${customer.name || "-"}</td>
+        <td>${customer.email || "-"}</td>
+        <td>${items}</td>
+        <td>$${order.total?.toFixed(2) || "0.00"}</td>
+        <td>${order.status}</td>
+        <td>
+          <button class="view-proof-btn" data-id="${order._id}">View Proof</button>
+          <button class="delete-btn" data-id="${customer.id || ""}">Delete</button>
+        </td>
+      `;
+      tbody.appendChild(tr);
     }
   });
 }
+
 
   // --------------------------
   // Complete / Delete Order
@@ -377,7 +369,9 @@ function renderCompletedOrders(orders) {
   // ==========================
   renderProducts();  // display products
   updateCart();      // restore cart from localStorage
-  fetchOrders();    // load orders if admin
+  document.addEventListener("DOMContentLoaded", () => {
+  fetchOrders(); // safely called after DOM is ready
+});    // load orders if admin
  
 });
 
