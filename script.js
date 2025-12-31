@@ -47,54 +47,51 @@ function renderProducts() {
     const video = div.querySelector(".product-video");
     const img = div.querySelector(".product-img");
 
-    // ----------------------
-    // Desktop Hover
-    // ----------------------
-    div.addEventListener("mouseover", () => {
-      video.play();
-      video.style.opacity = 1;
-      if (img) img.style.opacity = 0;
-    });
-
-    div.addEventListener("mouseout", () => {
-      video.pause();
-      video.currentTime = 0;
-      video.style.opacity = 0;
-      if (img) img.style.opacity = 1;
-    });
-  });
-
   // ----------------------
-  // Intersection Observer (scroll into view)
-  // ----------------------
-  const videos = document.querySelectorAll(".product-video");
-  const observer = new IntersectionObserver(
-    entries => {
-      entries.forEach(entry => {
-        const video = entry.target;
-        const img = video.previousElementSibling;
+// Desktop Hover
+// ----------------------
+div.addEventListener("mouseover", () => {
+  video.play().catch(err => console.warn("Video play blocked:", err));
+  video.style.opacity = 1;
+  if (img) img.style.opacity = 0;
+});
 
-        // Only auto-play if not hovered (desktop hover takes priority)
-        if (!video.matches(":hover")) {
-          if (entry.isIntersecting) {
-            video.play();
-            video.style.opacity = 1;
-            if (img) img.style.opacity = 0;
-          } else {
-            video.pause();
-            video.currentTime = 0;
-            video.style.opacity = 0;
-            if (img) img.style.opacity = 1;
-          }
+div.addEventListener("mouseout", () => {
+  video.pause();
+  video.currentTime = 0;
+  video.style.opacity = 0;
+  if (img) img.style.opacity = 1;
+});
+
+// ----------------------
+// Intersection Observer (scroll into view)
+// ----------------------
+const videos = document.querySelectorAll(".product-video");
+const observer = new IntersectionObserver(
+  entries => {
+    entries.forEach(entry => {
+      const video = entry.target;
+      const img = video.previousElementSibling;
+
+      // Only auto-play if not hovered (desktop hover takes priority)
+      if (!video.matches(":hover")) {
+        if (entry.isIntersecting) {
+          video.play().catch(err => console.warn("Video play blocked:", err));
+          video.style.opacity = 1;
+          if (img) img.style.opacity = 0;
+        } else {
+          video.pause();
+          video.currentTime = 0;
+          video.style.opacity = 0;
+          if (img) img.style.opacity = 1;
         }
-      });
-    },
-    { threshold: 0.5 }
-  );
+      }
+    });
+  },
+  { threshold: 0.5 }
+);
 
-  videos.forEach(video => observer.observe(video));
-}
-
+videos.forEach(video => observer.observe(video));
 
   // --------------------------
   // Cart functions
@@ -368,7 +365,10 @@ function renderProducts() {
   // ==========================
   renderProducts();  // display products
   updateCart();      // restore cart from localStorage
-  fetchOrders();    // load orders if admin
+
+ document.addEventListener("DOMContentLoaded", () => {
+  fetchOrders();
+});
  
 });
 
