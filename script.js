@@ -269,19 +269,20 @@ function renderOrders(orders) {
   tbody.innerHTML = "";
 
   orders.forEach(order => {
-    if (order.status === "Pending Payment Invoice") {
+    // Pending orders are those not shipped or not completed
+    if (order.status === "Pending" || order.status === "Shipped") {
       const customer = order.customer || {};
       const tr = document.createElement("tr");
       tr.innerHTML = `
         <td>${customer.id || "-"}</td>
         <td>${customer.name || "-"}</td>
         <td>${customer.email || "-"}</td>
-        <td>${order.shipping || ""}</td>
-        <td>${order.payment || ""}</td>
+        <td>${order.shipping || "-"}</td>
+        <td>${order.paymentStatus || "-"}</td>
         <td>${order.advance || 0}</td>
         <td>$${order.total?.toFixed(2) || "0.00"}</td>
         <td>${order.date ? new Date(order.date).toLocaleString() : "-"}</td>
-        <td>${order.status}</td>
+        <td>${order.status || "-"}</td>
         <td>
           <button class="view-proof-btn" data-id="${order._id}">View Proof</button>
           <button class="complete-btn" data-id="${customer.id || ""}">Complete</button>
@@ -298,9 +299,13 @@ function renderCompletedOrders(orders) {
   tbody.innerHTML = "";
 
   orders.forEach(order => {
+    // Completed orders
     if (order.status === "Completed") {
       const customer = order.customer || {};
-      const items = Array.isArray(order.items) ? order.items.map(i => `${i.name} x${i.quantity}`).join(", ") : "";
+      const items = Array.isArray(order.items) && order.items.length > 0
+        ? order.items.map(i => `${i.name} x${i.quantity}`).join(", ")
+        : "No items";
+
       const tr = document.createElement("tr");
       tr.innerHTML = `
         <td>${customer.id || "-"}</td>
@@ -308,7 +313,7 @@ function renderCompletedOrders(orders) {
         <td>${customer.email || "-"}</td>
         <td>${items}</td>
         <td>$${order.total?.toFixed(2) || "0.00"}</td>
-        <td>${order.status}</td>
+        <td>${order.status || "-"}</td>
         <td>
           <button class="view-proof-btn" data-id="${order._id}">View Proof</button>
           <button class="delete-btn" data-id="${customer.id || ""}">Delete</button>
@@ -318,6 +323,7 @@ function renderCompletedOrders(orders) {
     }
   });
 }
+
 
 
   // --------------------------
