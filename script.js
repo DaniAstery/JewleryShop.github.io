@@ -364,10 +364,7 @@ function renderProducts() {
   // ==========================
   renderProducts();  // display products
   updateCart();      // restore cart from localStorage
+  fetchOrders();    // load orders if admin
  
 });
 
-
-document.addEventListener("DOMContentLoaded", () => {
-  fetchOrders();
-});
