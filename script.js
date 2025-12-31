@@ -264,6 +264,7 @@ function renderProducts() {
   function renderOrders(orders) {
     alert("Rendering orders...");
     const tbody = document.querySelector("#ordersTable tbody");
+    alert("Orders Table Body:", tbody);
     if (!tbody) return;
     tbody.innerHTML = "";
     orders.forEach(order => {
