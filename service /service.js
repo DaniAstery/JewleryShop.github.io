@@ -14,7 +14,7 @@ document.addEventListener("click", e => {
     return;
   }
 
-        fetch("http://localhost:5001/api/send-code", {
+        fetch("https://backend-production-b183.up.railway.app/api/send-code", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
@@ -64,7 +64,7 @@ document.addEventListener("click", e => {
     };
 
     // Make the POST request
-    fetch("http://localhost:5001/api/verify-code", {
+    fetch("https://backend-production-b183.up.railway.app/api/verify-code", {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
