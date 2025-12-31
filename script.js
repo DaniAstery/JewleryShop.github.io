@@ -235,13 +235,14 @@ function renderProducts() {
   // ==========================
   // Admin / Orders
   // ==========================
-  const token = localStorage.getItem("adminToken");
+ 
 
   async function fetchOrders() {
+    const token = localStorage.getItem("adminToken");
     alert("Fetching orders...");
     if (!token) return; // skip if not admin
     alert("Admin token found, fetching orders...");
-    alert(token);
+    console.log("Admin token:", token);
 
     try {
       const res = await fetch(`${BACKEND_URL}/api/orders`, {
