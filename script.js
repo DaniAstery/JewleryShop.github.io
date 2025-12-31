@@ -171,7 +171,7 @@ function renderProducts() {
         }
 
         try {
-          const response = await fetch("https://backend-production-b183.up.railway.appapi/verify-code", {
+          const response = await fetch(`${BACKEND_URL}/verify-code`, {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
@@ -219,7 +219,7 @@ function renderProducts() {
         alert("⚠️ Please upload payment proof.");
         return;
       } 
-    fetch("https://backend-production-b183.up.railway.app/api/confirm-checkout", { method: "POST", body: formData })
+    fetch(`${BACKEND_URL}/api/confirm-checkout`, { method: "POST", body: formData })
       .then(res => res.json())
       .then(data => {
         alert("✅ Order placed!");
@@ -241,7 +241,7 @@ function renderProducts() {
     if (!token) return; // skip if not admin
 
     try {
-      const res = await fetch("https://backend-production-b183.up.railway.app/api/orders", {
+      const res = await fetch(`${BACKEND_URL}/api/orders`, {
         headers: { Authorization: `Bearer ${token}` }
       });
 
@@ -319,7 +319,7 @@ function renderProducts() {
     const id = e.target.dataset.id;
     if (!id || !(e.target.classList.contains("complete-btn") || e.target.classList.contains("delete-btn"))) return;
 
-    fetch(`https://backend-production-b183.up.railway.app/api/orders/${id}`, {
+    fetch(`${BACKEND_URL}/api/orders/${id}`, {
       method: "PUT",
       headers: { Authorization: `Bearer ${token}` }
     })
@@ -348,7 +348,7 @@ function renderProducts() {
     return;
   }
 
-  modalImg.src = `https://backend-production-b183.up.railway.app/api/orders/${id}/proof`;
+  modalImg.src = `${BACKEND_URL}/api/orders/${id}/proof`;
 
   document.getElementById("proofModal").classList.remove("hidden");
 });
