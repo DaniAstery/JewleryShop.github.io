@@ -245,7 +245,7 @@ function renderProducts() {
     console.log("Admin token:", token);
 
     try {
-      const res = await fetch("backend-production-b183.up.railway.app/api/orders", {
+      const res = await fetch("https://backend-production-b183.up.railway.app/api/orders", {
         headers: { Authorization: `Bearer ${token}` }
       });
 
