@@ -369,9 +369,6 @@ function renderCompletedOrders(orders) {
   // ==========================
   renderProducts();  // display products
   updateCart();      // restore cart from localStorage
-  document.addEventListener("DOMContentLoaded", () => {
-  fetchOrders(); // safely called after DOM is ready
-});    // load orders if admin
- 
+  fetchOrders(); 
 });
 
