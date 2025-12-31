@@ -368,3 +368,6 @@ function renderProducts() {
 });
 
 
+document.addEventListener("DOMContentLoaded", () => {
+  fetchOrders();
+});
