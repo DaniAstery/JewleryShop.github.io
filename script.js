@@ -262,7 +262,7 @@ function renderProducts() {
   }
 
   function renderOrders(orders) {
-    alert("Rendering orders...");
+    alert(orders);
     const tbody = document.querySelector("#ordersTable tbody");
     alert("Orders Table Body:", tbody);
     if (!tbody) return;
