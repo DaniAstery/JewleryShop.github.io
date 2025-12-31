@@ -47,12 +47,13 @@
   if (data.success) {
     localStorage.setItem("adminToken", data.token);
     window.location.href = "admin-dashboard.html";
+    fetchOrders();
   } else {
     document.getElementById("login-msg").innerText = "Invalid credentials.";
   }
 });
-
-
   </script>
+
+  <script src="./script.js"></script>
 </body>
 </html>

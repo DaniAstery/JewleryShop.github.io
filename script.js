@@ -238,6 +238,7 @@ function renderProducts() {
   const token = localStorage.getItem("adminToken");
 
   async function fetchOrders() {
+    alert("Fetching orders...");
     if (!token) return; // skip if not admin
 
     try {
