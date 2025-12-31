@@ -265,7 +265,7 @@ function renderProducts() {
   }
 
   function renderOrders(orders) {
-    alert(orders);
+    alert(orders.customer.name);
     const tbody = document.querySelector("#ordersTable tbody");
     alert("Orders Table Body:", tbody);
     if (!tbody) return;
