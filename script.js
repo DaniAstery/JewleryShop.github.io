@@ -17,10 +17,10 @@ document.addEventListener("DOMContentLoaded", () => {
   const BACKEND_URL = "https://asterya-production.up.railway.app";
 
   const products = [
-    { id: 1, name: "Classic Dress", price: 49.99, image: "images/placeholder2.png", video: "http://localhost:5001/videos/Item001Cropped.mp4"},
-    { id: 2, name: "Stylish Heels", price: 59.99, image: "images/headphone2.png", video: "http://localhost:5001/videos/Item0002Cropped.mp4"},
-    { id: 3, name: "Casual Handbag", price: 39.99, image: "images/headphone3.png", video: "http://localhost:5001/videos/Item0003Cropped.mp4"},
-    { id: 4, name: "Casual Handbag", price: 39.99, image: "images/placeholder.png", video: "http://localhost:5001/videos/Item001Cropped.mp4"},
+    { id: 1, name: "Classic Dress", price: 49.99, image: "images/placeholder2.png", video: "http://localhost:5001/videos/OP-000 1-4-6.01 Grams .mp4"},
+    { id: 2, name: "Stylish Heels", price: 59.99, image: "images/headphone2.png", video: "http://localhost:5001/videos/OP-000 1-4-6.01 Grams .mp4"},
+    { id: 3, name: "Casual Handbag", price: 39.99, image: "images/headphone3.png", video: "http://localhost:5001/videos/OP-000 1-4-6.01 Grams .mp4"},
+    { id: 4, name: "Casual Handbag", price: 39.99, image: "images/placeholder.png", video: "http://localhost:5001/videos/OP-000 1-4-6.01 Grams .mp4"},
   ];
 
 // RENDER PRODUCTS 
