@@ -240,6 +240,8 @@ function renderProducts() {
   async function fetchOrders() {
     alert("Fetching orders...");
     if (!token) return; // skip if not admin
+    alert("Admin token found, fetching orders...");
+    alert(token);
 
     try {
       const res = await fetch(`${BACKEND_URL}/api/orders`, {
