@@ -273,7 +273,7 @@ function renderOrders(orders) {
     if (orders.status === "Pending") {
       const tr = document.createElement("tr");
       tr.innerHTML = `
-        <td>${orders.customer.id || "-"}</td>
+        <td>${orders._id || "-"}</td>
         <td>${orders.customer.name || "-"}</td>
         <td>${orders.customer.email || "-"}</td>
         <td>${orders.shipping || "-"}</td>
@@ -302,7 +302,7 @@ function renderCompletedOrders(orders) {
     if (order.status === "Completed") {
       const tr = document.createElement("tr");
       tr.innerHTML = `
-        <td>${orders.customer.id || "-"}</td>
+        <td>${orders._id || "-"}</td>
         <td>${orders.customer.name || "-"}</td>
         <td>${orders.customer.email || "-"}</td>
         <td>${orders.items}</td>
