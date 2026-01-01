@@ -178,8 +178,8 @@ document.addEventListener("DOMContentLoaded", () => {
             <td>${order.customer?.id || "-"}</td>
             <td>${order.customer?.name || "-"}</td>
             <td>${order.customer?.email || "-"}</td>
-            <td>${order.items?.name || "-"}</td>
-            <td>${order.payment || "-"}</td>
+            <td>${order.customer.items?.name,', X',order.customer.items?.quantity || "-"}</td>
+            <td>${order.paymentStatus || "-"}</td>
             <td>${order.advance || "-"}</td>
             <td>$${order.total.toFixed(2)}</td>
             <td>${new Date(order.date).toLocaleString()}</td>
