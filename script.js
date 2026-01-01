@@ -140,17 +140,109 @@ document.addEventListener("DOMContentLoaded", () => {
   // ==========================
   // ADMIN
   // ==========================
-  async function fetchOrders() {
-    if (!adminToken) return;
+    async function fetchOrders() {
+      const token = localStorage.getItem("adminToken");
+      if (!token) return;
 
-    const res = await fetch(`${BACKEND_URL}/api/orders`, {
-      headers: { Authorization: `Bearer ${adminToken}` }
+      try {
+        const res = await fetch(`${BACKEND_URL}/api/orders`, {
+          headers: { Authorization: `Bearer ${token}` }
+        });
+
+        if (res.status === 401 || res.status === 403) {
+          localStorage.removeItem("adminToken");
+          window.location.href = "admin.html";
+          return;
+        }
+
+        const orders = await res.json();
+        renderOrders(orders);
+        renderCompletedOrders(orders);
+
+      } catch (err) {
+        console.error("❌ Error fetching orders:", err);
+      }
+    }
+
+    function renderOrders(orders) {
+        const tbody = document.querySelector("#ordersTable tbody");
+        if (!tbody) return;
+
+        tbody.innerHTML = "";
+
+        orders.forEach(order => {
+          if (order.status !== "Pending Payment Invoice") return;
+
+          const tr = document.createElement("tr");
+          tr.innerHTML = `
+            <td>${order.customer?.name || "-"}</td>
+            <td>${order.customer?.email || "-"}</td>
+            <td>${order.shipping || "-"}</td>
+            <td>${order.payment || "-"}</td>
+            <td>$${order.total.toFixed(2)}</td>
+            <td>${new Date(order.date).toLocaleString()}</td>
+            <td>${order.status}</td>
+            <td>
+              <button class="view-proof-btn" data-id="${order._id}">View Proof</button>
+              <button class="complete-btn" data-id="${order._id}">Complete</button>
+            </td>
+          `;
+          tbody.appendChild(tr);
+       });
+    }
+
+
+    function renderCompletedOrders(orders) {
+      const tbody = document.querySelector("#completedOrdersTable tbody");
+      if (!tbody) return;
+
+      tbody.innerHTML = "";
+
+      orders.forEach(order => {
+        if (order.status !== "Completed") return;
+
+        const tr = document.createElement("tr");
+        tr.innerHTML = `
+          <td>${order.customer?.name || "-"}</td>
+          <td>${order.customer?.email || "-"}</td>
+          <td>$${order.total.toFixed(2)}</td>
+          <td>${new Date(order.date).toLocaleString()}</td>
+          <td>
+            <button class="view-proof-btn" data-id="${order._id}">View Proof</button>
+            <button class="delete-btn" data-id="${order._id}">Delete</button>
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    document.addEventListener("click", async e => {
+      const id = e.target.dataset.id;
+      const token = localStorage.getItem("adminToken");
+      if (!id || !token) return;
+
+      if (e.target.classList.contains("complete-btn")) {
+        await fetch(`${BACKEND_URL}/api/orders/${id}`, {
+          method: "PUT",
+          headers: { Authorization: `Bearer ${token}` }
+        });
+        alert("✅ Order completed");
+        fetchOrders();
+      }
+
+      if (e.target.classList.contains("delete-btn")) {
+        if (!confirm("Delete this order?")) return;
+
+        await fetch(`${BACKEND_URL}/api/orders/${id}`, {
+          method: "DELETE",
+          headers: { Authorization: `Bearer ${token}` }
+        });
+        alert("🗑️ Order deleted");
+        fetchOrders();
+      }
     });
 
-    if (!res.ok) return;
-    const orders = await res.json();
-    console.log("Orders:", orders);
-  }
+
 
   // ==========================
   // INIT
