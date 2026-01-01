@@ -1,97 +1,107 @@
-// --------------------------
-// send OTP
-// --------------------------
+// ==========================
+// OTP SERVICE (Send & Verify)
+// ==========================
 
-document.addEventListener("click", e => {
-    
+const BACKEND_URL = "https://backend-production-b183.up.railway.app";
+
+// Helper: safely get cart
+function getCart() {
+  try {
+    return JSON.parse(localStorage.getItem("cart")) || [];
+  } catch {
+    return [];
+  }
+}
+
+// --------------------------
+// SEND OTP
+// --------------------------
+document.addEventListener("click", async (e) => {
   if (!e.target.classList.contains("send-otp")) return;
   e.preventDefault();
 
-  const email = document.getElementById("cust-email").value;
-  const currency = document.getElementById("cust-currency").value;
+  const email = document.getElementById("cust-email")?.value.trim();
+  const currency = document.getElementById("cust-currency")?.value.trim();
+  const cart = getCart();
 
   if (!email) {
-    alert("Please enter your email address.");
+    alert("⚠️ Please enter your email address.");
     return;
   }
 
-        fetch("http://backend-production-b183.up.railway.app/api/send-code", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-            email,
-            currency,
-            cart: selectedItems // Send selected items in the cart
-            })
-        })
-        .then(res => res.json())
-        .then(() => {
-            alert("✅ OTP sent to your email!");
-            localStorage.removeItem("cart");
-        })
-        .catch(err => {
-            console.error(err);
-            alert("❌ Failed to send OTP");
-        });
-        console.log("Selected Items for OTP:", selectedItems);
+  if (!cart.length) {
+    alert("🛒 Your cart is empty.");
+    return;
+  }
+
+  try {
+    const res = await fetch(`${BACKEND_URL}/api/send-code`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        email,
+        currency,
+        cart
+      })
+    });
+
+    const data = await res.json();
+
+    if (!res.ok) {
+      throw new Error(data.error || "Failed to send OTP");
+    }
+
+    alert("✅ OTP sent to your email!");
+    console.log("OTP sent for cart:", cart);
+
+  } catch (err) {
+    console.error("Send OTP error:", err);
+    alert("❌ Failed to send OTP. Please try again.");
+  }
 });
 
 
-// --------------------------// verify OTP
-                 
-document.addEventListener("click", e => {
-    // 1. Check if the clicked element has the "verify-otp" class
-    if (!e.target.classList.contains("verify-otp")) {
-        return;
+// --------------------------
+// VERIFY OTP
+// --------------------------
+document.addEventListener("click", async (e) => {
+  if (!e.target.classList.contains("verify-otp")) return;
+  e.preventDefault();
+
+  const email = document.getElementById("cust-email")?.value.trim();
+  const otp = document.getElementById("cust-otp")?.value.trim();
+
+  if (!email || !otp) {
+    alert("⚠️ Please enter both email and OTP.");
+    return;
+  }
+
+  try {
+    const res = await fetch(`${BACKEND_URL}/api/verify-code`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email, code: otp })
+    });
+
+    const data = await res.json();
+
+    if (!res.ok || !data.success) {
+      throw new Error(data.message || "Invalid OTP");
     }
 
-    // Prevents the default action (like form submission/page reload)
-    e.preventDefault(); 
-    
-    // Get the email and OTP values
-    const email = document.getElementById("cust-email").value;
-    const otp = document.getElementById("cust-otp").value;
-    
-    // Basic validation
-    if (!email || !otp) {
-        alert("Please enter both email and OTP.");
-        return;
-    }
+    alert("✅ Email verified successfully!");
 
-    // Prepare the data payload
-    const payload = {
-        email: email,
-        code: otp
-    };
+    // Enable checkout actions AFTER verification
+    document.getElementById("confirm-checkout")?.removeAttribute("disabled");
+    document.getElementById("confirm-clear")?.removeAttribute("disabled");
+    document.getElementById("close-cart")?.removeAttribute("disabled");
 
-    // Make the POST request
-    fetch("http://backend-production-b183.up.railway.app/api/verify-code", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify(payload)
-    })
-    .then(res => {
-        if (!res.ok) {
-            throw new Error(`HTTP error! status: ${res.status}`);
-        }
-        return res.json();
-    })
-    .then(data => {
-        console.log("Response data:", data);
-        if (data.success) {
-            alert("✅ OTP verified successfully!");
-             document.getElementById("confirm-checkout").disabled = false;
-             document.getElementById("confirm-clear").disabled = false;
-             document.getElementById("close-cart").disabled = false;
-            // You can now show the rest of the checkout form or enable the Place Order button
-           
-        } else {
-            alert("❌ Verification failed: " + data.error);
-        }
-    })
-    
- });
+    // Optional UI unlocks
+    document.querySelector(".payment-info-box")?.classList.remove("hidden");
+    document.querySelector(".payment-proof-section")?.classList.remove("hidden");
 
-    
+  } catch (err) {
+    console.error("Verify OTP error:", err);
+    alert("❌ OTP verification failed.");
+  }
+});
