@@ -25,8 +25,8 @@ document.addEventListener("DOMContentLoaded", () => {
   // PRODUCTS
   // ==========================
   const products = [
-    { id: 1, name: "Classic Dress", price: 49.99, image: "images/placeholder2.png", video: `${BACKEND_URL}/videos/sample.mp4` },
-    { id: 2, name: "Stylish Heels", price: 59.99, image: "images/headphone2.png", video: `${BACKEND_URL}/videos/sample.mp4` },
+    { id: 1, name: "Classic Dress", price: 49.99, image: "images/placeholder2.png", video: `${BACKEND_URL}/videos/OP-0002-4-7.00 Grams.mp4` },
+    { id: 2, name: "Stylish Heels", price: 59.99, image: "images/headphone2.png", video: `${BACKEND_URL}/videos/OP-0002-4-7.00 Grams.mp4` },
   ];
 
   // ==========================
