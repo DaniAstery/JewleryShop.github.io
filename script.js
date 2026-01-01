@@ -178,7 +178,7 @@ document.addEventListener("DOMContentLoaded", () => {
             <td>${order.customer?.id || "-"}</td>
             <td>${order.customer?.name || "-"}</td>
             <td>${order.customer?.email || "-"}</td>
-            <td>${order.items || "-"}</td>
+            <td>${order.items.name || "-"}</td>
             <td>${order.payment || "-"}</td>
              <td>${order.advance || "-"}</td>
             <td>$${order.total.toFixed(2)}</td>
@@ -206,7 +206,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const tr = document.createElement("tr");
         tr.innerHTML = `
           <td>${order.customer?.id|| "-"}</td>
-          <td>${order.items || "-"}</td>
+          <td>${order.items.name || "-"}</td>
           <td>${order.customer?.name || "-"}</td>
           <td>${order.customer?.email || "-"}</td>
           <td>$${order.total.toFixed(2)}</td>
