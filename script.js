@@ -175,18 +175,18 @@ document.addEventListener("DOMContentLoaded", () => {
 
           const tr = document.createElement("tr");
           tr.innerHTML = `
-            <td>${orders.customer?.id || "-"}</td>
-            <td>${orders.customer?.name || "-"}</td>
-            <td>${orders.customer?.email || "-"}</td>
-            <td>${orders.items?.name || "-"}</td>
-            <td>${orders.payment || "-"}</td>
-            <td>${orders.advance || "-"}</td>
-            <td>$${orders.total.toFixed(2)}</td>
-            <td>${new Date(orders.date).toLocaleString()}</td>
-            <td>${orders.status}</td>
+            <td>${order.customer?.id || "-"}</td>
+            <td>${order.customer?.name || "-"}</td>
+            <td>${order.customer?.email || "-"}</td>
+            <td>${order.items?.name || "-"}</td>
+            <td>${order.payment || "-"}</td>
+            <td>${order.advance || "-"}</td>
+            <td>$${order.total.toFixed(2)}</td>
+            <td>${new Date(order.date).toLocaleString()}</td>
+            <td>${order.status}</td>
             <td>
-              <button class="view-proof-btn" data-id="${orders._id}">View Proof</button>
-              <button class="complete-btn" data-id="${orders._id}">Complete</button>
+              <button class="view-proof-btn" data-id="${order._id}">View Proof</button>
+              <button class="complete-btn" data-id="${order._id}">Complete</button>
             </td>
           `;
           tbody.appendChild(tr);
@@ -205,15 +205,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
         const tr = document.createElement("tr");
         tr.innerHTML = `
-          <td>${orders.customer?.id|| "-"}</td>
-          <td>${orders.items?.name|| "-"}</td>
-          <td>${orders.customer?.name || "-"}</td>
-          <td>${orders.customer?.email || "-"}</td>
-          <td>$${orders.total.toFixed(2)}</td>
-          <td>${new Date(orders.date).toLocaleString()}</td>
+          <td>${order.customer?.id|| "-"}</td>
+          <td>${order.items?.name|| "-"}</td>
+          <td>${order.customer?.name || "-"}</td>
+          <td>${order.customer?.email || "-"}</td>
+          <td>$${order.total.toFixed(2)}</td>
+          <td>${new Date(order.date).toLocaleString()}</td>
           <td>
-            <button class="view-proof-btn" data-id="${orders._id}">View Proof</button>
-            <button class="delete-btn" data-id="${orders._id}">Delete</button>
+            <button class="view-proof-btn" data-id="${order._id}">View Proof</button>
+            <button class="delete-btn" data-id="${order._id}">Delete</button>
           </td>
         `;
         tbody.appendChild(tr);
