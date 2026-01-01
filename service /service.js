@@ -22,8 +22,7 @@ document.addEventListener("click", async (e) => {
 
   const email = document.getElementById("cust-email")?.value.trim();
   const currency = document.getElementById("cust-currency")?.value.trim();
-  const cart = JSON.parse(getCart());
-  alert(cart);
+  const cart = getCart();
 
   if (!email) {
     alert("⚠️ Please enter your email address.");
