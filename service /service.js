@@ -3,6 +3,7 @@
 // --------------------------
 
 document.addEventListener("click", e => {
+    
   if (!e.target.classList.contains("send-otp")) return;
   e.preventDefault();
 
@@ -14,7 +15,7 @@ document.addEventListener("click", e => {
     return;
   }
 
-        fetch("https://backend-production-b183.up.railway.app/api/send-code", {
+        fetch("http://backend-production-b183.up.railway.app/api/send-code", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
@@ -37,7 +38,7 @@ document.addEventListener("click", e => {
 
 
 // --------------------------// verify OTP
-// --------------------------                       
+                 
 document.addEventListener("click", e => {
     // 1. Check if the clicked element has the "verify-otp" class
     if (!e.target.classList.contains("verify-otp")) {
@@ -64,7 +65,7 @@ document.addEventListener("click", e => {
     };
 
     // Make the POST request
-    fetch("https://backend-production-b183.up.railway.app/api/verify-code", {
+    fetch("http://backend-production-b183.up.railway.app/api/verify-code", {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
