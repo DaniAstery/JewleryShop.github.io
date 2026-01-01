@@ -178,12 +178,12 @@ document.addEventListener("DOMContentLoaded", () => {
             <td>${order.customer?.id || "-"}</td>
             <td>${order.customer?.name || "-"}</td>
             <td>${order.customer?.email || "-"}</td>
-            <td>${order.customer.items?.name,', X',order.customer.items?.quantity || "-"}</td>
+            <td>${order.items?.name || "-"}</td>
             <td>${order.paymentStatus || "-"}</td>
             <td>${order.advance || "-"}</td>
             <td>$${order.total.toFixed(2)}</td>
             <td>${new Date(order.date).toLocaleString()}</td>
-            <td>${order.status}</td>
+           
             <td>
               <button class="view-proof-btn" data-id="${order._id}">View Proof</button>
               <button class="complete-btn" data-id="${order._id}">Complete</button>
