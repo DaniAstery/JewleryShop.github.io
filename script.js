@@ -171,7 +171,7 @@ document.addEventListener("DOMContentLoaded", () => {
         tbody.innerHTML = "";
 
         orders.forEach(order => {
-          if (order.status !== "Pending Payment Invoice") return;
+          if (order.paymentStatus !== "Pending") return;
 
           const tr = document.createElement("tr");
           tr.innerHTML = `
