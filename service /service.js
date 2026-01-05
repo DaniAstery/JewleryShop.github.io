@@ -36,7 +36,7 @@ document.addEventListener("click", async (e) => {
   }
 
   try {
-    const res = await fetch(`${BACKEND_URL}/api/send-code`, {
+    const res = await fetch("https://localhost:5001/api/send-code", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
