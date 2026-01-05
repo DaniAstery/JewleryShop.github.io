@@ -125,7 +125,7 @@ document.addEventListener("DOMContentLoaded", () => {
 // SEND OTP
 // --------------------------
 document.addEventListener("click", async (e) => {
-  alert("clicked");
+  alert (currency);
   if (!e.target.classList.contains("send-otp")) return;
   e.preventDefault();
 
@@ -142,7 +142,7 @@ document.addEventListener("click", async (e) => {
     alert("🛒 Your cart is empty.");
     return;
   }
-  
+
 
 try {
   const res = await fetch("http://localhost:5001/api/send-code", {
