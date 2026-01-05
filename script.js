@@ -120,6 +120,72 @@ document.addEventListener("DOMContentLoaded", () => {
   cartBtn?.addEventListener("click", () => cartModal.classList.remove("hidden"));
   closeCart?.addEventListener("click", () => cartModal.classList.add("hidden"));
 
+
+// --------------------------
+// SEND OTP
+// --------------------------
+document.addEventListener("click", async (e) => {
+  alert("clicked");
+  if (!e.target.classList.contains("send-otp")) return;
+  e.preventDefault();
+
+  const email = document.getElementById("cust-email")?.value.trim();
+  const currency = document.getElementById("cust-currency")?.value.trim();
+  const cart = getCart();
+
+  if (!email) {
+    alert("⚠️ Please enter your email address.");
+    return;
+  }
+
+  if (!cart.length) {
+    alert("🛒 Your cart is empty.");
+    return;
+  }
+  
+
+try {
+  const res = await fetch("http://localhost:5001/api/send-code", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      email,
+      currency,
+      cart
+    })
+  });
+
+  const data = await res.json();
+
+  if (!res.ok) {
+    throw new Error(data.message || "Failed to send OTP");
+  }
+
+  alert("✅ OTP sent to your email!");
+  console.log("OTP sent for cart:", cart);
+
+} catch (err) {
+  console.error("Send OTP error:", err);
+  alert("❌ Failed to send OTP. Please try again.");
+}
+
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   // ==========================
   // OTP VERIFICATION (ONCE)
   // ==========================
