@@ -17,6 +17,7 @@ function getCart() {
 // SEND OTP
 // --------------------------
 document.addEventListener("click", async (e) => {
+  alert("clicked");
   if (!e.target.classList.contains("send-otp")) return;
   e.preventDefault();
 
