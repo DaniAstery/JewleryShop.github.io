@@ -62,7 +62,7 @@ try {
   }
 
   alert("✅ OTP sent to your email!");
-  console.log("OTP sent for cart:", cleanedCCart);
+  console.log("OTP sent for cart:", cleanedCart);
 
 } catch (err) {
   console.error("Send OTP error:", err);
