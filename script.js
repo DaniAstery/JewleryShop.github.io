@@ -125,10 +125,11 @@ document.addEventListener("DOMContentLoaded", () => {
 // SEND OTP
 // --------------------------
 document.addEventListener("click", async (e) => {
-  alert (currency);
+
   if (!e.target.classList.contains("send-otp")) return;
   e.preventDefault();
-
+  alert("Send OTP clicked");
+  alert(currency);
   const email = document.getElementById("cust-email")?.value.trim();
   const currency = document.getElementById("cust-currency")?.value.trim();
   const cart = getCart();
