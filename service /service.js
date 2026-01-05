@@ -23,14 +23,22 @@ document.addEventListener("click", async (e) => {
   const currency = document.getElementById("cust-currency")?.value.trim();
   alert(currency);
   alert(email);
-  const cart = getCart();
-  alert(JSON.stringify(cart));
+ 
+       const rawCart = getCart();
+       const cleanedCart = rawCart.map(item => ({
+        id: item.id,
+        name: item.name,
+        price: item.price,
+        quantity: item.quantity
+      }));
+
+  alert(JSON.stringify(cleanedCart));
   if (!email) {
     alert("⚠️ Please enter your email address.");
     return;
   }
 
-  if (!cart.length) {
+  if (!cleanedCart.length) {
     alert("🛒 Your cart is empty.");
     return;
   }
@@ -43,7 +51,7 @@ try {
     body: JSON.stringify({
       email,
       currency,
-      cart
+      cart: cleanedCart
     })
   });
 
@@ -54,7 +62,7 @@ try {
   }
 
   alert("✅ OTP sent to your email!");
-  console.log("OTP sent for cart:", cart);
+  console.log("OTP sent for cart:", cleanedCCart);
 
 } catch (err) {
   console.error("Send OTP error:", err);
