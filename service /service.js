@@ -37,7 +37,7 @@ document.addEventListener("click", async (e) => {
 
 
 try {
-  const res = await fetch("https://localhost:5001/api/send-code", {
+  const res = await fetch("http://localhost:5001/api/send-code", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
@@ -79,7 +79,7 @@ document.addEventListener("click", async (e) => {
   }
 
   try {
-    const res = await fetch(`${BACKEND_URL}/api/verify-code`, {
+    const res = await fetch("http://localhost:5001/api/verify-code", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ email, code: otp })
