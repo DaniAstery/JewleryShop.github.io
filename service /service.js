@@ -21,8 +21,8 @@ document.addEventListener("click", async (e) => {
 
   const email = document.getElementById("cust-email")?.value.trim();
   const currency = document.getElementById("cust-currency")?.value.trim();
-  alert(currency);
-  alert(email);
+ 
+
  
        const rawCart = getCart();
        const cleanedCart = rawCart.map(item => ({
@@ -45,7 +45,7 @@ document.addEventListener("click", async (e) => {
 
 
 try {
-  const res = await fetch("http://localhost:5001/api/send-code", {
+  const res = await fetch("https://backend-production-b183.up.railway.app/api/send-code", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
@@ -87,7 +87,7 @@ document.addEventListener("click", async (e) => {
   }
 
   try {
-    const res = await fetch("http://localhost:5001/api/verify-code", {
+    const res = await fetch("https://backend-production-b183.up.railway.app/api/verify-code", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ email, code: otp })
