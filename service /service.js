@@ -2,8 +2,6 @@
 // OTP SERVICE (Send & Verify)
 // ==========================
 
-const BACKEND_URL = "https://localhost:5001"; // Replace with your backend URL
-
 // Helper: safely get cart
 function getCart() {
   try {
