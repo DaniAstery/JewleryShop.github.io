@@ -12,19 +12,21 @@ function getCart() {
     return [];
   }
 }
-
 // --------------------------
 // SEND OTP
 // --------------------------
 document.addEventListener("click", async (e) => {
-  alert("clicked");
+
   if (!e.target.classList.contains("send-otp")) return;
   e.preventDefault();
+  alert("Send OTP clicked");
 
   const email = document.getElementById("cust-email")?.value.trim();
   const currency = document.getElementById("cust-currency")?.value.trim();
+  alert(currency);
+  alert(email);
   const cart = getCart();
-
+  alert(JSON.stringify(cart));
   if (!email) {
     alert("⚠️ Please enter your email address.");
     return;
@@ -35,8 +37,9 @@ document.addEventListener("click", async (e) => {
     return;
   }
 
+
 try {
-  const res = await fetch("http://localhost:5001/api/send-code", {
+  const res = await fetch("https://localhost:5001/api/send-code", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
@@ -61,7 +64,6 @@ try {
 }
 
 });
-
 
 // --------------------------
 // VERIFY OTP
