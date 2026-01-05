@@ -35,30 +35,31 @@ document.addEventListener("click", async (e) => {
     return;
   }
 
-  try {
-    const res = await fetch("https://localhost:5001/api/send-code", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        email,
-        currency,
-        cart
-      })
-    });
+try {
+  const res = await fetch("http://localhost:5001/api/send-code", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      email,
+      currency,
+      cart
+    })
+  });
 
-    const data = await res.json();
+  const data = await res.json();
 
-    if (!res.ok) {
-      throw new Error(data.error || "Failed to send OTP");
-    }
-
-    alert("✅ OTP sent to your email!");
-    console.log("OTP sent for cart:", cart);
-
-  } catch (err) {
-    console.error("Send OTP error:", err);
-    alert("❌ Failed to send OTP. Please try again.");
+  if (!res.ok) {
+    throw new Error(data.message || "Failed to send OTP");
   }
+
+  alert("✅ OTP sent to your email!");
+  console.log("OTP sent for cart:", cart);
+
+} catch (err) {
+  console.error("Send OTP error:", err);
+  alert("❌ Failed to send OTP. Please try again.");
+}
+
 });
 
 
