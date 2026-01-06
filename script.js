@@ -4,7 +4,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // ==========================
   // GLOBALS
   // ==========================
-  const BACKEND_URL = "https://backend-production-b183.up.railway.app";
+  const BACKEND_URL = "https://localhost:5001";
   let cart = JSON.parse(localStorage.getItem("cart")) || [];
   const adminToken = localStorage.getItem("adminToken");
 
@@ -120,92 +120,6 @@ document.addEventListener("DOMContentLoaded", () => {
   cartBtn?.addEventListener("click", () => cartModal.classList.remove("hidden"));
   closeCart?.addEventListener("click", () => cartModal.classList.add("hidden"));
 
-
-// --------------------------
-// SEND OTP
-// --------------------------
-document.addEventListener("click", async (e) => {
-
-  if (!e.target.classList.contains("send-otp")) return;
-  e.preventDefault();
-  alert("Send OTP clicked");
-  alert(currency);
-  const email = document.getElementById("cust-email")?.value.trim();
-  const currency = document.getElementById("cust-currency")?.value.trim();
-  alert(currency);
-  alert(email);
-  const cart = getCart();
-  alert(JSON.stringify(cart));
-  if (!email) {
-    alert("⚠️ Please enter your email address.");
-    return;
-  }
-
-  if (!cart.length) {
-    alert("🛒 Your cart is empty.");
-    return;
-  }
-
-
-try {
-  const res = await fetch("http://localhost:5001/api/send-code", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      email,
-      currency,
-      cart
-    })
-  });
-
-  const data = await res.json();
-
-  if (!res.ok) {
-    throw new Error(data.message || "Failed to send OTP");
-  }
-
-  alert("✅ OTP sent to your email!");
-  console.log("OTP sent for cart:", cart);
-
-} catch (err) {
-  console.error("Send OTP error:", err);
-  alert("❌ Failed to send OTP. Please try again.");
-}
-
-});
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  // ==========================
-  // OTP VERIFICATION (ONCE)
-  // ==========================
-  document.getElementById("Check-otp")?.addEventListener("click", async () => {
-    const email = document.getElementById("cust-email").value;
-    const otp = document.getElementById("cust-otp").value;
-
-    const res = await fetch(`${BACKEND_URL}/verify-code`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email, code: otp })
-    });
-
-    if (res.ok) alert("Email verified");
-    else alert("Invalid OTP");
-  });
-
   // ==========================
   // ADMIN
   // ==========================
@@ -316,6 +230,7 @@ try {
     });
 
 
+    
 
   // ==========================
   // INIT
