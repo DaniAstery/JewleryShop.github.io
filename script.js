@@ -228,14 +228,19 @@ document.addEventListener("DOMContentLoaded", () => {
         fetchOrders();
       }
     });
+  
+// for shop and cart logic
+      // Only run cart logic if cart exists
+      if (document.querySelector("#cart")) {
+        renderProducts();
+        updateCart();
+      }
+      
+//for admin dashboard logic
+    // Only run admin logic if admin table exists
+      if (document.querySelector("#ordersTable")) {
+        fetchOrders();
+      }
 
 
-    
-
-  // ==========================
-  // INIT
-  // ==========================
-  renderProducts();
-  updateCart();
-  fetchOrders();
 });
