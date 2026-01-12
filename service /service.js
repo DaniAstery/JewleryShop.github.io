@@ -16,9 +16,8 @@ function getCart() {
 document.addEventListener("click", async (e) => {
 
   if (!e.target.classList.contains("send-otp")) return;
+  alert("in send otp");
   e.preventDefault();
-  alert("Send OTP clicked");
-
   const email = document.getElementById("cust-email")?.value.trim();
   const currency = document.getElementById("cust-currency")?.value.trim();
  
