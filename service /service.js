@@ -59,8 +59,7 @@ try {
   if (!res.ok) {
     throw new Error(data.message || "Failed to send OTP");
   }
-
-  alert("✅ OTP sent to your email!");
+  alert("✅ OTP sent to your email. Please check your inbox.");
   console.log("OTP sent for cart:", cleanedCart);
 
 } catch (err) {

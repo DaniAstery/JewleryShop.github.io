@@ -5,7 +5,8 @@ document.addEventListener("DOMContentLoaded", () => {
   // GLOBALS
   // ==========================
   const BACKEND_URL = "http://localhost:5001";
-  let cart = JSON.parse(localStorage.getItem("cart")) || [];
+  let cart=[]
+  cart = JSON.parse(localStorage.getItem("cart")) || [];
   const adminToken = localStorage.getItem("adminToken");
 
   // ==========================
@@ -89,6 +90,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // CART
   // ==========================
   function updateCart() {
+    alert("Updating cart...");
     cartItemsContainer.innerHTML = "";
     let total = 0;
 
@@ -103,6 +105,9 @@ document.addEventListener("DOMContentLoaded", () => {
     cartCount.textContent = cart.reduce((s, i) => s + i.quantity, 0);
     localStorage.setItem("cart", JSON.stringify(cart));
   }
+
+
+
 
   productGrid.addEventListener("click", e => {
     if (!e.target.classList.contains("add-to-cart")) return;
@@ -232,8 +237,10 @@ document.addEventListener("DOMContentLoaded", () => {
 // for shop and cart logic
       // Only run cart logic if cart exists
       if (document.querySelector("#cart-btn")) {
-        renderProducts();
-        updateCart();
+        
+          renderProducts();
+   
+     
       }
 
 //for admin dashboard logic
