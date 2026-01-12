@@ -1,3 +1,5 @@
+import { generateReceiptPDF } from "./service /receiptService.js";
+
 let selectedItems = [];
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -306,6 +308,9 @@ document.addEventListener("DOMContentLoaded", () => {
           localStorage.removeItem("cart");
           cart = [];
           updateCart();
+  
+          // Generate PDF receipt
+          await generateReceiptPDF(order);
         } catch (error) {
           console.error("❌ Checkout error:", error);
           alert("❌ Failed to place order. Please try again later.");
