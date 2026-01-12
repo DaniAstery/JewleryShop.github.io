@@ -5,8 +5,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // GLOBALS
   // ==========================
   const BACKEND_URL = "http://localhost:5001";
-  let cart=[]
-  cart = JSON.parse(localStorage.getItem("cart")) || [];
+  let cart=[];
   const adminToken = localStorage.getItem("adminToken");
 
   // ==========================
@@ -90,7 +89,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // CART
   // ==========================
   function updateCart() {
-    alert("Updating cart...");
+ 
     cartItemsContainer.innerHTML = "";
     let total = 0;
 

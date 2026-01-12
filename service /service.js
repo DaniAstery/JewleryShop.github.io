@@ -22,7 +22,7 @@ document.addEventListener("click", async (e) => {
   const currency = document.getElementById("cust-currency")?.value.trim();
  
 
- 
+  // Prepare cleaned cart data for pdf columns
        const rawCart = getCart();
        const cleanedCart = rawCart.map(item => ({
         id: item.id,
@@ -31,7 +31,7 @@ document.addEventListener("click", async (e) => {
         quantity: item.quantity
       }));
 
-  alert(JSON.stringify(cleanedCart));
+
   if (!email) {
     alert("⚠️ Please enter your email address.");
     return;
