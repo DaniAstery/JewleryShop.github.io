@@ -125,83 +125,6 @@ document.addEventListener("DOMContentLoaded", () => {
   closeCart?.addEventListener("click", () => cartModal.classList.add("hidden"));
 
 
-  // ==========================
-  // CONFIRM CHECKOUT
-  // ==========================
-
-document.addEventListener("click", async (e) => {
-  if (!e.target.classList.contains("confirm-checkout")) return;
-  e.preventDefault();
-
-  const name = document.getElementById("cust-name")?.value.trim();
-  const email = document.getElementById("cust-email")?.value.trim();
-  const address = document.getElementById("cust-address")?.value.trim();
-  const shipping = document.getElementById("cust-shipping")?.value.trim();
-  const currency = document.getElementById("cust-currency")?.value;
-  const paymentMethod = document.getElementById("cust-payment")?.value;
-  const proofFile = document.getElementById("payment-proof")?.files[0];
-
-  if (!name || !email || !address || !currency) {
-    alert("⚠️ Please complete all required fields");
-    return;
-  }
-
-  const cart = JSON.parse(localStorage.getItem("cart")) || [];
-  if (!cart.length) {
-    alert("🛒 Cart is empty");
-    return;
-  }
-
-  const items = cart.map(item => ({
-    productId: item.id,
-    name: item.name,
-    price: item.price,
-    quantity: item.quantity,
-    total: item.price * item.quantity
-  }));
-
-  const order = {
-    customer: { name, email, address, shipping },
-    items,
-    currency,
-    paymentMethod,
-    total: items.reduce((s, i) => s + i.total, 0),
-    status: "Pending",
-    paymentStatus: "Pending",
-    date: new Date()
-  };
-
-  const formData = new FormData();
-  formData.append("order", JSON.stringify(order));
-
-  if (proofFile) {
-    formData.append("paymentProof", proofFile);
-  }
-
-  try {
-    const res = await fetch("http://localhost:5001/api/confirm-checkout", {
-      method: "POST",
-      body: formData
-    });
-
-    const data = await res.json();
-
-    if (!res.ok) {
-      alert(data.error || "❌ Checkout failed");
-      return;
-    }
-
-    alert("✅ Order placed successfully!");
-
-    localStorage.removeItem("cart");
-    document.getElementById("checkout-modal")?.classList.add("hidden");
-
-  } catch (err) {
-    console.error("Checkout error:", err);
-    alert("❌ Server error");
-  }
-});
-
 
 
   // ==========================
@@ -328,5 +251,43 @@ document.addEventListener("click", async (e) => {
         fetchOrders();
       }
 
-
-});
+      document.getElementById("confirm-checkout")?.addEventListener("click", async () => {
+        if (cart.length === 0) {
+          alert("🛒 Your cart is empty.");
+          return;
+        }
+  
+        const paymentProofInput = document.getElementById("payment-proof");
+        const paymentProofFile = paymentProofInput?.files[0];
+  
+        if (!paymentProofFile) {
+          alert("⚠️ Please upload your payment proof.");
+          return;
+        }
+  
+        const formData = new FormData();
+        formData.append("order", JSON.stringify(cart));
+        formData.append("paymentProof", paymentProofFile);
+  
+        try {
+          const response = await fetch("http://localhost:5001/api/confirm-checkout", {
+            method: "POST",
+            body: formData
+          });
+  
+          const result = await response.json();
+  
+          if (!response.ok) {
+            throw new Error(result.error || "Failed to confirm checkout.");
+          }
+  
+          alert("✅ Order placed successfully! Your order ID: " + result.orderId);
+          localStorage.removeItem("cart");
+          cart = [];
+          updateCart();
+        } catch (error) {
+          console.error("❌ Checkout error:", error);
+          alert("❌ Failed to place order. Please try again later.");
+        }
+      });
+    }); // Close the confirm-checkout event listener
