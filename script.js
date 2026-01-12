@@ -260,13 +260,34 @@ document.addEventListener("DOMContentLoaded", () => {
         const paymentProofInput = document.getElementById("payment-proof");
         const paymentProofFile = paymentProofInput?.files[0];
   
+        const customerName = document.getElementById("cust-name")?.value.trim();
+        const customerEmail = document.getElementById("cust-email")?.value.trim();
+        const customerAddress = document.getElementById("cust-address")?.value.trim();
+  
+        if (!customerName || !customerEmail || !customerAddress) {
+          alert("⚠️ Please fill in all customer details.");
+          return;
+        }
+  
         if (!paymentProofFile) {
           alert("⚠️ Please upload your payment proof.");
           return;
         }
   
+        const total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+  
+        const order = {
+          customer: {
+            name: customerName,
+            email: customerEmail,
+            address: customerAddress,
+          },
+          items: cart,
+          total,
+        };
+  
         const formData = new FormData();
-        formData.append("order", JSON.stringify(cart));
+        formData.append("order", JSON.stringify(order));
         formData.append("paymentProof", paymentProofFile);
   
         try {
