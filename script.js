@@ -292,7 +292,7 @@ document.addEventListener("DOMContentLoaded", () => {
         formData.append("paymentProof", paymentProofFile);
   
         try {
-          const response = await fetch("http://localhost:5001/api/confirm-checkout", {
+          const response = await fetch("https://backend-production-db6b.up.railway.app/api/confirm-checkout", {
             method: "POST",
             body: formData
           });
