@@ -5,7 +5,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // ==========================
   // GLOBALS
   // ==========================
-  const BACKEND_URL = "https://backend-production-1708.up.railway.app";
+  const BACKEND_URL = "https://backend-production-4a87.up.railway.app";
   let cart=[];
   const adminToken = localStorage.getItem("adminToken");
 
@@ -292,7 +292,7 @@ document.addEventListener("DOMContentLoaded", () => {
         formData.append("paymentProof", paymentProofFile);
   
         try {
-          const response = await fetch("https://backend-production-db6b.up.railway.app/api/confirm-checkout", {
+          const response = await fetch(`${BACKEND_URL}/api/confirm-checkout`, {
             method: "POST",
             body: formData
           });
