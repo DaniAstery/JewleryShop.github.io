@@ -210,7 +210,6 @@ document.addEventListener("DOMContentLoaded", () => {
         `;
         tbody.appendChild(tr);
       });
-      window.location.href = "admin-dashboard.html";
     }
 
     document.addEventListener("click", async e => {
