@@ -132,6 +132,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // ADMIN
   // ==========================
     async function fetchOrders() {
+      alert("in fetch orders");
       const token = localStorage.getItem("adminToken");
       if (!token) return;
 
@@ -209,6 +210,7 @@ document.addEventListener("DOMContentLoaded", () => {
         `;
         tbody.appendChild(tr);
       });
+      window.location.href = "admin-dashboard.html";
     }
 
     document.addEventListener("click", async e => {

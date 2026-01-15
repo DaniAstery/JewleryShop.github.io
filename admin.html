@@ -46,8 +46,7 @@
 
   if (data.success) {
     localStorage.setItem("adminToken", data.token);
-    window.location.href = "admin-dashboard.html";
-    fetchOrders(); // Load orders after login
+    fetchOrders();
   } else {
     document.getElementById("login-msg").innerText = "Invalid credentials.";
   }
