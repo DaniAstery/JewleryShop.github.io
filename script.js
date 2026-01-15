@@ -317,3 +317,11 @@ document.addEventListener("DOMContentLoaded", () => {
         }
       });
     }); // Close the confirm-checkout event listener
+
+
+    // --------------------------
+    //Initializing fetch orders on DOM load
+    // --------------------------
+    document.addEventListener("DOMContentLoaded", () => {
+      fetchOrders();
+   });
