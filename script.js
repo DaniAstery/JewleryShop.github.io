@@ -132,7 +132,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // ADMIN
   // ==========================
     async function fetchOrders() {
-      alert("in fetch orders");
+      alert("fetching");
       const token = localStorage.getItem("adminToken");
       if (!token) return;
 
@@ -318,10 +318,3 @@ document.addEventListener("DOMContentLoaded", () => {
       });
     }); // Close the confirm-checkout event listener
 
-
-    // --------------------------
-    //Initializing fetch orders on DOM load
-    // --------------------------
-    document.addEventListener("DOMContentLoaded", () => {
-      fetchOrders();
-   });
