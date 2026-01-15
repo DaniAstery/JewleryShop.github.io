@@ -134,6 +134,7 @@ document.addEventListener("DOMContentLoaded", () => {
     async function fetchOrders() {
       alert("fetching");
       const token = localStorage.getItem("adminToken");
+      alert(token);
       if (!token) return;
 
       try {
