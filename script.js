@@ -177,8 +177,8 @@ document.addEventListener("DOMContentLoaded", () => {
             <td>${new Date(order.date).toLocaleString()}</td>
            
             <td>
-              <button class="view-proof-btn" data-id="${order.id}">View Proof</button>
-              <button class="complete-btn" data-id="${order.id}">Complete</button>
+              <button class="view-proof-btn" data-id="${order._id}">View Proof</button>
+              <button class="complete-btn" data-id="${order._id}">Complete</button>
             </td>
           `;
           tbody.appendChild(tr);
