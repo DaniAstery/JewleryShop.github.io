@@ -1,0 +1,78 @@
+[{
+  "_id": {
+    "$oid": "693c223b43e0fc36b8eca462"
+  },
+  "paymentType": "Intermediary",
+  "bankName": "Citibank, NA",
+  "accountName": "Oromia International Bank S.C.",
+  "accountNumber": "36914365",
+  "currency": "USD",
+  "branch": "111 Wall Street, New York, NY 10043",
+  "swiftCode": "CITIUS33",
+  "isActive": true
+},
+{
+  "_id": {
+    "$oid": "693c224843e0fc36b8eca464"
+  },
+  "paymentType": "Intermediary",
+  "bankName": "Commerz Bank AG",
+  "accountName": "Oromia International Bank S.C.",
+  "accountNumber": "400870022101",
+  "currency": "USD",
+  "branch": "60261 Frankfurt Am Main",
+  "swiftCode": "COBADEFF",
+  "isActive": true
+},
+{
+  "_id": {
+    "$oid": "693c225643e0fc36b8eca466"
+  },
+  "paymentType": "Intermediary",
+  "bankName": "CAC International Bank",
+  "accountName": "Oromia International Bank S.C.",
+  "accountNumber": "1003465299",
+  "currency": "USD",
+  "branch": "Djibouti",
+  "swiftCode": "CACDDJJD",
+  "isActive": true
+},
+{
+  "_id": {
+    "$oid": "693c228243e0fc36b8eca468"
+  },
+  "paymentType": "Intermediary",
+  "bankName": "EXIM Bank Djibouti S.A",
+  "accountName": "Oromia International Bank S.C.",
+  "accountNumber": "0010008615",
+  "currency": "USD",
+  "branch": "Avenue Mohamed Farah, Djibouti",
+  "swiftCode": "EXTNDJJD",
+  "isActive": true
+},
+{
+  "_id": {
+    "$oid": "693c229743e0fc36b8eca46a"
+  },
+  "paymentType": "Intermediary",
+  "bankName": "Commerz Bank AG",
+  "accountName": "Oromia International Bank S.C.",
+  "accountNumber": "400870022100",
+  "currency": "EUR",
+  "branch": "60261 Frankfurt Am Main",
+  "swiftCode": "COBADEFF",
+  "isActive": true
+},
+{
+  "_id": {
+    "$oid": "693c22a943e0fc36b8eca46c"
+  },
+  "paymentType": "Intermediary",
+  "bankName": "BNCE International Bank Spain (BMCE Bank)",
+  "accountName": "Oromia International Bank S.C.",
+  "accountNumber": "ES3102198601000096601425",
+  "currency": "EUR",
+  "branch": "C. Serrano, 59, 28006 Madrid",
+  "swiftCode": "BMCEESMM",
+  "isActive": true
+}]

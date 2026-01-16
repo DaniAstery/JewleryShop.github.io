@@ -218,7 +218,7 @@ document.addEventListener("DOMContentLoaded", () => {
       if (!id || !token) return;
 
       if (e.target.classList.contains("complete-btn")) {
-        await fetch(`${BACKEND_URL}/api/orders/${id}`, {
+        await fetch("https://backend-production-4a87.up.railway.app/api/orders/${id}", {
           method: "PUT",
           headers: { Authorization: `Bearer ${token}` }
         });
