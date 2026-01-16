@@ -132,13 +132,12 @@ document.addEventListener("DOMContentLoaded", () => {
   // ADMIN
   // ==========================
     async function fetchOrders() {
-      alert("fetching");
+      alert("in fetch orders");
       const token = localStorage.getItem("adminToken");
-      alert(token);
       if (!token) return;
 
       try {
-        const res = await fetch(`${BACKEND_URL}/api/orders`, {
+        const res = await fetch("https://backend-production-4a87.up.railway.app/api/orders", {
           headers: { Authorization: `Bearer ${token}` }
         });
 
@@ -230,7 +229,7 @@ document.addEventListener("DOMContentLoaded", () => {
       if (e.target.classList.contains("delete-btn")) {
         if (!confirm("Delete this order?")) return;
 
-        await fetch(`${BACKEND_URL}/api/orders/${id}`, {
+        await fetch("https://backend-production-4a87.up.railway.app/api/orders/${id}", {
           method: "DELETE",
           headers: { Authorization: `Bearer ${token}` }
         });
@@ -294,7 +293,7 @@ document.addEventListener("DOMContentLoaded", () => {
         formData.append("paymentProof", paymentProofFile);
   
         try {
-          const response = await fetch(`${BACKEND_URL}/api/confirm-checkout`, {
+          const response = await fetch("https://backend-production-4a87.up.railway.app/api/confirm-checkout", {
             method: "POST",
             body: formData
           });
