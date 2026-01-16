@@ -214,12 +214,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
     document.addEventListener("click", async e => {
       const id = e.target.dataset.id;
-      alert(id);
+  
       const token = localStorage.getItem("adminToken");
       if (!id || !token) return;
 
       if (e.target.classList.contains("complete-btn")) {
-        await fetch("https://backend-production-4a87.up.railway.app/api/orders/${id}", {
+        await fetch(`https://backend-production-4a87.up.railway.app/api/orders/${id}`, {
           method: "PUT",
           headers: { Authorization: `Bearer ${token}` }
         });
@@ -230,7 +230,7 @@ document.addEventListener("DOMContentLoaded", () => {
       if (e.target.classList.contains("delete-btn")) {
         if (!confirm("Delete this order?")) return;
 
-        await fetch("https://backend-production-4a87.up.railway.app/api/orders/${id}", {
+        await fetch(`https://backend-production-4a87.up.railway.app/api/orders/${id}`, {
           method: "DELETE",
           headers: { Authorization: `Bearer ${token}` }
         });
