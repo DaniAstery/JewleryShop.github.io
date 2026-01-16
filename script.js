@@ -163,7 +163,7 @@ document.addEventListener("DOMContentLoaded", () => {
         tbody.innerHTML = "";
 
         orders.forEach(order => {
-          if (order.paymentStatus !== "Pending") return;
+         if (order.paymentStatus !== "Pending" || order.status === "Deleted") return;
 
           const tr = document.createElement("tr");
           tr.innerHTML = `
