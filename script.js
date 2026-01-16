@@ -193,7 +193,7 @@ document.addEventListener("DOMContentLoaded", () => {
       tbody.innerHTML = "";
 
       orders.forEach(order => {
-        if (order.status === "Completed") return;
+        if (order.paymentStatus === "Completed") return;
 
         const tr = document.createElement("tr");
         tr.innerHTML = `
