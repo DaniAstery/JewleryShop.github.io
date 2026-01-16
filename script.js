@@ -5,7 +5,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // ==========================
   // GLOBALS
   // ==========================
-  const BACKEND_URL = "https://backend-production-4a87.up.railway.app";
+  const BACKEND_URL = "https://backend-production-4905.up.railway.app";
   let cart=[];
   const adminToken = localStorage.getItem("adminToken");
 
