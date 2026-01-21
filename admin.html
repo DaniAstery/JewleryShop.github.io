@@ -36,7 +36,7 @@
   const username = document.getElementById("admin-username").value;
   const password = document.getElementById("admin-password").value;
 
-  const res = await fetch("http://localhost:8023/admin/login", {
+  const res = await fetch("https://localhost:5001/admin/login", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ username, password })
