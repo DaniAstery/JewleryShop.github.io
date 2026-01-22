@@ -139,7 +139,7 @@ document.addEventListener("DOMContentLoaded", () => {
       if (!token) return;
 
       try {
-        const res = await fetch("https://backend-production-4905.up.railway.app/api/orders", {
+        const res = await fetch("https://localhost:5003/api/orders", {
           headers: { Authorization: `Bearer ${token}` }
         });
 
@@ -221,7 +221,7 @@ document.addEventListener("DOMContentLoaded", () => {
       if (!id || !token) return;
 
       if (e.target.classList.contains("complete-btn")) {
-        await fetch(`https://backend-production-4905.up.railway.app/api/orders/${id}`, {
+        await fetch(`https://localhost:5003/api/orders/${id}`, {
           method: "PUT",
           headers: { Authorization: `Bearer ${token}` }
         });
