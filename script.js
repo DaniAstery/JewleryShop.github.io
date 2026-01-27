@@ -5,7 +5,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // ==========================
   // GLOBALS
   // ==========================
-  const BACKEND_URL = "https://backend-production-4905.up.railway.app";
+  const BACKEND_URL = "https://backend-gpgx.onrender.com";
   let cart=[];
   const adminToken = localStorage.getItem("adminToken");
 
@@ -139,7 +139,7 @@ document.addEventListener("DOMContentLoaded", () => {
       if (!token) return;
 
       try {
-        const res = await fetch("https://localhost:5003/api/orders", {
+        const res = await fetch(`${BACKEND_URL}/api/orders`, {
           headers: { Authorization: `Bearer ${token}` }
         });
 
@@ -221,7 +221,7 @@ document.addEventListener("DOMContentLoaded", () => {
       if (!id || !token) return;
 
       if (e.target.classList.contains("complete-btn")) {
-        await fetch(`https://localhost:5003/api/orders/${id}`, {
+        await fetch(`${BACKEND_URL}/api/orders/${id}`, {
           method: "PUT",
           headers: { Authorization: `Bearer ${token}` }
         });
@@ -286,7 +286,7 @@ document.addEventListener("DOMContentLoaded", () => {
         formData.append("paymentProof", paymentProofFile);
   
         try {
-          const response = await fetch("https://backend-production-4905.up.railway.app/api/confirm-checkout", {
+          const response = await fetch(`${BACKEND_URL}/api/confirm-checkout`, {
             method: "POST",
             body: formData
           });

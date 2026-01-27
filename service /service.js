@@ -44,7 +44,7 @@ document.addEventListener("click", async (e) => {
 
 
 try {
-  const res = await fetch("https://backend-production-4905.up.railway.app/api/send-code", {
+  const res = await fetch(`${BACKEND_URL}/api/send-code`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
@@ -85,7 +85,7 @@ document.addEventListener("click", async (e) => {
   }
 
   try {
-    const res = await fetch("https://backend-production-4905.up.railway.app/api/verify-code", {
+    const res = await fetch(`${BACKEND_URL}/api/verify-code`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ email, code: otp })
