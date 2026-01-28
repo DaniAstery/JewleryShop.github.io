@@ -1,17 +1,15 @@
 {
   "name": "jewelry-shop",
   "version": "1.0.0",
-  "description": "A jewelry shop web application",
+  "description": "A jewelry shop backend application",
   "main": "script.js",
   "scripts": {
-    "start": "node script.js",
-    "build": "npm install && npm run build:client",
-    "build:client": "echo 'Building client...'"
+    "start": "node script.js"
   },
   "dependencies": {
     "resend": "^5.0.0"
   },
   "engines": {
-    "node": ">=16.x"
+    "node": ">=16"
   }
 }
