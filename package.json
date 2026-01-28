@@ -4,10 +4,14 @@
   "description": "A jewelry shop backend application",
   "main": "script.js",
   "scripts": {
-    "start": "node script.js"
+    "start": "node script.js",
+    "dev": "nodemon script.js"
   },
   "dependencies": {
     "resend": "^5.0.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.0"
   },
   "engines": {
     "node": ">=16"
