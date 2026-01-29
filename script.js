@@ -183,7 +183,6 @@ document.addEventListener("DOMContentLoaded", () => {
             <td>${new Date(order.date).toLocaleString()}</td>
            
             <td>
-              <button class="view-proof-btn" data-id="${order._id}">View Proof</button>
               <button class="complete-btn" data-id="${order._id}">Complete</button>
             </td>
           `;
@@ -230,15 +229,41 @@ document.addEventListener("DOMContentLoaded", () => {
       if (!id || !token) return;
 
       if (e.target.classList.contains("complete-btn")) {
-        await fetch(`${BACKEND_URL}/api/orders/${id}`, {
-          method: "PUT",
-          headers: { Authorization: `Bearer ${token}` }
-        });
-        alert("✅ Order completed");
-        fetchOrders();
-      }
+        try {
+            const res = await fetch(`${BACKEND_URL}/api/orders/${id}`, {
+                method: "PUT",
+                headers: { Authorization: `Bearer ${token}` }
+            });
 
-    });
+            if (res.ok) {
+                alert("✅ Order completed");
+                fetchOrders(); // Refresh orders
+            } else {
+                alert("❌ Failed to complete order");
+            }
+        } catch (err) {
+            console.error("❌ Error completing order:", err);
+        }
+    }
+
+    if (e.target.classList.contains("delete-btn")) {
+        try {
+            const res = await fetch(`${BACKEND_URL}/api/orders/${id}`, {
+                method: "DELETE",
+                headers: { Authorization: `Bearer ${token}` }
+            });
+
+            if (res.ok) {
+                alert("✅ Order deleted");
+                fetchOrders(); // Refresh orders
+            } else {
+                alert("❌ Failed to delete order");
+            }
+        } catch (err) {
+            console.error("❌ Error deleting order:", err);
+        }
+    }
+});
   
 // for shop and cart logic
       // Only run cart logic if cart exists
