@@ -387,25 +387,20 @@ button:disabled {
     placeOrderButton.style.color = "white";
   }
 
-  // Display the name of the uploaded file in the payment proof input
-  if (paymentProofInput) {
-    paymentProofInput.addEventListener("change", (event) => {
-      const fileName = event.target.files[0]?.name || "";
-      const proofLabel = document.createElement("p");
-      proofLabel.textContent = `Uploaded File: ${fileName}`;
-      proofLabel.style.marginTop = "0.5rem";
-      proofLabel.style.fontSize = "0.9rem";
-      proofLabel.style.color = "green";
+  // Simplified logic for displaying uploaded file name
+  paymentProofInput = document.getElementById("payment-proof");
+  const proofFileNameDisplay = document.createElement("div");
+  proofFileNameDisplay.id = "proof-file-name";
+  proofFileNameDisplay.style.marginTop = "0.5rem";
+  proofFileNameDisplay.style.fontSize = "0.9rem";
+  proofFileNameDisplay.style.color = "green";
 
-      // Remove any existing label before appending
-      const existingLabel = paymentProofInput.nextElementSibling;
-      if (existingLabel) {
-        existingLabel.remove();
-      }
+  paymentProofInput.insertAdjacentElement("afterend", proofFileNameDisplay);
 
-      paymentProofInput.insertAdjacentElement("afterend", proofLabel);
-    });
-  }
+  paymentProofInput.addEventListener("change", (event) => {
+    const fileName = event.target.files[0]?.name || "No file selected";
+    proofFileNameDisplay.textContent = `Uploaded File: ${fileName}`;
+  });
   </script>
 </body>
 </html>
