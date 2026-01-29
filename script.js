@@ -166,12 +166,17 @@ document.addEventListener("DOMContentLoaded", () => {
         orders.forEach(order => {
          if (order.paymentStatus !== "Pending" || order.status === "Deleted") return;
 
+          // Handle order.items as an array
+          const items = Array.isArray(order.items)
+            ? order.items.map(item => item.name).join(", ")
+            : order.items?.name || "-";
+
           const tr = document.createElement("tr");
           tr.innerHTML = `
             <td>${order.customer?.id || "-"}</td>
             <td>${order.customer?.name || "-"}</td>
             <td>${order.customer?.email || "-"}</td>
-            <td>${order.items?.name || "-"}</td>
+            <td>${items}</td>
             <td>${order.paymentStatus || "-"}</td>
             <td>${order.advance || "-"}</td>
             <td>$${order.total.toFixed(2)}</td>
@@ -309,14 +314,4 @@ document.addEventListener("DOMContentLoaded", () => {
         }
       });
     }); // Close the confirm-checkout event listener
-
-    // Add functionality to close the checkout modal when the 'x' is clicked
-    const checkoutModal = document.getElementById('checkout-modal');
-    const closeCheckoutButton = document.getElementById('close-checkout');
-
-    if (closeCheckoutButton) {
-      closeCheckoutButton.addEventListener('click', () => {
-        checkoutModal.classList.add('hidden');
-      });
-    }
 
