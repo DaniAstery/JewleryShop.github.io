@@ -1,4 +1,3 @@
-
 let selectedItems = [];
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -310,4 +309,14 @@ document.addEventListener("DOMContentLoaded", () => {
         }
       });
     }); // Close the confirm-checkout event listener
+
+    // Add functionality to close the checkout modal when the 'x' is clicked
+    const checkoutModal = document.getElementById('checkout-modal');
+    const closeCheckoutButton = document.getElementById('close-checkout');
+
+    if (closeCheckoutButton) {
+      closeCheckoutButton.addEventListener('click', () => {
+        checkoutModal.classList.add('hidden');
+      });
+    }
 
