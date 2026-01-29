@@ -240,6 +240,41 @@ document.addEventListener("DOMContentLoaded", () => {
 
     });
   
+    document.addEventListener("click", async (e) => {
+      const id = e.target.dataset.id;
+
+      if (e.target.classList.contains("view-proof-btn")) {
+        try {
+          const token = localStorage.getItem("adminToken");
+          if (!token) {
+            alert("Unauthorized: Admin token is missing.");
+            return;
+          }
+
+          const res = await fetch(`${BACKEND_URL}/api/orders/${id}/proof`, {
+            headers: { Authorization: `Bearer ${token}` },
+          });
+
+          if (!res.ok) {
+            alert("Failed to fetch proof. Please try again.");
+            return;
+          }
+
+          const proofData = await res.json();
+          const proofUrl = proofData.proofUrl; // Assuming the backend returns a proof URL
+
+          if (proofUrl) {
+            window.open(proofUrl, "_blank"); // Open proof in a new tab
+          } else {
+            alert("No proof available for this order.");
+          }
+        } catch (error) {
+          console.error("Error fetching proof:", error);
+          alert("An error occurred while fetching the proof.");
+        }
+      }
+    });
+  
 // for shop and cart logic
       // Only run cart logic if cart exists
       if (document.querySelector("#cart-btn")) {
