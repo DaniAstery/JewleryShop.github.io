@@ -26,11 +26,11 @@ document.addEventListener("DOMContentLoaded", () => {
   // PRODUCTS
   // ==========================
   const products = [
-    { id: 1, name: "1.5 GRAMS OVAL",price: 49.99, image: "images/placeholder2.png", video: `${BACKEND_URL}/videos/1.mp4` },
-    { id: 2, name: "2 GRAMS OVAL", price: 59.99, image: "images/placeholder2.png", video: `${BACKEND_URL}/videos/2.mp4` },
-    { id: 3, name: "3 GRAMS OVAL", price: 59.99, image: "images/placeholder2.png", video: `${BACKEND_URL}/videos/3.mp4` },
-    { id: 4, name: "4 GRAMS OVAL", price: 59.99, image: "images/placeholder2.png", video: `${BACKEND_URL}/videos/4.mp4` },
-    { id: 5, name: "5 GRAMS OVAL", price: 59.99, image: "images/placeholder2.png", video: `${BACKEND_URL}/videos/5.mp4` }
+    { id: 1, name: "1.5 GRAMS OVAL",price: 49.99, image: "images/item001.png", video: `${BACKEND_URL}/videos/1.mp4` },
+    { id: 2, name: "2 GRAMS OVAL", price: 59.99, image: "images/item002.png", video: `${BACKEND_URL}/videos/2.mp4` },
+    { id: 3, name: "3 GRAMS OVAL", price: 59.99, image: "images/item001.png", video: `${BACKEND_URL}/videos/3.mp4` },
+    { id: 4, name: "4 GRAMS OVAL", price: 59.99, image: "images/item002.png", video: `${BACKEND_URL}/videos/4.mp4` },
+    { id: 5, name: "5 GRAMS OVAL", price: 59.99, image: "images/item001.png", video: `${BACKEND_URL}/videos/5.mp4` }
   ];
 
   // ==========================
