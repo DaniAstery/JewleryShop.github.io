@@ -201,10 +201,15 @@ document.addEventListener("DOMContentLoaded", () => {
       orders.forEach(order => {
         if (order.paymentStatus !== "Completed") return;
 
+        // Handle order.items as an array
+        const items = Array.isArray(order.items)
+            ? order.items.map(item => item.name).join(", ")
+            : order.items?.name || "-";
+
         const tr = document.createElement("tr");
         tr.innerHTML = `
-          <td>${order.customer?.id|| "-"}</td>
-          <td>${order.items?.name|| "-"}</td>
+          <td>${order.customer?.id || "-"}</td>
+          <td>${items}</td>
           <td>${order.customer?.name || "-"}</td>
           <td>${order.customer?.email || "-"}</td>
           <td>$${order.total.toFixed(2)}</td>
