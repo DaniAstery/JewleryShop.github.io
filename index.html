@@ -344,5 +344,68 @@ button:disabled {
 </style>
   <script src="script.js" defer></script>  
   <script src="./service /service.js" defer></script>  
+  <script>
+  // Update button text and color during OTP send/verify progress
+  const sendOtpButton = document.getElementById("send-otp");
+  const verifyOtpButton = document.getElementById("Check-otp");
+  const placeOrderButton = document.getElementById("confirm-checkout");
+  const paymentProofInput = document.getElementById("payment-proof");
+
+  if (sendOtpButton) {
+    sendOtpButton.addEventListener("click", () => {
+      sendOtpButton.textContent = "Sending...";
+      sendOtpButton.disabled = true;
+      sendOtpButton.style.backgroundColor = "orange";
+
+      // Simulate OTP send progress
+      setTimeout(() => {
+        sendOtpButton.textContent = "Send OTP";
+        sendOtpButton.disabled = false;
+        sendOtpButton.style.backgroundColor = "";
+      }, 3000); // Simulate 3 seconds delay
+    });
+  }
+
+  if (verifyOtpButton) {
+    verifyOtpButton.addEventListener("click", () => {
+      verifyOtpButton.textContent = "Verifying...";
+      verifyOtpButton.disabled = true;
+      verifyOtpButton.style.backgroundColor = "orange";
+
+      // Simulate OTP verification progress
+      setTimeout(() => {
+        verifyOtpButton.textContent = "Verify OTP";
+        verifyOtpButton.disabled = false;
+        verifyOtpButton.style.backgroundColor = "";
+      }, 3000); // Simulate 3 seconds delay
+    });
+  }
+
+  // Change place order button color to blue
+  if (placeOrderButton) {
+    placeOrderButton.style.backgroundColor = "blue";
+    placeOrderButton.style.color = "white";
+  }
+
+  // Display the name of the uploaded file in the payment proof input
+  if (paymentProofInput) {
+    paymentProofInput.addEventListener("change", (event) => {
+      const fileName = event.target.files[0]?.name || "";
+      const proofLabel = document.createElement("p");
+      proofLabel.textContent = `Uploaded File: ${fileName}`;
+      proofLabel.style.marginTop = "0.5rem";
+      proofLabel.style.fontSize = "0.9rem";
+      proofLabel.style.color = "green";
+
+      // Remove any existing label before appending
+      const existingLabel = paymentProofInput.nextElementSibling;
+      if (existingLabel) {
+        existingLabel.remove();
+      }
+
+      paymentProofInput.insertAdjacentElement("afterend", proofLabel);
+    });
+  }
+  </script>
 </body>
 </html>
