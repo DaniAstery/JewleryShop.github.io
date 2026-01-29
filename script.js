@@ -164,7 +164,7 @@ document.addEventListener("DOMContentLoaded", () => {
         tbody.innerHTML = "";
 
         orders.forEach(order => {
-         if (order.paymentStatus !== "Pending" || order.status === "") return;
+         if (order.paymentStatus !== "Pending" || order.status === "Deleted") return;
 
           // Handle order.items as an array
           const items = Array.isArray(order.items)
@@ -222,37 +222,23 @@ document.addEventListener("DOMContentLoaded", () => {
         tbody.appendChild(tr);
       });
     }
-// ==========================
-// COMPLETE ORDER
-// ==========================
+
     document.addEventListener("click", async e => {
       const id = e.target.dataset.id;
-
+  
       const token = localStorage.getItem("adminToken");
       if (!id || !token) return;
 
       if (e.target.classList.contains("complete-btn")) {
-        try {
-            const res = await fetch(`${BACKEND_URL}/api/orders/${id}`, {
-                method: "PUT",
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({ paymentStatus: "Completed" }) // Update payment status
-            });
+        await fetch(`${BACKEND_URL}/api/orders/${id}`, {
+          method: "PUT",
+          headers: { Authorization: `Bearer ${token}` }
+        });
+        alert("✅ Order completed");
+        fetchOrders();
+      }
 
-            if (res.ok) {
-                alert("✅ Order marked as completed");
-                fetchOrders(); // Refresh orders to update both pending and completed lists
-            } else {
-                alert("❌ Failed to complete order");
-            }
-        } catch (err) {
-            console.error("❌ Error completing order:", err);
-        }
-    }
-});
+    });
   
 // for shop and cart logic
       // Only run cart logic if cart exists
