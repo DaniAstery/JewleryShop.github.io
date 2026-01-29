@@ -406,29 +406,6 @@ button:disabled {
       paymentProofInput.insertAdjacentElement("afterend", proofLabel);
     });
   }
-
-  // Enable the "Place Order" button when all required fields are filled
-placeOrderButton = document.getElementById("confirm-checkout");
-const requiredFields = [
-  document.getElementById("cust-name"),
-  document.getElementById("cust-email"),
-  document.getElementById("cust-address"),
-  document.getElementById("cust-otp"),
-  document.getElementById("payment-proof")
-];
-
-requiredFields.forEach(field => {
-  field.addEventListener("input", () => {
-    const allFilled = requiredFields.every(input => {
-      if (input.type === "file") {
-        return input.files.length > 0; // Check if a file is uploaded
-      }
-      return input.value.trim() !== "";
-    });
-
-    placeOrderButton.disabled = !allFilled;
-  });
-});
   </script>
 </body>
 </html>
