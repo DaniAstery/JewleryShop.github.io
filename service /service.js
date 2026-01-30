@@ -112,3 +112,4 @@ document.addEventListener("click", async (e) => {
     alert("❌ OTP verification failed.");
   }
 });
+
