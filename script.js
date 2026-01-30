@@ -341,14 +341,13 @@ document.addEventListener("DOMContentLoaded", () => {
             throw new Error(result.error || "Failed to confirm checkout.");
           }
   
-          // Call the email API with the customer's email address
-          await fetch("https://backend-gpgx.onrender.com/api/send-email", {
+          // Call the backend endpoint to send the order confirmation email
+          await fetch(`${BACKEND_URL}/api/send-order-confirmation`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
-              to: [customerEmail],
-              subject: "Order Confirmation",
-              message: `Dear ${customerName},\n\nWe have received your order. We will get back to you with the tracking number for your items. Usually, confirmation takes 4-5 days. In the meantime, you can reach our support line via WhatsApp at +251998476704 for updates on the status. A commercial invoice will be in your inbox.\n\nThank you for shopping with us!`,
+              customerEmail,
+              customerName,
             }),
           });
   
