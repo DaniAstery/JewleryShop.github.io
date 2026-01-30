@@ -345,13 +345,24 @@ document.addEventListener("DOMContentLoaded", () => {
           localStorage.removeItem("cart");
           cart = [];
           updateCart();
-  
-          // Generate PDF receipt
-        //  await generateReceiptPDF(order);
+
+          // Close the checkout modal
+          checkoutModal?.classList.add("hidden");
+
         } catch (error) {
           console.error("❌ Checkout error:", error);
           alert("❌ Failed to place order. Please try again later.");
         }
       });
+    
+    // Adding clear button functionality
+    const clearCartBtn = document.getElementById("clear-cart");
+    if (clearCartBtn) {
+      clearCartBtn.addEventListener("click", () => {
+        cart = [];
+        updateCart();
+        alert("Cart cleared successfully!");
+      });
+    }
     }); // Close the confirm-checkout event listener
 
