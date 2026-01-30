@@ -355,12 +355,13 @@ document.addEventListener("DOMContentLoaded", () => {
       });
     }); // Close the confirm-checkout event listener
 
-    // Adding functionality for confirm-clear button to clear cache
+    // Updating confirm-clear button to clear cart and refresh the page
     const confirmClearBtn = document.getElementById("confirm-clear");
     if (confirmClearBtn) {
       confirmClearBtn.addEventListener("click", () => {
-        localStorage.clear();
-        alert("Cache cleared successfully!");
+        localStorage.removeItem("cart"); // Clear only the cart from local storage
+        alert("Cart cleared successfully!");
+        location.reload(); // Refresh the page
       });
     }
 
