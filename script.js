@@ -25,7 +25,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // PRODUCTS
   // ==========================
   const products = [
-    { id: 1, name: "35 ct OVAL",price:0.0, image: "images/1.png", video: `${BACKEND_URL}/videos/1.mp4` },
+    { id: 1, name: "4 pcs Ethiopian Opal | 35 ct (7 g) | Multicolor,price: $330 shipped, image: "images/1.png", video: `${BACKEND_URL}/videos/1.mp4` },
     { id: 12, name: "35 ct OVAL", price: 0.0, image: "images/Necklace.png", video: `${BACKEND_URL}/videos/Necklace.mp4`},
     { id: 2, name: "35 ct OVAL", price: 0.0, image: "images/2.png", video: `${BACKEND_URL}/videos/2.mp4` },
     { id: 3, name: "35 ct OVAL", price: 0.0, image: "images/3.png", video: `${BACKEND_URL}/videos/3.mp4` },
