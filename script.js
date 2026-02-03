@@ -25,11 +25,20 @@ document.addEventListener("DOMContentLoaded", () => {
   // PRODUCTS
   // ==========================
   const products = [
-    { id: 1, name: "35 ct OVAL",price:94.99, image: "images/item001.png", video: `${BACKEND_URL}/videos/1.mp4` },
-    { id: 2, name: "35 ct OVAL", price: 94.99, image: "images/item002.png", video: `${BACKEND_URL}/videos/2.mp4` },
-    { id: 3, name: "35 ct OVAL", price: 94.99, image: "images/item001.png", video: `${BACKEND_URL}/videos/3.mp4` },
-    { id: 4, name: "35 ct OVAL", price: 94.99, image: "images/item002.png", video: `${BACKEND_URL}/videos/4.mp4` },
-    { id: 5, name: "35 ct OVAL", price: 94.99, image: "images/item001.png", video: `${BACKEND_URL}/videos/5.mp4` }
+    { id: 1, name: "35 ct OVAL",price:0.0, image: "images/1.png", video: `${BACKEND_URL}/videos/1.mp4` },
+    { id: 12, name: "35 ct OVAL", price: 0.0, image: "images/Necklace.png", video: `${BACKEND_URL}/videos/Necklace.mp4`},
+    { id: 2, name: "35 ct OVAL", price: 0.0, image: "images/2.png", video: `${BACKEND_URL}/videos/2.mp4` },
+    { id: 3, name: "35 ct OVAL", price: 0.0, image: "images/3.png", video: `${BACKEND_URL}/videos/3.mp4` },
+   // { id: 4, name: "35 ct OVAL", price: 0.0, image: "images/4.png", video: `${BACKEND_URL}/videos/4.mp4` },
+    { id: 5, name: "35 ct OVAL", price: 0.0, image: "images/5.png", video: `${BACKEND_URL}/videos/5.mp4` },
+    { id: 6, name: "35 ct OVAL", price: 0.0, image: "images/6.png", video: `${BACKEND_URL}/videos/6.mp4` },
+    { id: 7, name: "35 ct OVAL", price: 0.0, image: "images/7.png", video: `${BACKEND_URL}/videos/7.mp4`},
+    { id: 8, name: "35 ct OVAL", price: 0.0, image: "images/8.png", video: `${BACKEND_URL}/videos/8.mp4` },
+    { id: 9, name: "35 ct OVAL", price: 0.0, image: "images/9.png", video: `${BACKEND_URL}/videos/9.mp4` },
+    { id: 10, name: "35 ct OVAL", price: 0.0, image: "images/10.png", video:`${BACKEND_URL}/videos/10.mp4`},
+    { id: 11, name: "35 ct OVAL", price: 0.0, image: "images/11.png", video: `${BACKEND_URL}/videos/11.mp4`}
+    
+
   ];
 
   // ==========================
