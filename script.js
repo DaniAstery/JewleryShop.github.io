@@ -25,17 +25,17 @@ document.addEventListener("DOMContentLoaded", () => {
   // PRODUCTS
   // ==========================
   const products = [
-    { id: 1, name: "4 pcs Ethiopian Opal | 35 ct (7.00 g) | Oval Cabochon | ~12 × 9 × 5 mm avg | Multicolor |shipped", price:330.00, image: "images/1.png", video: `${BACKEND_URL}/videos/2.mp4` },
-    { id: 2, name: "5 pcs Ethiopian Opal | 36.65 ct (7.33 g) | Oval Cabochon | ~11 × 9 × 5 mm avg | Multicolor |shipped", price: 340.00, image: "images/2.png", video: `${BACKEND_URL}/videos/3.mp4` },
-    { id: 3, name: "4 pcs Ethiopian Opal | 36.05 ct (7.21 g) | Oval Cabochon | ~12 × 10 × 5 mm avg | Multicolor |shipped", price: 335.00, image: "images/3.png", video: `${BACKEND_URL}/videos/4.mp4` },
-    { id: 4, name: "3 pcs | 39.45 ct  Ethiopian Opal | 39.45 ct (7.89 g) | Oval Cabochon | ~14 × 10 × 6 mm avg | Multicolor |shipped", price: 355.00, image: "images/4.png", video: `${BACKEND_URL}/videos/5.mp4` },
-    { id: 5, name: "4 pcs | 29.45 ct  Ethiopian Opal | 29.45 ct (5.89 g) | Oval Cabochon | ~11 × 9 × 5 mm avg | Multicolor | shipped", price: 265.00, image: "images/5.png", video: `${BACKEND_URL}/videos/6.mp4` },
-    { id: 6, name: "4 pcs | 30.80 ct  Ethiopian Opal | 30.80 ct (6.16 g) | Oval Cabochon | ~11 × 9 × 5 mm avg | Multicolor | shipped", price: 275.00, image: "images/6.png", video: `${BACKEND_URL}/videos/7.mp4` },
-    { id: 7, name: "8 pcs | 57.35 ct  Ethiopian Opal | 57.35 ct (11.47 g) | Oval Cabochon | ~10 × 8 × 4.5 mm avg | Multicolor |shipped", price: 430.00, image: "images/7.png", video: `${BACKEND_URL}/videos/8.mp4`},
-    { id: 8, name: "8 pcs | 50.05 ct  Ethiopian Opal | 50.05 ct (10.01 g) | Oval Cabochon | ~10 × 8 × 4.5 mm avg | Multicolor |shipped", price: 375.00, image: "images/8.png", video: `${BACKEND_URL}/videos/9.mp4`},
-    { id: 9, name: "36 pcs | 332.25 ct  Ethiopian Opal | 332.25 ct (66.45 g) | Mixed Oval Cabochon | ~9 × 7 × 4 mm avg | Multicolor |shipped — wholesale sweet spot)", price: 1495.00, image: "images/9.png", video: `${BACKEND_URL}/videos/10.mp4`},
-    { id: 10, name:"74 pcs | 498.55 ct  Ethiopian Opal | 498.55 ct (99.71 g) | Mixed Oval Cabochon | ~8 × 7 × 4 mm avg | Multicolor |shipped", price: 2150.00, image:"images/10.png", video:`${BACKEND_URL}/videos/11.mp4`},
-    { id: 11, name:"75 pcs | 645.60 ct  Ethiopian Opal | 645.60 ct (129.12 g) | Mixed Oval Cabochon | ~9 × 7 × 4 mm avg | Multicolor | shipped", price: 2650.00, image:"images/11.png", video: `${BACKEND_URL}/videos/12.mp4`},
+    { id: 1, name: "4 pcs Ethiopian Opal | 35 ct (7.00 g) | Oval Cabochon | ~12 × 9 × 5 mm avg | Multicolor |shipped", price:330.00, image: "images/1.png", video: `${BACKEND_URL}/videos/1.mp4` },
+    { id: 2, name: "5 pcs Ethiopian Opal | 36.65 ct (7.33 g) | Oval Cabochon | ~11 × 9 × 5 mm avg | Multicolor |shipped", price: 340.00, image: "images/2.png", video: `${BACKEND_URL}/videos/2.mp4` },
+    { id: 3, name: "4 pcs Ethiopian Opal | 36.05 ct (7.21 g) | Oval Cabochon | ~12 × 10 × 5 mm avg | Multicolor |shipped", price: 335.00, image: "images/3.png", video: `${BACKEND_URL}/videos/3.mp4` },
+    { id: 4, name: "3 pcs | 39.45 ct  Ethiopian Opal | 39.45 ct (7.89 g) | Oval Cabochon | ~14 × 10 × 6 mm avg | Multicolor |shipped", price: 355.00, image: "images/4.png", video: `${BACKEND_URL}/videos/4.mp4` },
+    { id: 5, name: "4 pcs | 29.45 ct  Ethiopian Opal | 29.45 ct (5.89 g) | Oval Cabochon | ~11 × 9 × 5 mm avg | Multicolor | shipped", price: 265.00, image: "images/5.png", video: `${BACKEND_URL}/videos/5.mp4` },
+    { id: 6, name: "4 pcs | 30.80 ct  Ethiopian Opal | 30.80 ct (6.16 g) | Oval Cabochon | ~11 × 9 × 5 mm avg | Multicolor | shipped", price: 275.00, image: "images/6.png", video: `${BACKEND_URL}/videos/6.mp4` },
+    { id: 7, name: "8 pcs | 57.35 ct  Ethiopian Opal | 57.35 ct (11.47 g) | Oval Cabochon | ~10 × 8 × 4.5 mm avg | Multicolor |shipped", price: 430.00, image: "images/7.png", video: `${BACKEND_URL}/videos/7.mp4`},
+    { id: 8, name: "8 pcs | 50.05 ct  Ethiopian Opal | 50.05 ct (10.01 g) | Oval Cabochon | ~10 × 8 × 4.5 mm avg | Multicolor |shipped", price: 375.00, image: "images/8.png", video: `${BACKEND_URL}/videos/8.mp4`},
+    { id: 9, name: "36 pcs | 332.25 ct  Ethiopian Opal | 332.25 ct (66.45 g) | Mixed Oval Cabochon | ~9 × 7 × 4 mm avg | Multicolor |shipped — wholesale sweet spot)", price: 1495.00, image: "images/9.png", video: `${BACKEND_URL}/videos/9.mp4`},
+    { id: 10, name:"74 pcs | 498.55 ct  Ethiopian Opal | 498.55 ct (99.71 g) | Mixed Oval Cabochon | ~8 × 7 × 4 mm avg | Multicolor |shipped", price: 2150.00, image:"images/10.png", video:`${BACKEND_URL}/videos/10.mp4`},
+    { id: 11, name:"75 pcs | 645.60 ct  Ethiopian Opal | 645.60 ct (129.12 g) | Mixed Oval Cabochon | ~9 × 7 × 4 mm avg | Multicolor | shipped", price: 2650.00, image:"images/11.png", video: `${BACKEND_URL}/videos/11.mp4`},
     { id: 12, name: "Necklace", price: 345, image:"images/Necklace.png", video: `${BACKEND_URL}/videos/Necklace.mp4`},
   ];
 
