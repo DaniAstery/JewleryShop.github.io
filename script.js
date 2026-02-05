@@ -36,29 +36,38 @@ document.addEventListener("DOMContentLoaded", () => {
     { id: 9, name: "36 pcs | 332.25 ct  Ethiopian Opal | 332.25 ct (66.45 g) | Mixed Oval Cabochon | ~9 × 7 × 4 mm avg | Multicolor |shipped — wholesale", price: 1495.00, image: "images/9.png", video: "https://res.cloudinary.com/dv2ff7sl2/video/upload/v1770312715/9_nqxrzj.mp4"},
     { id: 10, name:"74 pcs | 498.55 ct  Ethiopian Opal | 498.55 ct (99.71 g) | Mixed Oval Cabochon | ~8 × 7 × 4 mm avg | Multicolor |shipped", price: 2150.00, image:"images/10.png", video:"https://res.cloudinary.com/dv2ff7sl2/video/upload/v1770312704/8_rmbruy.mp4"},
     { id: 11, name:"75 pcs | 645.60 ct  Ethiopian Opal | 645.60 ct (129.12 g) | Mixed Oval Cabochon | ~9 × 7 × 4 mm avg | Multicolor | shipped", price: 2650.00, image:"images/11.png", video: "https://res.cloudinary.com/dv2ff7sl2/video/upload/v1770312699/11_udhyxj.mp4"},
-    { id: 12, name: "Necklace", price: 345, image:"images/Necklace.png", video:"https://player.cloudinary.com/embed/?cloud_name=dv2ff7sl2&public_id=Necklace_o6amcj"},
+    { id: 12, name: "Necklace", price: 345, image:"images/Necklace.png", video:"https://res.cloudinary.com/dv2ff7sl2/video/upload/v1770312727/Necklace_o6amcj.mp4"},
   ];
 
-  // ==========================
-  // INTERSECTION OBSERVER
-  // ==========================
   const observer = new IntersectionObserver(entries => {
-    entries.forEach(entry => {
-      const video = entry.target;
-      const img = video.previousElementSibling;
+  entries.forEach(entry => {
+    const video = entry.target;
+    const img = video.previousElementSibling;
 
-      if (entry.isIntersecting) {
-        video.play().catch(() => {});
+    if (entry.isIntersecting) {
+
+      // wait until video is ready
+      const showVideo = () => {
         video.style.opacity = 1;
         img.style.opacity = 0;
+      };
+
+      if (video.readyState >= 3) {
+        showVideo();
       } else {
-        video.pause();
-        video.currentTime = 0;
-        video.style.opacity = 0;
-        img.style.opacity = 1;
+        video.addEventListener("loadeddata", showVideo, { once: true });
       }
-    });
-  }, { threshold: 0.5 });
+
+      video.play().catch(() => {});
+
+    } else {
+      video.pause();
+      video.currentTime = 0;
+      video.style.opacity = 0;
+      img.style.opacity = 1;
+    }
+  });
+}, { threshold: 0.5 });
 
   // ==========================
   // RENDER PRODUCTS
