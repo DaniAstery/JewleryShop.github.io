@@ -39,20 +39,23 @@ document.addEventListener("DOMContentLoaded", () => {
     { id: 12, name: "Necklace", price: 345, image:"images/Necklace.png", video:"https://res.cloudinary.com/dv2ff7sl2/video/upload/f_auto,q_auto,vc_auto,br_auto/v1770312727/Necklace_o6amcj.mp4"},
   ];
 
-  const observer = new IntersectionObserver(entries => {
+  // ==========================
+// INTERSECTION OBSERVER
+// ==========================
+const observer = new IntersectionObserver(entries => {
   entries.forEach(entry => {
     const video = entry.target;
-    const img = video.previousElementSibling;
+    const placeholder = video.previousElementSibling;
 
     if (entry.isIntersecting) {
 
-      // wait until video is ready
+      // Only show video once it has loaded enough data
       const showVideo = () => {
-        video.style.opacity = 1;
-        img.style.opacity = 0;
+        video.style.opacity = 1;       // show video
+        placeholder.style.opacity = 0; // hide placeholder
       };
 
-      if (video.readyState >= 3) {
+      if (video.readyState >= 3) { // HAVE_FUTURE_DATA
         showVideo();
       } else {
         video.addEventListener("loadeddata", showVideo, { once: true });
@@ -61,10 +64,11 @@ document.addEventListener("DOMContentLoaded", () => {
       video.play().catch(() => {});
 
     } else {
+      // Reset when out of viewport
       video.pause();
       video.currentTime = 0;
       video.style.opacity = 0;
-      img.style.opacity = 1;
+      placeholder.style.opacity = 1;
     }
   });
 }, { threshold: 0.5 });
