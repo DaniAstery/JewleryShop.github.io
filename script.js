@@ -35,7 +35,7 @@ document.addEventListener("DOMContentLoaded", () => {
     { id: 8, name: "8 pcs | 50.05 ct  Ethiopian Opal | 50.05 ct (10.01 g) | Oval Cabochon | ~10 × 8 × 4.5 mm avg | Multicolor |shipped", price: 375.00, image: "images/8.png", video: `${BACKEND_URL}/videos/8.mp4`},
     { id: 9, name: "36 pcs | 332.25 ct  Ethiopian Opal | 332.25 ct (66.45 g) | Mixed Oval Cabochon | ~9 × 7 × 4 mm avg | Multicolor |shipped — wholesale", price: 1495.00, image: "images/9.png", video: `${BACKEND_URL}/videos/9.mp4`},
     { id: 10, name:"74 pcs | 498.55 ct  Ethiopian Opal | 498.55 ct (99.71 g) | Mixed Oval Cabochon | ~8 × 7 × 4 mm avg | Multicolor |shipped", price: 2150.00, image:"images/10.png", video:`${BACKEND_URL}/videos/10.mp4`},
-    { id: 11, name:"75 pcs | 645.60 ct  Ethiopian Opal | 645.60 ct (129.12 g) | Mixed Oval Cabochon | ~9 × 7 × 4 mm avg | Multicolor | shipped", price: 2650.00, image:"images/11.png", video: `${BACKEND_URL}/videos/11.mp4`},
+    { id: 11, name:"75 pcs | 645.60 ct  Ethiopian Opal | 645.60 ct (129.12 g) | Mixed Oval Cabochon | ~9 × 7 × 4 mm avg | Multicolor | shipped", price: 2650.00, image:"images/11.png", video: "https://player.cloudinary.com/embed/?cloud_name=dv2ff7sl2&public_id=Necklace_o6amcj"},
     { id: 12, name: "Necklace", price: 345, image:"images/Necklace.png", video: `${BACKEND_URL}/videos/Necklace.mp4`},
   ];
 
