@@ -58,6 +58,98 @@
     </nav>
     <button id="cart-btn" class="btn-primary">🛍️ Cart (<span id="cart-count">0</span>)</button>
   </header>
+
+<script>
+(function () {
+  const API_URL = "https://ai-customer-support-alsv.onrender.com"; // 🔥 replace this
+
+  // Create button
+  const button = document.createElement("div");
+  button.innerHTML = "💬";
+  button.style = `
+    position:fixed;
+    bottom:20px;
+    right:20px;
+    width:60px;
+    height:60px;
+    background:#000;
+    color:#fff;
+    border-radius:50%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:24px;
+    cursor:pointer;
+    z-index:9999;
+  `;
+
+  // Create chat box
+  const chatBox = document.createElement("div");
+  chatBox.style = `
+    position:fixed;
+    bottom:90px;
+    right:20px;
+    width:300px;
+    height:400px;
+    background:#fff;
+    border:1px solid #ccc;
+    border-radius:10px;
+    display:none;
+    flex-direction:column;
+    z-index:9999;
+  `;
+
+  chatBox.innerHTML = `
+    <div style="background:#000;color:#fff;padding:10px;border-radius:10px 10px 0 0;">
+      Support Chat
+    </div>
+    <div id="messages" style="flex:1;padding:10px;overflow-y:auto;"></div>
+    <div style="display:flex;padding:10px;">
+      <input id="input" style="flex:1;padding:5px;" placeholder="Type..." />
+      <button id="send">Send</button>
+    </div>
+  `;
+
+  document.body.appendChild(button);
+  document.body.appendChild(chatBox);
+
+  // Toggle chat
+  button.onclick = () => {
+    chatBox.style.display =
+      chatBox.style.display === "none" ? "flex" : "none";
+  };
+
+  // Send message
+  document.addEventListener("click", async function (e) {
+    if (e.target && e.target.id === "send") {
+      const input = document.getElementById("input");
+      const msg = input.value;
+      if (!msg) return;
+
+      let messages = document.getElementById("messages");
+      messages.innerHTML += `<p><b>You:</b> ${msg}</p>`;
+
+      input.value = "";
+
+      try {
+        const res = await fetch(API_URL, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ message: msg })
+        });
+
+        const data = await res.json();
+        messages.innerHTML += `<p><b>Bot:</b> ${data.reply}</p>`;
+        messages.scrollTop = messages.scrollHeight;
+
+      } catch (err) {
+        messages.innerHTML += `<p style="color:red;">Error connecting to server</p>`;
+      }
+    }
+  });
+})();
+</script>
+
   </header>
 
   <!-- Main Product Section -->
