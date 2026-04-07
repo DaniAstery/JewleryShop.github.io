@@ -145,7 +145,7 @@
             input.value = "";
 
             // Typing indicator
-            messages.innerHTML += `<div id="typing">Typing...</div>`;
+            messages.innerHTML += `<div id="typing" style="background:#808080;color:#fff;padding:6px 10px;border-radius:10px;display:inline-block;">Typing...</div>`;
 
             try {
               const res = await fetch(API_URL, {
