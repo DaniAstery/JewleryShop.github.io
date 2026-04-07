@@ -58,97 +58,125 @@
     </nav>
     <button id="cart-btn" class="btn-primary">🛍️ Cart (<span id="cart-count">0</span>)</button>
   </header>
+      <script>
+        (function () {
+          const API_URL = "https://ai-customer-support-alsv.onrender.com/chat";
 
-<script>
-(function () {
-  const API_URL = "https://ai-customer-support-alsv.onrender.com/chat"; // 🔥 replace this
+          // 💎 Floating Button (gold style)
+          const button = document.createElement("div");
+          button.innerHTML = "💬";
+          button.style = `
+            position:fixed;
+            bottom:20px;
+            right:20px;
+            width:60px;
+            height:60px;
+            background:linear-gradient(135deg, #d4af37, #000);
+            color:#fff;
+            border-radius:50%;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            font-size:24px;
+            cursor:pointer;
+            z-index:9999;
+            box-shadow:0 4px 15px rgba(0,0,0,0.3);
+          `;
 
-  // Create button
-  const button = document.createElement("div");
-  button.innerHTML = "💬";
-  button.style = `
-    position:fixed;
-    bottom:20px;
-    right:20px;
-    width:60px;
-    height:60px;
-    background:#000;
-    color:#fff;
-    border-radius:50%;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    font-size:24px;
-    cursor:pointer;
-    z-index:9999;
-  `;
+          // 💎 Chat Box (premium look)
+          const chatBox = document.createElement("div");
+          chatBox.style = `
+            position:fixed;
+            bottom:90px;
+            right:20px;
+            width:320px;
+            height:420px;
+            background:#fff;
+            border-radius:15px;
+            display:none;
+            flex-direction:column;
+            z-index:9999;
+            box-shadow:0 10px 30px rgba(0,0,0,0.2);
+            overflow:hidden;
+            font-family:sans-serif;
+          `;
 
-  // Create chat box
-  const chatBox = document.createElement("div");
-  chatBox.style = `
-    position:fixed;
-    bottom:90px;
-    right:20px;
-    width:300px;
-    height:400px;
-    background:#fff;
-    border:1px solid #ccc;
-    border-radius:10px;
-    display:none;
-    flex-direction:column;
-    z-index:9999;
-  `;
+          chatBox.innerHTML = `
+            <div style="background:#000;color:#d4af37;padding:12px;font-weight:bold;">
+              Asterya Support
+            </div>
 
-  chatBox.innerHTML = `
-    <div style="background:#000;color:#fff;padding:10px;border-radius:10px 10px 0 0;">
-      Support Chat
-    </div>
-    <div id="messages" style="flex:1;padding:10px;overflow-y:auto;"></div>
-    <div style="display:flex;padding:10px;">
-      <input id="input" style="flex:1;padding:5px;" placeholder="Type..." />
-      <button id="send">Send</button>
-    </div>
-  `;
+            <div id="messages" style="flex:1;padding:10px;overflow-y:auto;font-size:14px;"></div>
 
-  document.body.appendChild(button);
-  document.body.appendChild(chatBox);
+            <div style="display:flex;padding:10px;border-top:1px solid #eee;">
+              <input id="input" style="flex:1;padding:8px;border:1px solid #ccc;border-radius:5px;" placeholder="Ask about products, prices..." />
+              <button id="send" style="margin-left:5px;background:#000;color:#fff;border:none;padding:8px 12px;border-radius:5px;cursor:pointer;">
+                Send
+              </button>
+            </div>
+          `;
 
-  // Toggle chat
-  button.onclick = () => {
-    chatBox.style.display =
-      chatBox.style.display === "none" ? "flex" : "none";
-  };
+          document.body.appendChild(button);
+          document.body.appendChild(chatBox);
 
-  // Send message
-  document.addEventListener("click", async function (e) {
-    if (e.target && e.target.id === "send") {
-      const input = document.getElementById("input");
-      const msg = input.value;
-      if (!msg) return;
+          // Toggle
+          button.onclick = () => {
+            chatBox.style.display =
+              chatBox.style.display === "none" ? "flex" : "none";
+          };
 
-      let messages = document.getElementById("messages");
-      messages.innerHTML += `<p><b>You:</b> ${msg}</p>`;
+          // Send message
+          document.getElementById("send").addEventListener("click", async function () {
+            const input = document.getElementById("input");
+            const msg = input.value;
+            if (!msg) return;
 
-      input.value = "";
+            const messages = document.getElementById("messages");
 
-      try {
-        const res = await fetch(API_URL, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ message: msg })
-        });
+            // User message
+            messages.innerHTML += `
+              <div style="text-align:right;margin:5px;">
+                <span style="background:#000;color:#fff;padding:6px 10px;border-radius:10px;display:inline-block;">
+                  ${msg}
+                </span>
+              </div>
+            `;
 
-        const data = await res.json();
-        messages.innerHTML += `<p><b>Bot:</b> ${data.reply}</p>`;
-        messages.scrollTop = messages.scrollHeight;
+            input.value = "";
 
-      } catch (err) {
-        messages.innerHTML += `<p style="color:red;">Error connecting to server</p>`;
-      }
-    }
-  });
-})();
-</script>
+            // Typing indicator
+            messages.innerHTML += `<div id="typing">Typing...</div>`;
+
+            try {
+              const res = await fetch(API_URL, {
+                method: "POST",
+                headers: {"Content-Type": "application/json"},
+                body: JSON.stringify({ message: msg })
+              });
+
+              const data = await res.json();
+
+              document.getElementById("typing").remove();
+
+              // Bot reply
+              messages.innerHTML += `
+                <div style="text-align:left;margin:5px;">
+                  <span style="background:#808080;padding:6px 10px;border-radius:10px;display:inline-block;">
+                    ${data.reply}
+                  </span>
+                </div>
+              `;
+
+              messages.scrollTop = messages.scrollHeight;
+
+            } catch (err) {
+              document.getElementById("typing").remove();
+              messages.innerHTML += `<div style="color:red;">Connection error</div>`;
+            }
+          });
+
+        })();
+        </script>
 
   </header>
 
