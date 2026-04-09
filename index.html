@@ -57,13 +57,18 @@
       <a href="#"></a>
     </nav>
     <button id="cart-btn" class="btn-primary">🛍️ Cart (<span id="cart-count">0</span>)</button>
+    <a href="https://wa.me/+15556569596?text=Hi%21%20How%20can%20I%20be%20of%20assistance%3F" target="_blank" class="whatsapp-btn">
+  💬 Chat on WhatsApp
+    </a>
   </header>
+     
       <script>
         (function () {
-          const API_URL = "https://ai-customer-support-alsv.onrender.com/chat";
+          const API_URL = "http://127.0.0.1:5000/chat";
 
           // 💎 Floating Button (gold style)
           const button = document.createElement("div");
+          
           button.innerHTML = "💬";
           button.style = `
             position:fixed;
@@ -103,7 +108,7 @@
 
           chatBox.innerHTML = `
             <div style="background:#000;color:#d4af37;padding:12px;font-weight:bold;">
-              Asterya Support
+              Asterya Assistant AI 
             </div>
 
             <div id="messages" style="flex:1;padding:10px;overflow-y:auto;font-size:14px;"></div>
@@ -177,7 +182,7 @@
 
         })();
         </script>
-
+ 
   </header>
 
   <!-- Main Product Section -->
@@ -240,6 +245,7 @@
     <button id="close-cart" class="btn-primary cancel-btn" style="background-color: red; color: white;">Close</button>
 
     </div>
+    <div><a href="https://wa.me/+15556569596?text=Hi%21%20How%20can%20I%20be%20of%20assistance%3F" target="_blank" class="whatsapp-btn"></a></div>
  
 <style>
 /* Simple modal styling */
