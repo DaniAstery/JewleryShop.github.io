@@ -64,7 +64,8 @@
      
       <script>
         (function () {
-          const API_URL = "https://ai-customer-support-alsv.onrender.com/chat";
+          //const API_URL = "https://ai-customer-support-alsv.onrender.com/chat";
+          const API_URL="https://chatbotbusinessanalytics.onrender.com/chat";
 
           // 💎 Floating Button (gold style)
           const button = document.createElement("div");
@@ -135,7 +136,7 @@
             const input = document.getElementById("input");
             const msg = input.value;
             if (!msg) return;
-
+            
             const messages = document.getElementById("messages");
 
             // User message
@@ -152,11 +153,13 @@
             // Typing indicator
             messages.innerHTML += `<div id="typing" style="background:#808080;color:#fff;padding:6px 10px;border-radius:10px;display:inline-block;">Typing...</div>`;
 
+              
             try {
               const res = await fetch(API_URL, {
                 method: "POST",
                 headers: {"Content-Type": "application/json"},
                 body: JSON.stringify({ message: msg })
+                
               });
 
               const data = await res.json();
