@@ -14,64 +14,60 @@ function getCart() {
 // SEND OTP
 // --------------------------
 document.addEventListener("click", async (e) => {
+
   if (!e.target.classList.contains("send-otp")) return;
-
   e.preventDefault();
+  const email = document.getElementById("cust-email")?.value.trim();
+  const currency = document.getElementById("cust-currency")?.value.trim();
+ 
 
-  try {
-    const email = document.getElementById("cust-email").value;
-    const currency = document.getElementById("cust-currency").value;
+  // Prepare cleaned cart data for pdf columns
+       const rawCart = getCart();
+       const cleanedCart = rawCart.map(item => ({
+        id: item.id,
+        name: item.name,
+        price: item.price,
+        quantity: item.quantity
+      }));
 
-    if (!email) {
-      window.alert("Please enter your email");
-      return;
-    }
 
-    let cart = JSON.parse(localStorage.getItem("cart")) || [];
-
-    if (!Array.isArray(cart) || cart.length === 0) {
-      window.alert("Cart is empty");
-      return;
-    }
-
-    const cleanedItems = cart.map(item => ({
-      id: item.id,
-      name: item.name,
-      price: item.price,
-      quantity: item.quantity
-    }));
-
-    console.log("Selected Items:", cleanedItems);
-
-    const res = await fetch(
-      "https://backend-gpgx.onrender.com/api/send-code",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-          email,
-          currency,
-          items: cleanedItems
-        })
-      }
-    );
-
-    const data = await res.json();
-
-    if (!res.ok) {
-      throw new Error(data.message || "Failed");
-    }
-
-    window.alert("✅ OTP sent!");
-
-    localStorage.removeItem("cart");
-
-  } catch (err) {
-    console.error("Send OTP error:", err);
-    window.alert("❌ Failed to send OTP");
+  if (!email) {
+    alert("⚠️ Please enter your email address.");
+    return;
   }
+
+  if (!cleanedCart.length) {
+    alert("🛒 Your cart is empty.");
+    return;
+  }
+
+
+try {
+  const res = await fetch("https://backend-gpgx.onrender.com/api/send-code", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      email,
+      currency,
+      cart: cleanedCart
+    })
+  });
+
+  const data = await res.json();
+  
+  alert(res.status); 
+
+  if (!res.ok) {
+    throw new Error(data.message || "Failed to send OTP");
+  }
+  alert("✅ OTP sent to your email. Please check your inbox.");
+  console.log("OTP sent for cart:", cleanedCart);
+
+} catch (err) {
+  console.error("Send OTP error:", err);
+  alert("❌ Failed to send OTP. Please try again.");
+}
+
 });
 
 // --------------------------
